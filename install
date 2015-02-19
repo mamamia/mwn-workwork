@@ -42,6 +42,29 @@ install_app() {
   fi
 }
 
+# Make sure the user is cool with what we're about to do
+seek_confirmation() {
+  echo "CONFIRM: WorkWork is about to"
+  if [ $PLATFORM == "osx" ]; then
+    echo " - Install homebrew (if not found)"
+  fi
+  echo " - Install git (if not found)"
+  echo " - Clone mwn-workwork into ~/workspace (if not found)"
+  echo " - Add ~/workspace/mwn-workwork/bin folder to PATH with .bash_profile (if not found)"
+  echo " - Add execute permissions to all files in ~/workspace/mwn-workwork/bin"
+  echo
+  read -p "Are you okay with this? (y/n) " -n 1
+  if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
+    echo
+    echo "Exiting..."
+    echo
+    exit
+  else
+    echo
+    echo
+  fi
+}
+
 # Detect the platform via uname
 # http://stackoverflow.com/a/17072017
 # https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
@@ -57,7 +80,6 @@ check_platform() {
     echo "FATAL: Could not detect the platform!"
     exit
   fi
-  echo "PASS: ${FUNCNAME}"
 }
 
 # Check if system is 64bit
@@ -67,7 +89,6 @@ check_64bit() {
     echo "FATAL: This script requires a 64bit machine."
     exit
   fi
-  echo "PASS: ${FUNCNAME}"
 }
 
 # Check if homebrew is installed (OS X only)
@@ -120,8 +141,7 @@ check_permissions() {
 
 byebye() {
   echo
-  echo "Your system meets the basic requirements!"
-  echo "Now run the following command to get the rest of the local dependencies:"
+  echo "Run the following command to get the rest of the local dependencies:"
   echo
   echo "ww init workstation"
   echo
@@ -132,6 +152,7 @@ byebye() {
 
 check_platform
 check_64bit
+seek_confirmation
 check_homebrew
 check_git
 check_workwork
