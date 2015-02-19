@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# Wow, such ascii
+# http://patorjk.com/software/taag/#p=display&c=echo&f=Small%20Slant&t=workwork
+echo
+echo "===========================================";
+echo "                  __                   __  ";
+echo " _    _____  ____/ /___    _____  ____/ /__";
+echo "| |/|/ / _ \/ __/  '_/ |/|/ / _ \/ __/  '_/";
+echo "|__,__/\___/_/ /_/\_\|__,__/\___/_/ /_/\_\ ";
+echo "                                           ";
+echo "==========================================="
+echo
+
+# Variables
+DIR="${HOME}/workspace/mwn-workwork"
+BIN_DIR="${DIR}/bin"
+PROFILE="${HOME}/.bash_profile"
+UNAME=`uname`
+UNAMEM=`uname -m`
+PLATFORM="unknown"
+
+# Utility functions
+type_exists() {
+  if [ $(type -P $1) ]; then
+    return 0
+  fi
+  return 1
+}
+
+install_app() {
+  if [ $PLATFORM == "osx" ]; then
+    brew update
+    brew install $1
+  elif [ $PLATFORM == "linux" ]; then
+    # Assumes Ubuntu/Debian for now
+    sudo apt-get update
+    sudo apt-get install $1
+  fi
+}
+
+# Detect the platform via uname
+# http://stackoverflow.com/a/17072017
+# https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
+check_platform() {
+  if [[ "$UNAME" == 'Darwin' ]]; then
+    PLATFORM="osx"
+  elif [[ "$UNAME" == 'Linux' ]]; then
+    PLATFORM="linux"
+  elif [[ "$UNAME" == 'MINGW32_NT' ]]; then
+    echo "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
+    exit
+  else
+    echo "FATAL: Could not detect the platform!"
+    exit
+  fi
+  echo "PASS: ${FUNCNAME}"
+}
+
+# Check if system is 64bit
+# http://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script
+check_64bit() {
+  if [[ "$UNAMEM" != 'x86_64' ]]; then
+    echo "FATAL: This script requires a 64bit machine."
+    exit
+  fi
+  echo "PASS: ${FUNCNAME}"
+}
+
+# Check if homebrew is installed (OS X only)
+check_homebrew() {
+  if [ $PLATFORM == "osx" ]; then
+    if type_exists 'brew'; then
+      echo "PASS: ${FUNCNAME}"
+    else
+      echo "INFO: Installing brew..."
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+  fi
+}
+
+# Check if git is installed
+check_git() {
+  if type_exists 'git'; then
+    echo "PASS: ${FUNCNAME}"
+  else
+    echo "INFO: Installing git..."
+    install_app git
+  fi
+}
+
+# Clone WorkWork into home workspace
+check_workwork() {
+  if [ -d "$DIR" ]; then
+    echo "PASS: ${FUNCNAME}"
+  else
+    echo "INFO: Cloning WorkWork..."
+    git clone git@mamamia.git.beanstalkapp.com:/mamamia/mwn-workwork.git $DIR
+  fi
+}
+
+# Add the WorkWork bin to PATH if it isn't in there already
+check_path() {
+  if ! grep -q "${BIN_DIR}" "${PROFILE}"; then
+    echo "INFO: Adding PATH..."
+    echo "\n\n# MWN WorkWork\nexport PATH=\$PATH:${BIN_DIR}" >> "${PROFILE}"
+  else
+    echo "PASS: ${FUNCNAME}"
+  fi
+}
+
+# Ensure scripts in the bin are executable
+check_permissions() {
+  chmod -R +x $BIN_DIR
+  echo "PASS: ${FUNCNAME}"
+}
+
+byebye() {
+  echo
+  echo "Your system meets the basic requirements!"
+  echo "Now run the following command to get the rest of the local dependencies:"
+  echo
+  echo "ww init workstation"
+  echo
+
+  # Reload bash so the addition to PATH is avaliable in this prompt
+  exec bash
+}
+
+check_platform
+check_64bit
+check_homebrew
+check_git
+check_workwork
+check_path
+check_permissions
+byebye
