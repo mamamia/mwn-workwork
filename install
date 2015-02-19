@@ -124,7 +124,7 @@ check_workwork() {
 }
 
 # Add the WorkWork bin to PATH if it isn't in there already
-check_path() {
+check_bin_path() {
   if ! grep -q "${BIN_DIR}" "${PROFILE}"; then
     echo "INFO: Adding PATH..."
     echo "\n\n# MWN WorkWork\nexport PATH=\$PATH:${BIN_DIR}" >> "${PROFILE}"
@@ -134,7 +134,7 @@ check_path() {
 }
 
 # Ensure scripts in the bin are executable
-check_permissions() {
+check_bin_permissions() {
   chmod -R +x $BIN_DIR
   echo "PASS: ${FUNCNAME}"
 }
@@ -156,6 +156,6 @@ seek_confirmation
 check_homebrew
 check_git
 check_workwork
-check_path
-check_permissions
+check_bin_path
+check_bin_permissions
 byebye
