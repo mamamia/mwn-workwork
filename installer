@@ -1,4 +1,0 @@
-#!/bin/sh
-
-workwork_source="https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install"
-curl $workwork_source | sh

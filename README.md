@@ -9,7 +9,7 @@
 * All of the [local dependencies](#local-dependencies), which will be installed with the scripts below
 
 ## Installation
-Open your terminal and run: `curl https://raw.githubusercontent.com/mamamia/mwn-workwork/master/installer | sh`
+Open your terminal and run: `bash -c "$(curl -fsSL https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install)"`
 
 This little script will install Git (if missing), clone this repo into your workspace directory, then add the `bin` folder to your PATH.
 
