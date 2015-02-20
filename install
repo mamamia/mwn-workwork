@@ -52,6 +52,9 @@ seek_confirmation() {
   echo " - Clone mwn-workwork into ~/workspace (if not found)"
   echo " - Add ~/workspace/mwn-workwork/bin folder to PATH with .bash_profile (if not found)"
   echo " - Add execute permissions to all files in ~/workspace/mwn-workwork/bin"
+  if [ $PLATFORM == "osx" ]; then
+    echo " - Add boot2docker shellinit command to .bash_profile (if not found)"
+  fi
   echo
   read -p "Are you okay with this? (y/n) " -n 1
   if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
@@ -134,9 +137,20 @@ check_bin_path() {
 }
 
 # Ensure scripts in the bin are executable
-check_bin_permissions() {
+set_bin_permissions() {
   chmod -R +x $BIN_DIR
   echo "PASS: ${FUNCNAME}"
+}
+
+add_boot2docker_shellinit() {
+  if [ $PLATFORM == "osx" ]; then
+    if ! grep -q "boot2docker shellinit" "${PROFILE}"; then
+      echo "INFO: Adding boot2docker shellinit..."
+      echo "\n\n# boot2docker shellinit\nif [ \$(type -P boot2docker) ]; then \$(boot2docker shellinit 2>/dev/null); fi" >> "${PROFILE}"
+    else
+      echo "PASS: ${FUNCNAME}"
+    fi
+  fi
 }
 
 byebye() {
@@ -157,5 +171,6 @@ check_homebrew
 check_git
 check_workwork
 check_bin_path
-check_bin_permissions
+set_bin_permissions
+add_boot2docker_shellinit
 byebye
