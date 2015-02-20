@@ -1,0 +1,4 @@
+#!/bin/bash
+docker_compose() {
+  cd ${SITE_DIR}/docker && docker-compose up
+}

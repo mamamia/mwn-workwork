@@ -1,0 +1,11 @@
+#!/bin/bash
+
+update_db() {
+  cd ${SITE_DIR}/bedrock
+  gunzip db-sync/wordpress.sql.gz
+  ./vendor/wp-cli/wp-cli/bin/wp db import db-sync/wordpress.sql
+  ./vendor/wp-cli/wp-cli/bin/wp search-replace --recurse-objects ${SITE_PROD_URL} www.${SITE_NAME}.dev
+  ./vendor/wp-cli/wp-cli/bin/wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev
+  ./vendor/wp-cli/wp-cli/bin/wp plugin activate --all
+  ./vendor/wp-cli/wp-cli/bin/wp theme activate ${SITE_NAME}
+}

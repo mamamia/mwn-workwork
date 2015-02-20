@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Utility functions
+type_exists() {
+  if [ $(type -P $1) ]; then
+    return 0
+  fi
+  return 1
+}
+
+# Compares git hashes
+check_version() {
+  # if [ $VER_LOCAL = $VER_REMOTE ]; then
+  #     echo "Up-to-date"
+  if [ $VER_LOCAL = $VER_BASE ]; then
+    display_status_primary "WARN" "You should probably push your changes..."
+  elif [ $VER_REMOTE = $VER_BASE ]; then
+    display_status_primary "INFO" "Updating WorkWork..."
+    cd $WW_DIR && git pull -q origin master
+  # else
+  #     echo "Diverged"
+  fi
+}
+
+# Ensure at least one command is supplied
+check_command() {
+  if [ $1 -lt 1 ]; then
+    $0 "--help"
+  fi
+}
+
+setup_site() {
+  if [ $1 = "dd" ]; then
+    SITE_NAME="debriefdaily"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_PROD_URL="www.${SITE_NAME}.com"
+  # elif [ $1 = "mm" ]; then
+  #   # Etc
+  fi
+}
+
+# Detect the platform via uname
+# http://stackoverflow.com/a/17072017
+# https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
+check_platform() {
+  if [[ "$UNAME" == 'Darwin' ]]; then
+    PLATFORM="osx"
+  elif [[ "$UNAME" == 'Linux' ]]; then
+    PLATFORM="linux"
+  elif [[ "$UNAME" == 'MINGW32_NT' ]]; then
+    echo "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
+    exit
+  else
+    echo "FATAL: Could not detect the platform!"
+    exit
+  fi
+}

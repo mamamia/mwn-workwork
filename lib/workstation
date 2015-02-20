@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Docker-compose pre-release (pre-release to fig for now but has some useful functionality)
+# https://github.com/docker/fig/releases
+check_docker_compose() {
+  if type_exists 'docker-compose'; then
+    echo "PASS: ${FUNCNAME}"
+  else
+    echo "INFO: Installing docker-compose..."
+    curl -L https://github.com/docker/fig/releases/download/1.1.0-rc2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
+  fi
+}
+
+# Check if ansible is installed
+check_ansible() {
+  if type_exists 'ansible'; then
+    echo "PASS: ${FUNCNAME}"
+  else
+    echo "INFO: Installing ansible..."
+    install_app ansible
+  fi
+}
+
+# Run ansible playbook
+run_ansible_playbook() {
+  echo "INFO: Running ansible-playbook..."
+  ansible-playbook $HOME/workspace/mwn-workwork/ansible/workstation.yml -i $HOME/workspace/mwn-workwork/ansible/hosts
+}
+
+# SASS? Ruby?
+# sudo su -c "gem install sass"

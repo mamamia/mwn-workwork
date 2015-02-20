@@ -1,0 +1,65 @@
+---
+- hosts: workstation
+
+  vars:
+    libraries:
+      - git
+    apt_libraries:
+      - php5
+      - nodejs
+      - nodejs-legacy
+      - npm
+      - docker.io
+    osx_libraries:
+      - boot2docker
+      - composer
+      - php56
+      - docker
+      - node
+    osx_casks:
+      - virtualbox
+    npm_packages:
+      - grunt-cli
+      - grunt
+      - bower
+
+  tasks:
+    # Linux only
+    - name: Install libraries with apt
+      apt: name={{ item }} state=latest
+      with_flattened:
+        - libraries
+        - apt_libraries
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+    - name: Install libraries with yum
+      yum: name={{ item }} state=latest
+      with_flattened:
+        - libraries
+        - apt_libraries
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    # OS X only
+    - name: Install libraries with homebrew
+      homebrew: name={{ item }} state=present
+      with_flattened:
+        - libraries
+        - osx_libraries
+      when: ansible_distribution == 'MacOSX'
+
+    # - name: Check for installed casks (apps)
+    #   shell: brew cask list | grep {{ item }}
+    #   register: installed_applications
+    #   with_items: osx_casks
+    #   ignore_errors: true
+    #   when: ansible_distribution == 'MacOSX'
+
+    # - name: Install missing casks with brew-cask
+    #   shell: brew cask install {{ item }}
+    #   with_items: osx_casks
+    #   when: ansible_distribution == 'MacOSX' and item not in installed_applications.results|map(attribute='stdout')
+
+    # All systems
+    - name: Install npm packages globally
+      npm: global=yes name={{ item }}
+      with_items: npm_packages

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+check_clone() {
+  if [ ! -d "${SITE_DIR}" ]; then
+    git clone -q git@mamamia.git.beanstalkapp.com:/mamamia/mwn-${SITE_NAME}.git ${SITE_DIR}
+    display_status_secondary "PASS" "WordPress cloned"
+  fi
+  display_status_secondary "PASS" "Required repo exists"
+}
+
+post_clone() {
+  cd ${SITE_DIR}/bedrock && composer update -v --prefer-source
+  display_status_secondary "PASS" "composer install successful"
+
+  cd ${SITE_DIR}/bedrock && npm install
+  display_status_secondary "PASS" "npm install successful"
+
+  cd ${SITE_DIR}/bedrock && grunt
+  display_status_secondary "PASS" "grunt run successful"
+}
+
+init_boot2docker() {
+  if [ $PLATFORM == "osx" ]; then
+    boot2docker init 2>/dev/null
+    boot2docker up 2>/dev/null
+  fi
+}
+
+update_etchosts() {
+  # Web and database will likely need to be updates as new sites are wrapped in
+  sudo etchosts update web $(boot2docker ip 2>/dev/null)
+  sudo etchosts update database $(boot2docker ip 2>/dev/null)
+  sudo etchosts update www.${SITE_NAME}.dev $(boot2docker ip 2>/dev/null)
+}

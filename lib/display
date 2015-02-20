@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# Output fancy titles
+display_status_primary() {
+  STATUS=$1
+  MESSAGE=$2
+  PRIMARY_COLOUR="COLOUR"_"${STATUS}"
+  echo -e "${!PRIMARY_COLOUR}"
+  echo "${MESSAGE}"
+  echo "--------------------------------------------------------"
+  echo -e "${COLOUR_RESET}"
+}
+
+# Output status messages
+display_status_secondary() {
+  STATUS=$1
+  MESSAGE=$2
+  SECONDARY_COLOUR="COLOUR"_"${STATUS}"
+  SECONDARY_SYMBOL="SYMBOL"_"${STATUS}"
+  echo -e "${!SECONDARY_COLOUR}${!SECONDARY_SYMBOL}${COLOUR_RESET} ${MESSAGE}"
+  if [ $STATUS == "ERROR" ]; then
+    echo -e "${COLOUR_INFO}${SYMBOL_INFO}${COLOUR_RESET} ${3}"
+    exit 1
+  fi
+}
+
+# Output shared version
+display_version() {
+  echo "mwn-workwork ${VER_LOCAL}"
+  exit 1
+}
+
+# Output shared arguments
+display_arguments() {
+  echo "Arguments:"
+  echo "   dd         Debrief Daily"
+  echo "   mm         Mamamia (coming soon)"
+  echo "   iv         iVillage (coming soon)"
+  echo "   tg         The Glow (coming soon)"
+  echo "   rh         Random Harry (coming soon)"
+  exit 1
+}
+
+display_ww_usage() {
+  echo "Usage: ww [--workstation] [--version] [--help] <command> [args]"
+  echo
+}
+
+display_ww_commands() {
+  echo "Commands:"
+  echo "   init       Initialise local development environment"
+  echo "   start      Start local development environment"
+  echo "   updatedb   Overwrite local database with current production tables"
+  echo
+}
+
+display_wwprod_usage() {
+  echo "Usage: wwprod [--version] [--help] <command> [args]"
+  echo
+}
+
+display_wwprod_commands() {
+  echo "Commands:"
+  echo "   plan       ???"
+  echo "   apply      ???"
+  echo "   fix        ???"
+  echo "   show       ???"
+  echo
+}
+
+display_ww_help() {
+  display_ww_usage
+  display_ww_commands
+  display_arguments
+}
+
+display_wwprod_help() {
+  display_wwprod_usage
+  display_wwprod_commands
+  display_arguments
+}

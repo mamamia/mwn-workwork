@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Commands
+VALID_WW_COMMANDS="@(init|start|updatedb)"
+VALID_WWPROD_COMMANDS="@(plan|apply|fix|show)"
+
+# Arguments
+VALID_ARGUMENTS="@(dd|mm|iv|tg|rh)"
+INVALID_ARGUMENTS="@(''|*)"
+
+# Version
+VER_LOCAL=$(git rev-parse @{0})
+VER_REMOTE=$(git rev-parse @{u})
+VER_BASE=$(git merge-base @ @{u})
+
+# Platform
+UNAME=`uname`
+PLATFORM="unknown"
+
+# Set colours
+COLOUR_ESC="\033["
+COLOUR_ERROR="${COLOUR_ESC}31m"
+COLOUR_PASS="${COLOUR_ESC}32m"
+COLOUR_WARN="${COLOUR_ESC}33m"
+COLOUR_INFO="${COLOUR_ESC}34m"
+COLOUR_RESET="${COLOUR_ESC}0m"
+
+# Set symbols
+SYMBOL_ERROR="x"
+SYMBOL_PASS="✓"
+SYMBOL_WARN="!"
+SYMBOL_INFO="*"

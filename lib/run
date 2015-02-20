@@ -1,0 +1,25 @@
+#!/bin/bash
+
+run_workstation() {
+  check_docker_compose
+  check_ansible
+  run_ansible_playbook
+}
+
+run_init() {
+  check_clone
+  post_clone
+  init_boot2docker
+  update_etchosts
+  # Reset bash to export new docker envvars into our shell (see .bash_profile)
+  exec bash
+}
+
+run_start() {
+  docker_compose
+}
+
+run_updatedb() {
+  update_db
+}
+
