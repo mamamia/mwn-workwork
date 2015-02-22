@@ -26,7 +26,6 @@ case "$1" in
   $VALID_WW_COMMANDS)
     case "$2" in
       $VALID_ARGUMENTS)
-        # Define $SITENAME
         setup_site $2
         run_$1 $2
         ;;

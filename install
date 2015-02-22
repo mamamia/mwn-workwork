@@ -157,7 +157,7 @@ byebye() {
   echo
   echo "Run the following command to get the rest of the local dependencies:"
   echo
-  echo "ww init workstation"
+  echo "ww --workstation"
   echo
 
   # Reload bash so the addition to PATH is avaliable in this prompt
