@@ -23,6 +23,8 @@ init_boot2docker() {
   if [ $PLATFORM == "osx" ]; then
     boot2docker init 2>/dev/null
     boot2docker up 2>/dev/null
+    # Reset the shell to export new docker envvars into our shell (see .bash_profile)
+    exec $DETECTED_SHELL
   fi
 }
 

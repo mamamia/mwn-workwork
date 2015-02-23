@@ -11,8 +11,6 @@ run_init() {
   post_clone
   init_boot2docker
   update_etchosts
-  # Reset bash to export new docker envvars into our shell (see .bash_profile)
-  exec bash
 }
 
 run_start() {

@@ -39,6 +39,21 @@ setup_site() {
   fi
 }
 
+# Detect shell
+# http://stackoverflow.com/questions/9910966/how-to-tell-if-its-using-zsh-or-bash
+check_shell() {
+  if [ -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
+    DETECTED_SHELL="zsh"
+    PROFILE="${HOME}/.zshrc"
+  elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
+    DETECTED_SHELL="bash"
+    PROFILE="${HOME}/.bash_profile"
+  else
+    echo "FATAL: Could not detect the shell!"
+    exit
+  fi
+}
+
 # Detect the platform via uname
 # http://stackoverflow.com/a/17072017
 # https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
