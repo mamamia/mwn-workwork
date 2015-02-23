@@ -1,4 +1,9 @@
 #!/bin/bash
 docker_compose() {
-  cd ${SITE_DIR}/docker && docker-compose up
+  cd ${SITE_DIR}/docker
+  if [ $PLATFORM == "osx" ]; then
+    docker-compose up
+  else
+    sudo docker-compose up
+  fi
 }
