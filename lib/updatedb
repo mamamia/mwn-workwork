@@ -1,11 +1,10 @@
 #!/bin/bash
 
 update_db() {
-  cd ${SITE_DIR}/bedrock
-  gunzip db-sync/wordpress.sql.gz
-  ./vendor/wp-cli/wp-cli/bin/wp db import db-sync/wordpress.sql
-  ./vendor/wp-cli/wp-cli/bin/wp search-replace --recurse-objects ${SITE_PROD_URL} www.${SITE_NAME}.dev
-  ./vendor/wp-cli/wp-cli/bin/wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev
-  ./vendor/wp-cli/wp-cli/bin/wp plugin activate --all
-  ./vendor/wp-cli/wp-cli/bin/wp theme activate ${SITE_NAME}
+  gunzip ${SITE_DIR}/bedrock/db-sync/wordpress.sql.gz
+  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp db import ${SITE_DIR}/bedrock/db-sync/wordpress.sql
+  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp search-replace --recurse-objects ${SITE_PROD_URL} www.${SITE_NAME}.dev
+  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev
+  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp plugin activate --all
+  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp theme activate ${SITE_NAME}
 }
