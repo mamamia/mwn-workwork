@@ -2,14 +2,15 @@
 
 check_clone() {
   if [ ! -d "${SITE_DIR}" ]; then
-    git clone -q git@mamamia.git.beanstalkapp.com:/mamamia/mwn-${SITE_NAME}.git ${SITE_DIR}
+    git clone git@mamamia.git.beanstalkapp.com:/mamamia/mwn-${SITE_NAME}.git ${SITE_DIR}
     display_status_secondary "PASS" "WordPress cloned"
   fi
   display_status_secondary "PASS" "Required repo exists"
 }
 
 post_clone() {
-  cd ${SITE_DIR}/bedrock && composer update -v --prefer-source
+  cd ${SITE_DIR}/bedrock && composer update mamamia/mwn-codepool --prefer-source
+  cd ${SITE_DIR}/bedrock && composer update --prefer-dist
   display_status_secondary "PASS" "composer install successful"
 
   cd ${SITE_DIR}/bedrock && npm install
