@@ -91,7 +91,7 @@ check_platform() {
   elif [[ "$UNAME" == 'Linux' ]]; then
     PLATFORM="linux"
   elif [[ "$UNAME" == 'MINGW32_NT' ]]; then
-    echo "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
+    echo -e "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
     exit
   else
     echo "FATAL: Could not detect the platform!"
@@ -144,7 +144,7 @@ check_workwork() {
 check_bin_path() {
   if ! grep -q "${BIN_DIR}" "${PROFILE}"; then
     echo "INFO: Adding PATH..."
-    echo "\n\n# MWN WorkWork\nexport PATH=\$PATH:${BIN_DIR}" >> "${PROFILE}"
+    echo -e "\n\n# MWN WorkWork\nexport PATH=\$PATH:${BIN_DIR}" >> "${PROFILE}"
   else
     echo "PASS: ${FUNCNAME}"
   fi
@@ -160,7 +160,7 @@ add_boot2docker_shellinit() {
   if [ $PLATFORM == "osx" ]; then
     if ! grep -q "boot2docker shellinit" "${PROFILE}"; then
       echo "INFO: Adding boot2docker shellinit..."
-      echo "\n\n# boot2docker shellinit\nif [ \$(type -P boot2docker) ]; then \$(boot2docker shellinit 2>/dev/null); fi" >> "${PROFILE}"
+      echo -e "\n\n# boot2docker shellinit\nif [ \$(type -P boot2docker) ]; then \$(boot2docker shellinit 2>/dev/null); fi" >> "${PROFILE}"
     else
       echo "PASS: ${FUNCNAME}"
     fi

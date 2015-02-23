@@ -48,7 +48,7 @@ check_platform() {
   elif [[ "$UNAME" == 'Linux' ]]; then
     PLATFORM="linux"
   elif [[ "$UNAME" == 'MINGW32_NT' ]]; then
-    echo "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
+    echo -e "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
     exit
   else
     echo "FATAL: Could not detect the platform!"
