@@ -10,15 +10,16 @@ type_exists() {
 
 # Compares git hashes
 check_version() {
+  cd $WW_DIR && git fetch
   if [ $VER_LOCAL = $VER_REMOTE ]; then
     :
   elif [ $VER_LOCAL = $VER_BASE ]; then
     display_status_primary "INFO" "Updating WorkWork..."
     cd $WW_DIR && git pull -q origin master
   elif [ $VER_REMOTE = $VER_BASE ]; then
-    display_status_primary "WARN" "You should probably push your changes..."
+    display_status_primary "WARN" "Please push your changes to the remote..."
   else
-    echo "Diverged"
+    display_status_primary "WARN" "Can't update due to local changes..."
   fi
 }
 
