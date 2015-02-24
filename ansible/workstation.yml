@@ -2,39 +2,43 @@
 - hosts: workstation
 
   vars:
-    libraries:
-      - git
-    apt_libraries:
-      - php5
+    linux_libraries:
+      - git-core
+      - ruby-full
       - nodejs
-      - nodejs-legacy
-      - npm
       - docker.io
+    debian_libraries:
+      - curl
+      - nodejs-legacy
     osx_libraries:
-      - boot2docker
-      - docker
+      - git
       - node
+      - brew-cask
+    osx_taps:
+      - caskroom/cask
     osx_casks:
-      - virtualbox
+      - boot2docker
     npm_packages:
       - grunt-cli
       - grunt
       - bower
 
   tasks:
+    # Debian only
+    - name: Install Debian specific libraries
+      apt: name={{ item }} state=latest
+      with_list: debian_libraries
+      when: ansible_distribution == 'Debian'
+
     # Linux only
     - name: Install libraries with apt
       apt: name={{ item }} state=latest
-      with_flattened:
-        - libraries
-        - apt_libraries
+      with_list: linux_libraries
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
     - name: Install libraries with yum
       yum: name={{ item }} state=latest
-      with_flattened:
-        - libraries
-        - apt_libraries
+      with_list: linux_libraries
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
     # OS X only
@@ -42,27 +46,23 @@
       homebrew: update_homebrew=yes upgrade_all=yes
       when: ansible_distribution == 'MacOSX'
 
-    - name: Install libraries with homebrew
-      homebrew: name={{ item }} state=present
-      with_flattened:
-        - libraries
-        - osx_libraries
+    - name: Install homebrew taps
+      homebrew_tap: name={{ item }} state=present
+      with_items: osx_taps
       when: ansible_distribution == 'MacOSX'
 
-    # - name: Check for installed casks (apps)
-    #   shell: brew cask list | grep {{ item }}
-    #   register: installed_applications
-    #   with_items: osx_casks
-    #   ignore_errors: true
-    #   when: ansible_distribution == 'MacOSX'
+    - name: Install libraries with homebrew
+      homebrew: name={{ item }} state=present
+      with_list: osx_libraries
+      when: ansible_distribution == 'MacOSX'
 
-    # - name: Install missing casks with brew-cask
-    #   shell: brew cask install {{ item }}
-    #   with_items: osx_casks
-    #   when: ansible_distribution == 'MacOSX' and item not in installed_applications.results|map(attribute='stdout')
+    - name: Install homebrew casks
+      homebrew_cask: name={{ item }} state=present
+      with_items: osx_casks
+      when: ansible_distribution == 'MacOSX'
 
     # All systems
-    - name: Install Composer
+    - name: Install composer
       shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer
 
     - name: Rename composer.phar to composer
