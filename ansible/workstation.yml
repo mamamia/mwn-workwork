@@ -27,7 +27,7 @@
     # Debian only
     - name: Install Debian specific libraries
       apt: name={{ item }} state=latest
-      with_list: debian_libraries
+      with_items: debian_libraries
       when: ansible_distribution == 'Debian'
 
     # Linux only
@@ -37,12 +37,12 @@
 
     - name: Install libraries with apt
       apt: name={{ item }} state=latest
-      with_list: linux_libraries
+      with_items: linux_libraries
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
     - name: Install libraries with yum
       yum: name={{ item }} state=latest
-      with_list: linux_libraries
+      with_items: linux_libraries
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
     # OS X only
@@ -57,7 +57,7 @@
 
     - name: Install libraries with homebrew
       homebrew: name={{ item }} state=present
-      with_list: osx_libraries
+      with_items: osx_libraries
       when: ansible_distribution == 'MacOSX'
 
     - name: Install homebrew casks
