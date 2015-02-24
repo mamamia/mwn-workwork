@@ -11,7 +11,7 @@ INVALID_ARGUMENTS="@(''|*)"
 # Version
 VER_LOCAL=$(git rev-parse @{0})
 VER_REMOTE=$(git rev-parse @{u})
-VER_BASE=$(git merge-base @ @{u})
+VER_BASE=$(git merge-base @{0} @{u})
 
 # Platform
 UNAME=`uname`
