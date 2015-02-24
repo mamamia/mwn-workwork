@@ -71,6 +71,9 @@
     - name: Make composer executable
       file: path=/usr/local/bin/composer mode=a+x state=file
 
+    - name: Install Sass
+      action: command sudo gem install sass creates=/usr/local/bin/sass
+
     - name: Install npm packages globally
       npm: global=yes name={{ item }}
       with_items: npm_packages
