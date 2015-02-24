@@ -14,6 +14,7 @@ run_init() {
 }
 
 run_start() {
+  grunt_watch
   docker_compose
 }
 

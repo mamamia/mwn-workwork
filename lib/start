@@ -1,9 +1,19 @@
 #!/bin/bash
+
+# Run commands in the background
+# Credit: http://stackoverflow.com/a/15578203
+
+grunt_watch() {
+  cd ${SITE_DIR}/bedrock
+  grunt watch &
+}
+
 docker_compose() {
   cd ${SITE_DIR}/docker
   if [ $PLATFORM == "osx" ]; then
-    docker-compose up
+    boot2docker up 2>/dev/null
+    docker-compose up &
   else
-    sudo docker-compose up
+    sudo docker-compose up &
   fi
 }
