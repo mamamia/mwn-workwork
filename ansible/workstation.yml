@@ -47,7 +47,7 @@
 
     # OS X only
     - name: Update homebrew
-      homebrew: update_homebrew=yes upgrade_all=yes
+      homebrew: update_homebrew=yes
       when: ansible_distribution == 'MacOSX'
 
     - name: Install homebrew taps
@@ -60,10 +60,17 @@
       with_items: osx_libraries
       when: ansible_distribution == 'MacOSX'
 
-    - name: Install homebrew casks
-      homebrew_cask: name={{ item }} state=present
+    - name: Check for installed casks
+      shell: brew cask list | grep {{ item }}
+      register: installed_casks
       with_items: osx_casks
+      changed_when: false
       when: ansible_distribution == 'MacOSX'
+
+    - name: Install missing casks
+      shell: brew cask install {{ item }}
+      with_items: osx_casks
+      when: ansible_distribution == 'MacOSX' and item not in installed_casks.results|map(attribute='stdout')
 
     # All systems
     - name: Install composer
@@ -76,7 +83,7 @@
       file: path=/usr/local/bin/composer mode=a+x state=file
 
     - name: Install Sass
-      action: command sudo gem install sass creates=/usr/local/bin/sass
+      gem: name=sass state=present
 
     - name: Install npm packages globally
       npm: global=yes name={{ item }}
