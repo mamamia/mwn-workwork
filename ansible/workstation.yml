@@ -37,6 +37,12 @@
       apt: update_cache=yes
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
+    # Debian only
+    - name: Install Debian specific libraries
+      sudo: yes
+      apt: name=php5 state=latest
+      when: ansible_distribution == 'Debian'
+
     - name: Install libraries with apt
       sudo: yes
       apt: name={{ item }} state=latest
