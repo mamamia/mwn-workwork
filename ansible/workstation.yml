@@ -94,5 +94,6 @@
       gem: name=sass state=present
 
     - name: Install npm packages globally
+      sudo: yes
       npm: global=yes name={{ item }}
       with_items: npm_packages
