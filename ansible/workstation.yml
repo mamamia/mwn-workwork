@@ -26,6 +26,7 @@
   tasks:
     # Debian only
     - name: Install Debian specific libraries
+      sudo: yes
       apt: name={{ item }} state=latest
       with_items: debian_libraries
       when: ansible_distribution == 'Debian'
@@ -36,11 +37,13 @@
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
     - name: Install libraries with apt
+      sudo: yes
       apt: name={{ item }} state=latest
       with_items: linux_libraries
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
     - name: Install libraries with yum
+      sudo: yes
       yum: name={{ item }} state=latest
       with_items: linux_libraries
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
