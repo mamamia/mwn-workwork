@@ -7,6 +7,9 @@
       - ruby-full
       - nodejs
       - docker.io
+    debian_libraries:
+      - php5
+      - php5-curl
     osx_libraries:
       - git
       - node
@@ -40,7 +43,8 @@
     # Debian only
     - name: Install Debian specific libraries
       sudo: yes
-      apt: name=php5 state=latest
+      apt: name={{ debian_libraries }} state=latest
+      with_items: debian_libraries
       when: ansible_distribution == 'Debian'
 
     - name: Install libraries with apt
@@ -84,13 +88,7 @@
 
     # All systems
     - name: Install composer
-      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer
-
-    - name: Rename composer.phar to composer
-      shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
-
-    - name: Make composer executable
-      file: path=/usr/local/bin/composer mode=a+x state=file
+      shell: curl -sS https://getcomposer.org/installer | sudo php && sudo mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
 
     - name: Install Sass
       gem: name=sass state=present
