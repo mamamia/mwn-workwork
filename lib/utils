@@ -59,7 +59,7 @@ check_shell() {
     PROFILE="${HOME}/.zshrc"
   elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
     DETECTED_SHELL="bash"
-    PROFILE="${HOME}/.bash_profile"
+    PROFILE="${HOME}/.bashrc"
   else
     echo "FATAL: Could not detect the shell!"
     exit

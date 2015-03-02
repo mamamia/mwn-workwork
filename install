@@ -49,10 +49,10 @@ seek_confirmation() {
   fi
   echo " - Install git (if not found)"
   echo " - Clone mwn-workwork into ~/workspace (if not found)"
-  echo " - Add ~/workspace/mwn-workwork/bin folder to PATH with .bash_profile or .zshrc (if not found)"
+  echo " - Add ~/workspace/mwn-workwork/bin folder to PATH with .bashrc or .zshrc (if not found)"
   echo " - Add execute permissions to all files in ~/workspace/mwn-workwork/bin"
   if [ $PLATFORM == "osx" ]; then
-    echo " - Add boot2docker shellinit command to .bash_profile or .zshrc (if not found)"
+    echo " - Add boot2docker shellinit command to .bashrc or .zshrc (if not found)"
   fi
   echo
   read -p "Are you okay with this? (y/n) " -n 1
@@ -75,7 +75,7 @@ check_shell() {
     PROFILE="${HOME}/.zshrc"
   elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
     DETECTED_SHELL="bash"
-    PROFILE="${HOME}/.bash_profile"
+    PROFILE="${HOME}/.bashrc"
   else
     echo "FATAL: Could not detect the shell!"
     exit
@@ -136,17 +136,32 @@ check_workwork() {
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Cloning WorkWork..."
-    git clone https://github.com/mamamia/mwn-workwork.git $DIR
+    git clone --quiet https://github.com/mamamia/mwn-workwork.git $DIR
   fi
 }
 
 # Add the WorkWork bin to PATH if it isn't in there already
 check_bin_path() {
+  touch "${PROFILE}"
   if ! grep -q "${BIN_DIR}" "${PROFILE}"; then
     echo "INFO: Adding PATH..."
     echo -e "\n\n# MWN WorkWork\nexport PATH=\$PATH:${BIN_DIR}" >> "${PROFILE}"
   else
     echo "PASS: ${FUNCNAME}"
+  fi
+}
+
+check_bash_profile() {
+  if [ $DETECTED_SHELL == "bash" ]; then
+    BASH_PROFILE="${HOME}/.bash_profile"
+    SOURCE_BASHRC="source ${HOME}/.bashrc"
+    touch "${BASH_PROFILE}"
+    if ! grep -q "${SOURCE_BASHRC}" "${BASH_PROFILE}"; then
+      echo "INFO: Redirecting bash_profile..."
+      echo -e "\n\n# MWN WorkWork\nif [ -f ~/.bashrc ]; then\n\t${SOURCE_BASHRC}\nfi" >> "${BASH_PROFILE}"
+    else
+      echo "PASS: ${FUNCNAME}"
+    fi
   fi
 }
 
@@ -175,6 +190,7 @@ byebye() {
   echo
 
   # Reload the shell so the addition to PATH is avaliable in this prompt
+  source $PROFILE
   exec $DETECTED_SHELL
 }
 
@@ -186,6 +202,7 @@ check_homebrew
 check_git
 check_workwork
 check_bin_path
+check_bash_profile
 set_bin_permissions
 add_boot2docker_shellinit
 byebye
