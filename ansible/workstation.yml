@@ -9,6 +9,7 @@
       - docker.io
     debian_libraries:
       - curl
+      - nodejs
       - nodejs-legacy
     osx_libraries:
       - git
