@@ -43,7 +43,7 @@
     # Debian only
     - name: Install Debian specific libraries
       sudo: yes
-      apt: name={{ debian_libraries }} state=latest
+      apt: name={{ item }} state=latest
       with_items: debian_libraries
       when: ansible_distribution == 'Debian'
 
