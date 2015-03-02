@@ -49,14 +49,6 @@
       with_items: linux_libraries
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-    # Debian only
-    - name: Install Debian specific libraries
-      sudo: yes
-      apt: name=nodejs-legacy state=latest
-      when: ansible_distribution == 'Debian'
-
-
-
     # OS X only
     - name: Update homebrew
       homebrew: update_homebrew=yes
