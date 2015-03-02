@@ -7,10 +7,6 @@
       - ruby-full
       - nodejs
       - docker.io
-    debian_libraries:
-      - curl
-      - nodejs
-      - nodejs-legacy
     osx_libraries:
       - git
       - node
@@ -28,13 +24,17 @@
     # Debian only
     - name: Install Debian specific libraries
       sudo: yes
-      apt: name={{ item }} state=latest
-      with_items: debian_libraries
+      apt: name=curl state=latest
       when: ansible_distribution == 'Debian'
 
     # Linux only
     - name: Add nodesource repo
       shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - name: Update apt
+      sudo: yes
+      apt: update_cache=yes
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
     - name: Install libraries with apt
@@ -48,6 +48,14 @@
       yum: name={{ item }} state=latest
       with_items: linux_libraries
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    # Debian only
+    - name: Install Debian specific libraries
+      sudo: yes
+      apt: name=nodejs-legacy state=latest
+      when: ansible_distribution == 'Debian'
+
+
 
     # OS X only
     - name: Update homebrew
