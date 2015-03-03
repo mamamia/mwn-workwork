@@ -9,8 +9,7 @@ check_clone() {
 }
 
 post_clone() {
-  # cd ${SITE_DIR}/bedrock && composer update mamamia/mwn-codepool --prefer-source --no-dev
-  cd ${SITE_DIR}/bedrock && composer install --prefer-dist
+  cd ${SITE_DIR}/bedrock && composer install --no-dev
   display_status_secondary "PASS" "composer install successful"
 
   cd ${SITE_DIR}/bedrock && npm install
