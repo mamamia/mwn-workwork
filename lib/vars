@@ -8,11 +8,6 @@ VALID_WWPROD_COMMANDS="@(plan|apply|fix|show)"
 VALID_ARGUMENTS="@(dd|mm|iv|tg|rh)"
 INVALID_ARGUMENTS="@(''|*)"
 
-# Version
-VER_LOCAL=$(git rev-parse @{0})
-VER_REMOTE=$(git rev-parse @{u})
-VER_BASE=$(git merge-base @{0} @{u})
-
 # Platform
 UNAME=`uname`
 PLATFORM="unknown"

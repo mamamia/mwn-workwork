@@ -1,24 +1,34 @@
 #!/bin/bash
 
 run_workstation() {
+  display_status_primary "INFO" "Updating workstation"
+  check_sudo
   check_docker_compose
   check_ansible
   run_ansible_playbook
+  display_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_init() {
+  display_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
+  check_sudo
   check_clone
   post_clone
   init_boot2docker
   update_etchosts
+  display_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_start() {
+  display_status_primary "INFO" "Running start for ${SITE_FULL_NAME}"
   grunt_watch
   docker_compose
+  display_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_updatedb() {
+  display_status_primary "INFO" "Running updatedb for ${SITE_FULL_NAME}"
+  check_sudo
   update_db
+  display_status_secondary "PASS" "Completed all tasks!"
 }
-

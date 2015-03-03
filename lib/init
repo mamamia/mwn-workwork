@@ -1,37 +1,39 @@
 #!/bin/bash
 
 check_clone() {
+  save_cursor; display_status_secondary "INFO" "[ Cloning mwn-${SITE_NAME}... ]"
   if [ ! -d "${SITE_DIR}" ]; then
-    git clone git@mamamia.git.beanstalkapp.com:/mamamia/mwn-${SITE_NAME}.git ${SITE_DIR}
-    display_status_secondary "PASS" "WordPress cloned"
+    git clone --quiet git@mamamia.git.beanstalkapp.com:/mamamia/mwn-${SITE_NAME}.git ${SITE_DIR}
   fi
-  display_status_secondary "PASS" "Required repo exists"
+  replace_line; display_status_secondary "PASS" "Directory for mwn-${SITE_NAME} exists"
 }
 
 post_clone() {
-  cd ${SITE_DIR}/bedrock && composer install --no-dev
-  display_status_secondary "PASS" "composer install successful"
+  save_cursor; display_status_secondary "INFO" "[ Running composer install... ]"
+  cd ${SITE_DIR}/bedrock && composer install --quiet --no-interaction --no-dev
+  replace_line; display_status_secondary "PASS" "Finished composer install"
 
-  cd ${SITE_DIR}/bedrock && npm install
-  display_status_secondary "PASS" "npm install successful"
-
-  cd ${SITE_DIR}/bedrock && grunt
-  display_status_secondary "PASS" "grunt run successful"
+  save_cursor; display_status_secondary "INFO" "[ Running npm install... ]"
+  cd ${SITE_DIR}/bedrock && npm install --silent > /dev/null
+  replace_line; display_status_secondary "PASS" "Finished npm install"
 }
 
 init_boot2docker() {
   if [ $PLATFORM == "osx" ]; then
-    boot2docker init 2>/dev/null
-    boot2docker up 2>/dev/null
-    # Reset the shell to export new docker envvars into our shell (see .bashrc)
+    save_cursor; display_status_secondary "INFO" "[ Starting boot2docker... ]"
+    boot2docker init &>/dev/null
+    boot2docker up &>/dev/null
+    # Reset the shell to export new docker envvars into our shell
     source $PROFILE
-    exec $DETECTED_SHELL
+    replace_line; display_status_secondary "PASS" "Started boot2docker"
   fi
 }
 
 update_etchosts() {
-  # Web and database will likely need to be updates as new sites are wrapped in
-  sudo etchosts update web $(boot2docker ip 2>/dev/null)
-  sudo etchosts update database $(boot2docker ip 2>/dev/null)
-  sudo etchosts update www.${SITE_NAME}.dev $(boot2docker ip 2>/dev/null)
+  save_cursor; display_status_secondary "INFO" "[ Updating etc/hosts... ]"
+  # Web and database will likely need to be updated as new sites are wrapped in
+  sudo ${WW_DIR}/bin/etchosts update web $(boot2docker ip) &>/dev/null
+  sudo ${WW_DIR}/bin/etchosts update database $(boot2docker ip) &>/dev/null
+  sudo ${WW_DIR}/bin/etchosts update www.${SITE_NAME}.dev $(boot2docker ip) &>/dev/null
+  replace_line; display_status_secondary "PASS" "Updated etc/hosts"
 }
