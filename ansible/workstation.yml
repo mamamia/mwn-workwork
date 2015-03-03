@@ -93,7 +93,7 @@
 
     - name: Install Sass
       sudo: yes
-      shell: gem install sass creates=/usr/local/bin/sass
+      shell: gem install sass creates=/usr/bin/sass
 
     - name: Install npm packages globally
       sudo: yes
