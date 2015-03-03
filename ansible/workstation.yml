@@ -8,12 +8,15 @@
       - nodejs
       - docker.io
     debian_libraries:
+      - mysql-server
       - php5
       - php5-curl
+      - php5-mysql
     osx_libraries:
       - git
       - node
       - brew-cask
+      - mysql
     osx_taps:
       - caskroom/cask
     osx_casks:
@@ -87,15 +90,28 @@
       with_items: osx_casks
       when: ansible_distribution == 'MacOSX' and item not in installed_casks.results|map(attribute='stdout')
 
-    # All systems
-    - name: Install composer
+    # All systems (with sudo)
+    - name: Install composer (with sudo)
       shell: curl -sS https://getcomposer.org/installer | sudo php && sudo mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-    - name: Install Sass
-      sudo: yes
-      shell: gem install sass creates=/usr/bin/sass
-
-    - name: Install npm packages globally
+    - name: Install npm packages globally (with sudo)
       sudo: yes
       npm: global=yes name={{ item }}
       with_items: npm_packages
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    # All systems (without sudo)
+    - name: Install composer (without sudo)
+      shell: curl -sS https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+      when: ansible_distribution == 'MacOSX'
+
+    - name: Install npm packages globally (without sudo)
+      npm: global=yes name={{ item }}
+      with_items: npm_packages
+      when: ansible_distribution == 'MacOSX'
+
+    # All systems
+    - name: Install Sass (with sudo)
+      sudo: yes
+      shell: gem install sass creates=/usr/bin/sass

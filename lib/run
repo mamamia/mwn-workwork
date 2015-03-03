@@ -17,6 +17,9 @@ run_init() {
   init_boot2docker
   update_etchosts
   display_status_secondary "PASS" "Completed all tasks!"
+  # Reset the shell to export new docker envvars into our shell
+  source $PROFILE
+  exec $DETECTED_SHELL
 }
 
 run_start() {

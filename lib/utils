@@ -50,7 +50,7 @@ install_app() {
   elif [ $PLATFORM == "linux" ]; then
     # Assumes Ubuntu/Debian for now
     sudo apt-get update
-    sudo apt-get install $1
+    sudo apt-get install $1 < /dev/null
   fi
 }
 

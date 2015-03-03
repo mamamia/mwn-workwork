@@ -4,16 +4,14 @@
 # Credit: http://stackoverflow.com/a/15578203
 
 grunt_watch() {
-  cd ${SITE_DIR}/bedrock
-  grunt watch &
+  cd ${SITE_DIR}/bedrock && grunt watch &
 }
 
 docker_compose() {
-  cd ${SITE_DIR}/docker
   if [ $PLATFORM == "osx" ]; then
     boot2docker up 2>/dev/null
-    docker-compose up &
+    cd ${SITE_DIR}/docker && docker-compose up &
   else
-    sudo docker-compose up &
+    cd ${SITE_DIR}/docker && sudo docker-compose up &
   fi
 }

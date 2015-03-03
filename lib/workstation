@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Docker-compose pre-release (pre-release to fig for now but has some useful functionality)
-# https://github.com/docker/fig/releases
+# Check if docker-compose is installed
 check_docker_compose() {
   save_cursor; display_status_secondary "INFO" "[ Installing docker-compose... ]"
   if ! type_exists 'docker-compose'; then
-    curl --silent -L https://github.com/docker/fig/releases/download/1.1.0-rc2/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && \
-    sudo mv /tmp/docker-compose /usr/local/bin/docker-compose && \
-    sudo chmod 755 /usr/local/bin/docker-compose
+    if [ $PLATFORM == "osx" ]; then
+      install_app docker-compose
+    else
+      curl --silent -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && \
+      sudo mv /tmp/docker-compose /usr/local/bin/docker-compose && \
+      sudo chmod 755 /usr/local/bin/docker-compose
+    fi
   fi
   replace_line; display_status_secondary "PASS" "Located docker-compose"
 }

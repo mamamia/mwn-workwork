@@ -14,7 +14,7 @@ post_clone() {
   replace_line; display_status_secondary "PASS" "Finished composer install"
 
   save_cursor; display_status_secondary "INFO" "[ Running npm install... ]"
-  cd ${SITE_DIR}/bedrock && npm install --silent > /dev/null
+  cd ${SITE_DIR}/bedrock && npm install &>/dev/null
   replace_line; display_status_secondary "PASS" "Finished npm install"
 }
 
@@ -23,8 +23,6 @@ init_boot2docker() {
     save_cursor; display_status_secondary "INFO" "[ Starting boot2docker... ]"
     boot2docker init &>/dev/null
     boot2docker up &>/dev/null
-    # Reset the shell to export new docker envvars into our shell
-    source $PROFILE
     replace_line; display_status_secondary "PASS" "Started boot2docker"
   fi
 }
