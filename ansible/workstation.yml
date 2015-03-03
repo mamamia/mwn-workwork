@@ -79,6 +79,7 @@
       register: installed_casks
       with_items: osx_casks
       changed_when: false
+      ignore_errors: yes
       when: ansible_distribution == 'MacOSX'
 
     - name: Install missing casks
@@ -92,7 +93,7 @@
 
     - name: Install Sass
       sudo: yes
-      gem: name=sass state=present
+      shell: gem install sass creates=/usr/local/bin/sass
 
     - name: Install npm packages globally
       sudo: yes
