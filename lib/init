@@ -29,9 +29,14 @@ init_boot2docker() {
 
 update_etchosts() {
   save_cursor; display_status_secondary "INFO" "[ Updating etc/hosts... ]"
+  if [ $PLATFORM == "osx" ]; then
+    DOCKER_IP=$(boot2docker ip)
+  else
+    DOCKER_IP=127.0.0.1
+  fi
   # Web and database will likely need to be updated as new sites are wrapped in
-  sudo ${WW_DIR}/bin/etchosts update web $(boot2docker ip) &>/dev/null
-  sudo ${WW_DIR}/bin/etchosts update database $(boot2docker ip) &>/dev/null
-  sudo ${WW_DIR}/bin/etchosts update www.${SITE_NAME}.dev $(boot2docker ip) &>/dev/null
+  sudo ${WW_DIR}/bin/etchosts update web ${DOCKER_IP} &>/dev/null
+  sudo ${WW_DIR}/bin/etchosts update database ${DOCKER_IP} &>/dev/null
+  sudo ${WW_DIR}/bin/etchosts update www.${SITE_NAME}.dev ${DOCKER_IP} &>/dev/null
   replace_line; display_status_secondary "PASS" "Updated etc/hosts"
 }
