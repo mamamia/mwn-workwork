@@ -29,6 +29,12 @@ run_start() {
   display_status_secondary "PASS" "Completed all tasks!"
 }
 
+run_update() {
+  display_status_primary "INFO" "Running update for ${SITE_FULL_NAME}"
+  update_git
+  display_status_secondary "PASS" "Completed all tasks!"
+}
+
 run_updatedb() {
   display_status_primary "INFO" "Running updatedb for ${SITE_FULL_NAME}"
   check_sudo

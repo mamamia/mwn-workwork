@@ -16,6 +16,7 @@ source ./lib/display
 source ./lib/workstation
 source ./lib/init
 source ./lib/start
+source ./lib/update
 source ./lib/updatedb
 source ./lib/run
 

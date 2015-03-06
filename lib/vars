@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Commands
-VALID_WW_COMMANDS="@(init|start|updatedb)"
+VALID_WW_COMMANDS="@(init|start|update|updatedb)"
 VALID_WWPROD_COMMANDS="@(plan|apply|fix|show)"
 
 # Arguments
