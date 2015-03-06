@@ -19,7 +19,6 @@ display_status_secondary() {
   SECONDARY_SYMBOL="SYMBOL"_"${STATUS}"
   echo -e "${!SECONDARY_COLOUR}${!SECONDARY_SYMBOL}${COLOUR_RESET} ${MESSAGE}"
   if [ $STATUS == "ERROR" ]; then
-    echo -e "${COLOUR_INFO}${SYMBOL_INFO}${COLOUR_RESET} ${3}"
     exit 1
   fi
 }
