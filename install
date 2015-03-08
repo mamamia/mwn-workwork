@@ -16,8 +16,8 @@ echo "==========================================="
 echo
 
 # Variables
-DIR="${HOME}/workspace/mwn-workwork"
-BIN_DIR="${DIR}/bin"
+WW_DIR="${HOME}/workspace/mwn-workwork"
+BIN_DIR="${WW_DIR}/bin"
 UNAME=`uname`
 UNAMEM=`uname -m`
 PLATFORM="unknown"
@@ -32,28 +32,47 @@ type_exists() {
 
 install_app() {
   if [ $PLATFORM == "osx" ]; then
-    brew update
     brew install $1
   elif [ $PLATFORM == "linux" ]; then
     # Assumes Ubuntu/Debian for now
-    sudo apt-get update
-    sudo apt-get install $1
+    sudo apt-get install -yq $1
   fi
 }
 
-# Make sure the user is cool with what we're about to do
+# Install functions
+# Credit: http://stackoverflow.com/a/17072017
+# Credit: https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
+check_platform() {
+  if [[ "$UNAME" == "Darwin" ]]; then
+    PLATFORM="osx"
+  elif [[ "$UNAME" == "Linux" ]]; then
+    PLATFORM="linux"
+  elif [[ "$UNAME" == "MINGW32_NT" ]]; then
+    echo "FATAL: WorkWork is not Windows compatible."
+    exit
+  else
+    echo "FATAL: Could not detect the platform!"
+    exit
+  fi
+}
+
+# Credit: http://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script
+check_64bit() {
+  if [[ "$UNAMEM" != "x86_64" ]]; then
+    echo "FATAL: WorkWork requires a 64bit machine."
+    exit
+  fi
+}
+
 seek_confirmation() {
   echo "CONFIRM: WorkWork is about to"
   if [ $PLATFORM == "osx" ]; then
     echo " - Install homebrew (if not found)"
   fi
   echo " - Install git (if not found)"
+  echo " - Install ansible (if not found)"
   echo " - Clone mwn-workwork into ~/workspace (if not found)"
-  echo " - Add ~/workspace/mwn-workwork/bin folder to PATH with .bashrc or .zshrc (if not found)"
-  echo " - Add execute permissions to all files in ~/workspace/mwn-workwork/bin"
-  if [ $PLATFORM == "osx" ]; then
-    echo " - Add boot2docker shellinit command to .bashrc or .zshrc (if not found)"
-  fi
+  echo " - Setup dotfiles and local dependencies with Ansible"
   echo
   read -p "Are you okay with this? (y/n) " -n 1
   if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
@@ -67,51 +86,9 @@ seek_confirmation() {
   fi
 }
 
-# Detect shell
-# http://stackoverflow.com/questions/9910966/how-to-tell-if-its-using-zsh-or-bash
-check_shell() {
-  if [ -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
-    DETECTED_SHELL="zsh"
-    PROFILE="${HOME}/.zshrc"
-  elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
-    DETECTED_SHELL="bash"
-    PROFILE="${HOME}/.bashrc"
-  else
-    echo "FATAL: Could not detect the shell!"
-    exit
-  fi
-}
-
-# Detect the platform via uname
-# http://stackoverflow.com/a/17072017
-# https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
-check_platform() {
-  if [[ "$UNAME" == 'Darwin' ]]; then
-    PLATFORM="osx"
-  elif [[ "$UNAME" == 'Linux' ]]; then
-    PLATFORM="linux"
-  elif [[ "$UNAME" == 'MINGW32_NT' ]]; then
-    echo -e "FATAL: This script is not Windows compatible.\nThat, my friend, is up to you now.\n\nGood luck!"
-    exit
-  else
-    echo "FATAL: Could not detect the platform!"
-    exit
-  fi
-}
-
-# Check if system is 64bit
-# http://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script
-check_64bit() {
-  if [[ "$UNAMEM" != "x86_64" ]]; then
-    echo "FATAL: This script requires a 64bit machine."
-    exit
-  fi
-}
-
-# Check if homebrew is installed (OS X only)
 check_homebrew() {
   if [ $PLATFORM == "osx" ]; then
-    if type_exists 'brew'; then
+    if type_exists "brew"; then
       echo "PASS: ${FUNCNAME}"
     else
       echo "INFO: Installing brew..."
@@ -120,19 +97,38 @@ check_homebrew() {
   fi
 }
 
-# Check if git is installed
-check_git() {
-  if type_exists 'git'; then
-    echo "PASS: ${FUNCNAME}"
-  else
-    echo "INFO: Installing git..."
-    install_app git
+update_sources() {
+  if [ $PLATFORM == "osx" ]; then
+    brew update
+  elif [ $PLATFORM == "linux" ]; then
+    sudo apt-get update
   fi
 }
 
-# Clone WorkWork into home workspace
+check_git() {
+  if type_exists "git"; then
+    echo "PASS: ${FUNCNAME}"
+  else
+    echo "INFO: Installing git..."
+    if [ $PLATFORM == "osx" ]; then
+      install_app git
+    elif [ $PLATFORM == "linux" ]; then
+      install_app git-core
+    fi
+  fi
+}
+
+check_ansible() {
+  if type_exists "ansible"; then
+    echo "PASS: ${FUNCNAME}"
+  else
+    echo "INFO: Installing git..."
+    install_app ansible
+  fi
+}
+
 check_workwork() {
-  if [ -d "$DIR" ]; then
+  if [ -d "${WW_DIR}" ]; then
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Cloning WorkWork..."
@@ -140,69 +136,27 @@ check_workwork() {
   fi
 }
 
-# Add the WorkWork bin to PATH if it isn't in there already
-check_bin_path() {
-  touch "${PROFILE}"
-  if ! grep -q "${BIN_DIR}" "${PROFILE}"; then
-    echo "INFO: Adding PATH..."
-    echo -e "\n\n# MWN WorkWork\nexport PATH=\$PATH:${BIN_DIR}" >> "${PROFILE}"
-  else
-    echo "PASS: ${FUNCNAME}"
-  fi
-}
-
-check_bash_profile() {
-  if [ $DETECTED_SHELL == "bash" ]; then
-    BASH_PROFILE="${HOME}/.bash_profile"
-    SOURCE_BASHRC="source ${HOME}/.bashrc"
-    touch "${BASH_PROFILE}"
-    if ! grep -q "${SOURCE_BASHRC}" "${BASH_PROFILE}"; then
-      echo "INFO: Redirecting bash_profile..."
-      echo -e "\n\n# MWN WorkWork\nif [ -f ~/.bashrc ]; then\n\t${SOURCE_BASHRC}\nfi" >> "${BASH_PROFILE}"
-    else
-      echo "PASS: ${FUNCNAME}"
-    fi
-  fi
-}
-
-# Ensure scripts in the bin are executable
-set_bin_permissions() {
-  chmod -R +x $BIN_DIR
-  echo "PASS: ${FUNCNAME}"
-}
-
-add_boot2docker_shellinit() {
-  if [ $PLATFORM == "osx" ]; then
-    if ! grep -q "boot2docker shellinit" "${PROFILE}"; then
-      echo "INFO: Adding boot2docker shellinit..."
-      echo -e "\n\n# boot2docker shellinit\nif [ \$(type -P boot2docker) ]; then \$(boot2docker shellinit 2>/dev/null); fi" >> "${PROFILE}"
-    else
-      echo "PASS: ${FUNCNAME}"
-    fi
-  fi
+run_playbooks() {
+  ansible-playbook "${WW_DIR}/ansible/install.yml" -i "${WW_DIR}/ansible/hosts"
+  ansible-playbook --ask-sudo-pass "${WW_DIR}/ansible/workstation.yml" -i "${WW_DIR}/ansible/hosts"
 }
 
 byebye() {
   echo
-  echo "Run the following command to get the rest of the local dependencies:"
+  echo "All done! You're good to go."
+  echo "Start a new terminal window and run the following command to initialise your first project:"
   echo
-  echo "ww --workstation"
+  echo "ww init dd"
   echo
-
-  # Reload the shell so the addition to PATH is avaliable in this prompt
-  source $PROFILE
-  exec $DETECTED_SHELL
 }
 
-check_shell
 check_platform
 check_64bit
 seek_confirmation
 check_homebrew
+update_sources
 check_git
+check_ansible
 check_workwork
-check_bin_path
-check_bash_profile
-set_bin_permissions
-add_boot2docker_shellinit
+run_playbooks
 byebye

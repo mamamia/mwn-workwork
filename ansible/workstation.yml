@@ -17,6 +17,7 @@
       - node
       - brew-cask
       - mysql
+      - docker-compose
     osx_taps:
       - caskroom/cask
     osx_casks:
@@ -41,6 +42,17 @@
     - name: Update apt
       sudo: yes
       apt: update_cache=yes
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - name: Install docker-compose
+      shell: curl --silent -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && sudo mv /tmp/docker-compose /usr/local/bin/docker-compose
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - name: Add execute to docker-compose
+      sudo: yes
+      file:
+        path: "/usr/local/bin/docker-compose"
+        mode: u+rwx,g+rx,o+rx
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
     # Debian only

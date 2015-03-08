@@ -2,9 +2,6 @@
 
 run_workstation() {
   display_status_primary "INFO" "Updating workstation"
-  check_sudo
-  check_docker_compose
-  check_ansible
   run_ansible_playbook
   display_status_secondary "PASS" "Completed all tasks!"
 }
