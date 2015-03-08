@@ -94,7 +94,7 @@
       register: installed_casks
       with_items: osx_casks
       changed_when: false
-      ignore_errors: yes
+      ignore_errors: true
       when: ansible_distribution == 'MacOSX'
 
     - name: Install missing casks
