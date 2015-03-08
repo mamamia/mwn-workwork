@@ -132,7 +132,7 @@ check_workwork() {
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Cloning WorkWork..."
-    git clone --quiet https://github.com/mamamia/mwn-workwork.git $DIR
+    git clone --quiet https://github.com/mamamia/mwn-workwork.git $WW_DIR
   fi
 }
 
