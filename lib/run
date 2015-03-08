@@ -10,7 +10,6 @@ run_init() {
   display_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
   check_sudo
   check_clone_app
-  check_clone_codepool
   post_clone
   init_boot2docker
   update_etchosts
