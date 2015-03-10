@@ -1,0 +1,12 @@
+---
+- hosts: workstation
+
+  vars:
+    app_env: dev
+  tasks:
+    - include_vars: "{{ site_dir }}/secret/env/dev.yml"
+    - name: Setup env
+      template:
+        src: "{{ site_dir }}/ansible/env"
+        dest: "{{ site_dir }}/bedrock/.env"
+        mode: 0744
