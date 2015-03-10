@@ -2,5 +2,5 @@
 
 run_ansible_playbook() {
   display_status_secondary "INFO" "[ Running ansible-playbook... ]"
-  ansible-playbook "${WW_DIR}/ansible/workstation.yml" -i "${WW_DIR}/ansible/hosts" --ask-sudo-pass
+  ansible-playbook --ask-sudo-pass "${WW_DIR}/ansible/workstation.yml" -i "${WW_DIR}/ansible/hosts"
 }
