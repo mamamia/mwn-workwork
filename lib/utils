@@ -21,7 +21,7 @@ check_version() {
     display_status_primary "INFO" "Updating WorkWork..."
     cd $WW_DIR && git pull --quiet origin master
     # Start the command over with the updated files
-    exec "$0" "$@"
+    exec "$0" "$1" "$2"
   elif [ $VER_REMOTE = $VER_BASE ]; then
     display_status_primary "WARN" "Please push your changes to the remote..."
   else
