@@ -1,10 +1,16 @@
 #!/bin/bash
 
 update_db() {
+  # Check user error status credit: http://stackoverflow.com/a/12137501
+  mkdir -p ${SITE_DIR}/bedrock/db-sync/
+  source ${SITE_DIR}/secret/mysql/readonly
   gunzip ${SITE_DIR}/bedrock/db-sync/wordpress.sql.gz
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp db import ${SITE_DIR}/bedrock/db-sync/wordpress.sql
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp search-replace --recurse-objects ${SITE_PROD_URL} www.${SITE_NAME}.dev
-  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev
+  CHECK_USER=$(${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user get dev)
+  if [[ $? != 0 ]]; then
+    ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev
+  fi
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp plugin activate --all
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp theme activate ${SITE_NAME}
 }
