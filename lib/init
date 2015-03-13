@@ -41,6 +41,6 @@ update_etchosts() {
   replace_line; display_status_secondary "PASS" "Updated etc/hosts"
 }
 
-run_ansible_playbook() {
+run_ansible_playbook_init() {
   ansible-playbook "${WW_DIR}/ansible/init.yml" -i "${WW_DIR}/ansible/hosts" -e "site_dir=${SITE_DIR}"
 }

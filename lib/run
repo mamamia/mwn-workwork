@@ -2,7 +2,7 @@
 
 run_workstation() {
   display_status_primary "INFO" "Updating workstation"
-  run_ansible_playbook
+  run_ansible_playbook_workstation
   display_status_secondary "PASS" "Completed all tasks!"
 }
 
@@ -13,7 +13,7 @@ run_init() {
   post_clone
   init_boot2docker
   update_etchosts
-  run_ansible_playbook
+  run_ansible_playbook_init
   display_status_secondary "PASS" "Completed all tasks!"
   # Reset the shell to export new docker envvars into our shell
   source $PROFILE
