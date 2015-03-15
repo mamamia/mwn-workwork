@@ -71,7 +71,9 @@ update_package_lists() {
     brew update
   elif [ $PLATFORM == "linux" ]; then
     # Assumes Debian for now
-    sudo sh -c "echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports.list" # For ansible
+    sudo sh -c "echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports.list" # For Ansible
+    sudo sh -c "echo 'deb http://get.docker.io/ubuntu docker main' > /etc/apt/sources.list.d/docker.list" # For Docker
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9 # For Docker
     sudo apt-get update -y
   fi
 }

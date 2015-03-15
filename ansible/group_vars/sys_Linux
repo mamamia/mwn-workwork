@@ -2,9 +2,9 @@ linux_libraries:
   - git-core
   - ruby-full
   - nodejs
-  - docker.io
 debian_libraries:
   - mysql-server
   - php5
   - php5-curl
   - php5-mysql
+  - lxc-docker
