@@ -1,12 +1,21 @@
 ---
 - hosts: workstation
+  connection: local
+  roles:
+    - define_system
 
-  vars:
-    app_env: dev
-  tasks:
-    - include_vars: "{{ site_dir }}/secret/env/dev.yml"
-    - name: Setup env
-      template:
-        src: "{{ site_dir }}/ansible/env"
-        dest: "{{ site_dir }}/bedrock/.env"
-        mode: 0744
+# OS X
+- hosts: sys_Darwin
+  connection: local
+  gather_facts: false
+  roles:
+    - init_darwin_tasks
+
+# Global
+- hosts: workstation
+  connection: local
+  gather_facts: false
+  roles:
+    - init_clone
+    - init_post_clone
+    - init_define_env

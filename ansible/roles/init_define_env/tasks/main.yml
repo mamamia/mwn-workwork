@@ -1,0 +1,6 @@
+---
+- name: setup env
+  template:
+    src: env.j2
+    dest: "{{ deploy_release.path }}/bedrock/.env"
+    mode: 0744

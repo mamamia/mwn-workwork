@@ -1,0 +1,28 @@
+---
+- name: composer install
+  composer:
+    command: install
+    no_dev: yes
+    working_dir: "{{ deploy_release.path }}/bedrock"
+
+- name: npm install
+  npm:
+    path: "{{ deploy_release.path }}/bedrock"
+
+- name: bower install
+  shell: "cd {{ deploy_release.path }}/bedrock && bower install"
+
+- name: run grunt
+  shell: "cd {{ deploy_release.path }}/bedrock && grunt"
+
+- name: get docker IP
+  action: docker_ip # This returns the varible `docker_ip`
+  changed_when: false
+
+- name: update /etc/hosts
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+   - etchosts update web {{ docker_ip }}
+   - etchosts update database {{ docker_ip }}
+   - etchosts update www.{{ site_name }}.dev {{ docker_ip }}

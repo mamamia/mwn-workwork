@@ -1,0 +1,9 @@
+---
+- name: boot2docker init
+  shell: "boot2docker init"
+
+- name: boot2docker up
+  shell: "boot2docker up"
+
+- name: boot2docker shellinit
+  shell: "eval $(boot2docker shellinit)"

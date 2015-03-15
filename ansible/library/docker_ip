@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ $(boot2docker ip) ]; then
+    DOCKER_IP=$(boot2docker ip)
+  else
+    DOCKER_IP=127.0.0.1
+  fi
+
+cat << EOF
+{
+  "changed": true,
+  "ansible_facts": {
+    "docker_ip": "${DOCKER_IP}"
+  }
+}
+EOF

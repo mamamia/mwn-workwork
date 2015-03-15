@@ -1,4 +1,23 @@
-bin_dir: "{{ ansible_env.HOME }}/workspace/mwn-workwork/bin"
+bin_dir:               "{{ ansible_env.HOME }}/workspace/mwn-workwork/bin"
+app_env:               dev
+wp_home:               http://www.debriefdaily.dev
+wp_site_url:           http://www.debriefdaily.dev/wp
+db_name:               wordpress
+db_user:               wordpress
+db_password:           wordpress
+db_host:               database
+dsq_key:               false
+dsq_forum:             false
+aws_access_key_id:     false
+aws_secret_access_key: false
+auth_key:              false
+secure_auth_key:       false
+logged_in_key:         false
+nonce_key:             false
+auth_salt:             false
+secure_auth_salt:      false
+logged_in_salt:        false
+nonce_salt:            false
 npm_packages:
   - grunt-cli
   - grunt

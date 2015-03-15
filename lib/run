@@ -8,16 +8,8 @@ run_workstation() {
 
 run_init() {
   display_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
-  check_sudo
-  check_clone_app
-  post_clone
-  init_boot2docker
-  update_etchosts
   run_ansible_playbook_init
   display_status_secondary "PASS" "Completed all tasks!"
-  # Reset the shell to export new docker envvars into our shell
-  source $PROFILE
-  exec $DETECTED_SHELL
 }
 
 run_start() {

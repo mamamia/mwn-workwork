@@ -1,0 +1,13 @@
+---
+- name: register deploy path
+  file:
+    path: "{{ site_dir }}"
+    state: directory
+  register: deploy_release
+
+- name: git clone
+  git:
+    repo: "git@github.com:mamamia/mwn-{{ site_name }}"
+    version: master
+    accept_hostkey: yes
+    dest: "{{ deploy_release.path }}"

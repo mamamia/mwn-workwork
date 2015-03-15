@@ -1,46 +1,11 @@
 #!/bin/bash
 
-check_clone_app() {
-  save_cursor; display_status_secondary "INFO" "[ Cloning mwn-${SITE_NAME}... ]"
-  if [ ! -d "${SITE_DIR}" ]; then
-    git clone --quiet git@github.com:mamamia/mwn-${SITE_NAME}.git ${SITE_DIR}
-  fi
-  replace_line; display_status_secondary "PASS" "Directory for mwn-${SITE_NAME} exists"
-}
-
-post_clone() {
-  save_cursor; display_status_secondary "INFO" "[ Running composer install... ]"
-  cd ${SITE_DIR}/bedrock && composer install --quiet --no-interaction --no-dev
-  replace_line; display_status_secondary "PASS" "Finished composer install"
-
-  save_cursor; display_status_secondary "INFO" "[ Running npm install... ]"
-  cd ${SITE_DIR}/bedrock && npm install &>/dev/null
-  replace_line; display_status_secondary "PASS" "Finished npm install"
-}
-
-init_boot2docker() {
-  if [ $PLATFORM == "osx" ]; then
-    save_cursor; display_status_secondary "INFO" "[ Starting boot2docker... ]"
-    boot2docker init &>/dev/null
-    boot2docker up &>/dev/null
-    replace_line; display_status_secondary "PASS" "Started boot2docker"
-  fi
-}
-
-update_etchosts() {
-  save_cursor; display_status_secondary "INFO" "[ Updating etc/hosts... ]"
-  if [ $PLATFORM == "osx" ]; then
-    DOCKER_IP=$(boot2docker ip)
-  else
-    DOCKER_IP=127.0.0.1
-  fi
-  # Web and database will likely need to be updated as new sites are wrapped in
-  sudo ${WW_DIR}/bin/etchosts update web ${DOCKER_IP} &>/dev/null
-  sudo ${WW_DIR}/bin/etchosts update database ${DOCKER_IP} &>/dev/null
-  sudo ${WW_DIR}/bin/etchosts update www.${SITE_NAME}.dev ${DOCKER_IP} &>/dev/null
-  replace_line; display_status_secondary "PASS" "Updated etc/hosts"
-}
-
 run_ansible_playbook_init() {
-  ansible-playbook "${WW_DIR}/ansible/init.yml" -i "${WW_DIR}/ansible/hosts" -e "site_dir=${SITE_DIR}"
+  display_status_secondary "INFO" "[ Running ansible-playbook... ]"
+  ansible-playbook \
+  --ask-sudo-pass \
+  "${WW_DIR}/ansible/init.yml" \
+  -i "${WW_DIR}/ansible/inventory/hosts" \
+  -e "site_dir=${SITE_DIR}" \
+  -e "site_name=${SITE_NAME}"
 }
