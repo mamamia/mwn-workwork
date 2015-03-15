@@ -1,29 +1,45 @@
 # MWN WorkWork
-[WorkWork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and provisioning scripts that ensure all MWN developers are using the same tools the same way.
+[WorkWork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools the same way.
 
-[WorkWork](http://www.myinstants.com/media/sounds/wc3-peon-says-work-work-only-.mp3) has been designed to be run right after a fresh OS install, so mileage may vary on established machines. If you come across and errors or bad code: fix, document, pull request :)
+[WorkWork](http://www.myinstants.com/media/sounds/wc3-peon-says-work-work-only-.mp3) has been designed to be run right after a fresh OS install, so mileage may vary on established machines. If you come across any errors or bad code: fix, document, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/) :ok_hand:
 
 ## Requirements
-* OS X or some flavour of Linux
-* OS X systems require Xcode, or at very least the Xcode Command Line Tools. If you don't have this installed, you will receive a prompt as part of the install process below
-* All of the [local dependencies](#local-dependencies), which will be installed with the scripts below
+
+* 64-bit Unix operating system (only OS X and Debian have been tested thus far)
+* `sudo` and `curl`
 
 ## Installation
-Open your terminal and run: `bash -c "$(curl -fsSL https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install)"`
+Open your terminal and run `curl workwork.mamamia.com.au/install | sh`
 
-This little script will install Git (if missing), clone this repo into your workspace directory, then add the `bin` folder to your PATH.
+## What will this do?
+* Run install shell script
+  * Check your system against the requirements listed above
+  * Install
+    * [Xcode Command Line Tools](https://developer.apple.com/xcode/downloads/) (OS X only)
+    * [Homebrew](http://brew.sh/) (OS X only)
+  * Update package lists
+  * Install
+    * [Git](http://git-scm.com/downloads/)
+    * [Ansible](http://docs.ansible.com/intro_installation.html)
+  * Clone this repo into `~/workspace/mwn-workwork/`
+* Run Ansible playbook `workstation.yml`
+  * Add the bin folder of this repo to the PATH via dotfiles
+  * Add `boot2docker shellinit` to dotfiles (OS X only)
+  * Install (not in this order)
+    * [Docker](https://docs.docker.com/installation/)
+      * [docker-compose](http://docs.docker.com/compose/install/)
+      * [boot2docker](http://boot2docker.io/) (OS X only)
+      * [VirtualBox](https://www.virtualbox.org/wiki/Downloads/) (OS X only)
+    * [MySQL](http://dev.mysql.com/downloads/installer/)
+    * [PHP](http://php.net/downloads.php)
+      * [Composer](https://getcomposer.org/download/)
+    * [Node.js](http://nodejs.org/download/)
+      * [Bower](http://bower.io/#install-bower)
+      * [Grunt](http://gruntjs.com/getting-started/)
+    * [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
+      * [Sass](http://sass-lang.com/install/)
 
-Once finished, you should run `ww --workstation` to complete the provisioning of your machine.
+But don't just take my word for it! Check out the [install](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install) script and [workstation.yml](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/ansible/workstation.yml) to follow along :thumbsup:
 
-## Local dependencies
-* [Git](http://git-scm.com/downloads)
-* [PHP](http://php.net/downloads.php)
-  * [Composer](https://getcomposer.org/download)
-* [Docker](https://docs.docker.com/installation/)
-  * [boot2docker](http://boot2docker.io/) (OS X only)
-  * [VirtualBox](https://www.virtualbox.org/wiki/Downloads) (OS X only)
-* [Ansible](http://docs.ansible.com/intro_installation.html)
-* [Terraform](https://www.terraform.io/downloads.html)
-* [AWS CLI](http://aws.amazon.com/cli/)
-* [Node.js](http://nodejs.org/download/)
-  * [Grunt](http://gruntjs.com/getting-started)
+## Next steps
+Once finished, close your terminal window and head over to one of the site repositories. There, you can read up on how to initialise your first site!

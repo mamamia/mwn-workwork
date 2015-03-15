@@ -4,7 +4,7 @@
 set -e
 
 # Wow, such ascii
-# http://patorjk.com/software/taag/#p=display&c=echo&f=Small%20Slant&t=workwork
+# Generated with: http://patorjk.com/software/taag/#p=display&c=echo&f=Small%20Slant&t=workwork
 echo
 echo "===========================================";
 echo "                  __                   __  ";
@@ -22,36 +22,17 @@ UNAME=`uname`
 UNAMEM=`uname -m`
 PLATFORM="unknown"
 
-# Utility functions
-type_exists() {
-  if [ $(type -P $1) ]; then
-    return 0
-  fi
-  return 1
-}
-
-install_app() {
-  if [ $PLATFORM == "osx" ]; then
-    brew install $1
-  elif [ $PLATFORM == "linux" ]; then
-    # Assumes Ubuntu/Debian for now
-    sudo apt-get install -yq $1
-  fi
-}
-
-# Install functions
 # Credit: http://stackoverflow.com/a/17072017
-# Credit: https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
 check_platform() {
   if [[ "$UNAME" == "Darwin" ]]; then
     PLATFORM="osx"
   elif [[ "$UNAME" == "Linux" ]]; then
     PLATFORM="linux"
   elif [[ "$UNAME" == "MINGW32_NT" ]]; then
-    echo "FATAL: WorkWork is not Windows compatible."
+    echo "FATAL: WorkWork is not Windows compatible"
     exit
   else
-    echo "FATAL: Could not detect the platform!"
+    echo "FATAL: Could not detect the platform"
     exit
   fi
 }
@@ -59,30 +40,17 @@ check_platform() {
 # Credit: http://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script
 check_64bit() {
   if [[ "$UNAMEM" != "x86_64" ]]; then
-    echo "FATAL: WorkWork requires a 64bit machine."
+    echo "FATAL: WorkWork requires a 64bit platform"
     exit
   fi
 }
 
-seek_confirmation() {
-  echo "CONFIRM: WorkWork is about to"
-  if [ $PLATFORM == "osx" ]; then
-    echo " - Install homebrew (if not found)"
-  fi
-  echo " - Install git (if not found)"
-  echo " - Install ansible (if not found)"
-  echo " - Clone mwn-workwork into ~/workspace (if not found)"
-  echo " - Setup dotfiles and local dependencies with Ansible"
-  echo
-  read -p "Are you okay with this? (y/n) " -n 1
-  if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
-    echo
-    echo "Exiting..."
-    echo
-    exit
+check_sudo() {
+  if type_exists "sudo"; then
+    echo "PASS: ${FUNCNAME}"
   else
-    echo
-    echo
+    echo "FATAL: WorkWork requires sudo"
+    exit
   fi
 }
 
@@ -97,7 +65,8 @@ check_homebrew() {
   fi
 }
 
-update_sources() {
+update_package_lists() {
+  echo "INFO: Updating package lists..."
   if [ $PLATFORM == "osx" ]; then
     brew update
   elif [ $PLATFORM == "linux" ]; then
@@ -122,7 +91,7 @@ check_ansible() {
   if type_exists "ansible"; then
     echo "PASS: ${FUNCNAME}"
   else
-    echo "INFO: Installing git..."
+    echo "INFO: Installing ansible..."
     install_app ansible
   fi
 }
@@ -136,9 +105,8 @@ check_workwork() {
   fi
 }
 
-run_playbooks() {
-  ansible-playbook "${WW_DIR}/ansible/install.yml" -i "${WW_DIR}/ansible/hosts"
-  ansible-playbook --ask-sudo-pass "${WW_DIR}/ansible/workstation.yml" -i "${WW_DIR}/ansible/hosts"
+run_playbook_workstation() {
+  ansible-playbook --ask-sudo-pass "${WW_DIR}/ansible/workstation.yml" -i "${WW_DIR}/ansible/inventory/hosts"
 }
 
 byebye() {
@@ -150,13 +118,30 @@ byebye() {
   echo
 }
 
+# Utility functions
+type_exists() {
+  if [ $(type -P $1) ]; then
+    return 0
+  fi
+  return 1
+}
+
+install_app() {
+  if [ $PLATFORM == "osx" ]; then
+    brew install $1
+  elif [ $PLATFORM == "linux" ]; then
+    # Assumes Ubuntu/Debian for now
+    sudo apt-get install -yq $1
+  fi
+}
+
 check_platform
 check_64bit
-seek_confirmation
+check_sudo
 check_homebrew
-update_sources
+update_package_lists
 check_git
 check_ansible
 check_workwork
-run_playbooks
+run_playbook_workstation
 byebye

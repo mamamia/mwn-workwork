@@ -1,0 +1,22 @@
+---
+- name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+  args:
+    creates: /usr/local/bin/composer
+
+- name: rename composer.phar to composer
+  shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer
+  args:
+    creates: /usr/local/bin/composer
+
+- name: make composer executable
+  file:
+    path: /usr/local/bin/composer
+    mode: 0755
+    state: file
+
+- name: install Sass
+  sudo: yes
+  shell: gem install sass
+  args:
+    creates: /usr/bin/sass

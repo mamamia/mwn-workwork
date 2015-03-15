@@ -1,0 +1,5 @@
+---
+- name: create system groups
+  group_by:
+    key: "sys_{{ ansible_system }}"
+  changed_when: false

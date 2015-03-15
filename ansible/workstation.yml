@@ -1,129 +1,27 @@
 ---
 - hosts: workstation
+  connection: local
+  roles:
+    - define_system
+    - workstation_add_bin
 
-  vars:
-    linux_libraries:
-      - git-core
-      - ruby-full
-      - nodejs
-      - docker.io
-    debian_libraries:
-      - mysql-server
-      - php5
-      - php5-curl
-      - php5-mysql
-    osx_libraries:
-      - git
-      - node
-      - brew-cask
-      - mysql
-      - docker-compose
-    osx_taps:
-      - caskroom/cask
-    osx_casks:
-      - boot2docker
-    npm_packages:
-      - grunt-cli
-      - grunt
-      - bower
+# OS X
+- hosts: sys_Darwin
+  connection: local
+  gather_facts: false
+  roles:
+    - workstation_darwin_tasks
 
-  tasks:
-    # Debian only
-    - name: Install Debian specific libraries
-      sudo: yes
-      apt: name=curl state=latest
-      when: ansible_distribution == 'Debian'
+# Linux
+- hosts: sys_Linux
+  connection: local
+  gather_facts: false
+  roles:
+    - workstation_linux_tasks
 
-    # Linux only
-    - name: Add nodesource repo
-      shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    - name: Update apt
-      sudo: yes
-      apt: update_cache=yes
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    - name: Install docker-compose
-      shell: curl --silent -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && sudo mv /tmp/docker-compose /usr/local/bin/docker-compose
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    - name: Add execute to docker-compose
-      sudo: yes
-      file:
-        path: "/usr/local/bin/docker-compose"
-        mode: u+rwx,g+rx,o+rx
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    # Debian only
-    - name: Install Debian specific libraries
-      sudo: yes
-      apt: name={{ item }} state=latest
-      with_items: debian_libraries
-      when: ansible_distribution == 'Debian'
-
-    - name: Install libraries with apt
-      sudo: yes
-      apt: name={{ item }} state=latest
-      with_items: linux_libraries
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-    - name: Install libraries with yum
-      sudo: yes
-      yum: name={{ item }} state=latest
-      with_items: linux_libraries
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    # OS X only
-    - name: Update homebrew
-      homebrew: update_homebrew=yes
-      when: ansible_distribution == 'MacOSX'
-
-    - name: Install homebrew taps
-      homebrew_tap: name={{ item }} state=present
-      with_items: osx_taps
-      when: ansible_distribution == 'MacOSX'
-
-    - name: Install libraries with homebrew
-      homebrew: name={{ item }} state=present
-      with_items: osx_libraries
-      when: ansible_distribution == 'MacOSX'
-
-    - name: Check for installed casks
-      shell: brew cask list | grep {{ item }}
-      register: installed_casks
-      with_items: osx_casks
-      changed_when: false
-      ignore_errors: true
-      when: ansible_distribution == 'MacOSX'
-
-    - name: Install missing casks
-      shell: brew cask install {{ item }}
-      with_items: osx_casks
-      when: ansible_distribution == 'MacOSX' and item not in installed_casks.results|map(attribute='stdout')
-
-    # All systems (with sudo)
-    - name: Install composer (with sudo)
-      shell: curl -sS https://getcomposer.org/installer | sudo php && sudo mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    - name: Install npm packages globally (with sudo)
-      sudo: yes
-      npm: global=yes name={{ item }}
-      with_items: npm_packages
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-    # All systems (without sudo)
-    - name: Install composer (without sudo)
-      shell: curl -sS https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
-      when: ansible_distribution == 'MacOSX'
-
-    - name: Install npm packages globally (without sudo)
-      npm: global=yes name={{ item }}
-      with_items: npm_packages
-      when: ansible_distribution == 'MacOSX'
-
-    # All systems
-    - name: Install Sass (with sudo)
-      sudo: yes
-      shell: gem install sass creates=/usr/bin/sass
+# Global
+- hosts: workstation
+  connection: local
+  gather_facts: false
+  roles:
+    - workstation_global_tasks

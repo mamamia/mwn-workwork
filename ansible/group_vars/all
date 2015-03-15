@@ -1,0 +1,5 @@
+bin_dir: "{{ ansible_env.HOME }}/workspace/mwn-workwork/bin"
+npm_packages:
+  - grunt-cli
+  - grunt
+  - bower

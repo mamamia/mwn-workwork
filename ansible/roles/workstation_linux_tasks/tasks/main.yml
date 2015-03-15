@@ -1,0 +1,35 @@
+---
+- name: Add nodesource repo
+  shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
+
+- name: Update apt
+  sudo: yes
+  apt: update_cache=yes
+
+- name: Install docker-compose
+  shell: curl --silent -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && sudo mv /tmp/docker-compose /usr/local/bin/docker-compose
+
+- name: Add execute to docker-compose
+  sudo: yes
+  file:
+    path: /usr/local/bin/docker-compose
+    mode: 0755
+
+# Debian only
+- name: Install Debian specific libraries
+  sudo: yes
+  apt: name={{ item }} state=latest
+  with_items: debian_libraries
+  when: ansible_distribution == 'Debian'
+
+- name: Install libraries with apt
+  sudo: yes
+  apt: name={{ item }} state=latest
+  with_items: linux_libraries
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install libraries with yum
+  sudo: yes
+  yum: name={{ item }} state=latest
+  with_items: linux_libraries
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

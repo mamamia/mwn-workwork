@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Credit: http://stackoverflow.com/a/9911082
 if [ -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
   DETECTED_SHELL="zsh"
   SHELLRC_DIR="${HOME}/.zshrc"

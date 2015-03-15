@@ -1,0 +1,10 @@
+osx_libraries:
+  - git
+  - node
+  - brew-cask
+  - mysql
+  - docker-compose
+osx_taps:
+  - caskroom/cask
+osx_casks:
+  - boot2docker
