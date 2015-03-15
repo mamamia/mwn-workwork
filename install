@@ -70,6 +70,9 @@ update_package_lists() {
   if [ $PLATFORM == "osx" ]; then
     brew update
   elif [ $PLATFORM == "linux" ]; then
+    # Assumes Ubuntu/Debian for now
+    sudo apt-get install software-properties-common
+    sudo apt-add-repository ppa:ansible/ansible
     sudo apt-get update
   fi
 }
