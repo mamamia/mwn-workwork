@@ -3,16 +3,22 @@
 # Run commands in the background
 # Credit: http://stackoverflow.com/a/15578203
 
+kill_existing() {
+  KILL_APPS=(
+    'apache2'
+    'nginx'
+    'mysql'
+    'grunt'
+  )
+  for APP in "${KILL_APPS[@]}"; do
+    PID=$(ps aux | grep "${APP}" | grep -v grep | awk '{print $2}')
+    if [[ $PID ]]; then
+      sudo kill $PID &
+    fi
+  done
+}
+
 grunt_watch() {
-  # Credit: http://unix.stackexchange.com/a/74186
-  PID_MYSQL=$(ps aux | grep "[m]ysql" | awk '{print $2}')
-  if [ $PID_MYSQL ]; then
-    kill $PID_MYSQL &
-  fi
-  PID_GRUNT=$(ps aux | grep "[g]runt" | awk '{print $2}')
-  if [ $PID_GRUNT ]; then
-    kill $PID_GRUNT &
-  fi
   cd ${SITE_DIR}/bedrock && grunt watch &
 }
 

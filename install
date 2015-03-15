@@ -120,11 +120,20 @@ run_playbook_workstation() {
 
 byebye() {
   echo
-  echo "All done! You're good to go."
-  echo "Start a new terminal window and run the following command to initialise your first project:"
-  echo
-  echo "ww init dd"
-  echo
+  echo "All done! You're almost good to go."
+  if [ $PLATFORM == "linux" ]; then
+    echo "If you're on Wheezy, you'll need to update your kernal with:"
+    echo
+    echo "sudo apt-get install -t wheezy-backports linux-image-amd64"
+    echo
+    echo "When it's done, reboot, then run ww init dd"
+    echo
+  else
+    echo "Start a new terminal window and run the following command to initialise your first project:"
+    echo
+    echo "ww init dd"
+    echo
+  fi
 }
 
 # Utility functions
