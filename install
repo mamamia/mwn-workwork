@@ -98,7 +98,7 @@ check_ansible() {
       brew install ansible
     elif [ $PLATFORM == "linux" ]; then
       # Assumes Debian for now
-      sudo apt-get -t wheezy-backports install ansible
+      sudo apt-get -t wheezy-backports install -y ansible
     fi
   fi
 }
