@@ -4,12 +4,18 @@
 # Credit: http://stackoverflow.com/a/15578203
 
 grunt_watch() {
+  # Credit: http://unix.stackexchange.com/a/74186
+  PID=$(ps aux | grep "[g]runt" | awk '{print $2}')
+  if [ $PID ]; then
+    kill $PID &
+  fi
   cd ${SITE_DIR}/bedrock && grunt watch &
 }
 
 docker_compose() {
   if [ $PLATFORM == "osx" ]; then
     boot2docker up 2>/dev/null
+    eval $(boot2docker shellinit)
     cd ${SITE_DIR}/docker && docker-compose up &
   else
     cd ${SITE_DIR}/docker && sudo docker-compose up &
