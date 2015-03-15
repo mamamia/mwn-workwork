@@ -49,32 +49,13 @@ display_ww_commands() {
   echo "Commands:"
   echo "   init       Initialise local development environment"
   echo "   start      Start local development environment"
+  echo "   update     Run git pull and composer update"
   echo "   updatedb   Overwrite local database with current production tables"
-  echo
-}
-
-display_wwprod_usage() {
-  echo "Usage: wwprod [--version] [--help] <command> [args]"
-  echo
-}
-
-display_wwprod_commands() {
-  echo "Commands:"
-  echo "   plan       ???"
-  echo "   apply      ???"
-  echo "   fix        ???"
-  echo "   show       ???"
   echo
 }
 
 display_ww_help() {
   display_ww_usage
   display_ww_commands
-  display_arguments
-}
-
-display_wwprod_help() {
-  display_wwprod_usage
-  display_wwprod_commands
   display_arguments
 }
