@@ -1,7 +1,7 @@
 ---
 - name: composer install
   composer:
-    command: install
+    # command: install (only avaliable in Ansible 1.8)
     no_dev: yes
     working_dir: "{{ deploy_release.path }}/bedrock"
 

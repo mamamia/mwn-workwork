@@ -21,4 +21,4 @@
   sudo: yes
   shell: gem install sass
   args:
-    creates: /usr/bin/sass
+    creates: /usr/bin/sass # This /usr/local/bin/sass on Debian
