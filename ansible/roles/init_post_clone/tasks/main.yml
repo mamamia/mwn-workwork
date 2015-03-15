@@ -23,6 +23,6 @@
   sudo: yes
   shell: "{{ item }}"
   with_items:
-   - {{ bin_dir }}/etchosts update web {{ docker_ip }}
-   - {{ bin_dir }}/etchosts update database {{ docker_ip }}
-   - {{ bin_dir }}/etchosts update www.{{ site_name }}.dev {{ docker_ip }}
+   - "{{ bin_dir }}/etchosts update web {{ docker_ip }}"
+   - "{{ bin_dir }}/etchosts update database {{ docker_ip }}"
+   - "{{ bin_dir }}/etchosts update www.{{ site_name }}.dev {{ docker_ip }}"
