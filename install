@@ -71,7 +71,6 @@ update_package_lists() {
     brew update
   elif [ $PLATFORM == "linux" ]; then
     # Assumes Ubuntu/Debian for now
-    sudo apt-get install software-properties-common
     sudo apt-add-repository ppa:ansible/ansible
     sudo apt-get update -yq
   fi
@@ -95,6 +94,7 @@ check_ansible() {
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Installing ansible..."
+    install_app software-properties-common
     install_app ansible
   fi
 }
