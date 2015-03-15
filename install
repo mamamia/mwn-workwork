@@ -70,9 +70,9 @@ update_package_lists() {
   if [ $PLATFORM == "osx" ]; then
     brew update
   elif [ $PLATFORM == "linux" ]; then
-    # Assumes Ubuntu/Debian for now
-    sudo apt-add-repository ppa:ansible/ansible
-    sudo apt-get update -yq
+    # Assumes Debian for now
+    sudo sh -c "echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports.list" # For ansible
+    sudo apt-get update -y
   fi
 }
 
@@ -82,9 +82,9 @@ check_git() {
   else
     echo "INFO: Installing git..."
     if [ $PLATFORM == "osx" ]; then
-      install_app git
+      brew install git
     elif [ $PLATFORM == "linux" ]; then
-      install_app git-core
+      sudo apt-get -y git-core
     fi
   fi
 }
@@ -94,8 +94,12 @@ check_ansible() {
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Installing ansible..."
-    install_app software-properties-common
-    install_app ansible
+    if [ $PLATFORM == "osx" ]; then
+      brew install ansible
+    elif [ $PLATFORM == "linux" ]; then
+      # Assumes Debian for now
+      apt-get -t wheezy-backports install ansible
+    fi
   fi
 }
 
@@ -127,15 +131,6 @@ type_exists() {
     return 0
   fi
   return 1
-}
-
-install_app() {
-  if [ $PLATFORM == "osx" ]; then
-    brew install $1
-  elif [ $PLATFORM == "linux" ]; then
-    # Assumes Ubuntu/Debian for now
-    sudo apt-get install -yq $1
-  fi
 }
 
 check_platform
