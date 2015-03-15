@@ -20,3 +20,7 @@
     name: "{{ item }}"
     state: present
   with_items: osx_casks
+
+- name: install npm packages
+  npm: global=yes name={{ item }}
+  with_items: npm_packages
