@@ -5,9 +5,13 @@
 
 grunt_watch() {
   # Credit: http://unix.stackexchange.com/a/74186
-  PID=$(ps aux | grep "[g]runt" | awk '{print $2}')
-  if [ $PID ]; then
-    kill $PID &
+  PID_MYSQL=$(ps aux | grep "[m]ysql" | awk '{print $2}')
+  if [ $PID_MYSQL ]; then
+    kill $PID_MYSQL &
+  fi
+  PID_GRUNT=$(ps aux | grep "[g]runt" | awk '{print $2}')
+  if [ $PID_GRUNT ]; then
+    kill $PID_GRUNT &
   fi
   cd ${SITE_DIR}/bedrock && grunt watch &
 }
