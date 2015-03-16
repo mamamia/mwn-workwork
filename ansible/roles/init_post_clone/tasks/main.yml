@@ -10,7 +10,7 @@
     path: "{{ deploy_release.path }}/bedrock"
 
 - name: bower install
-  shell: "cd {{ deploy_release.path }}/bedrock && bower install"
+  shell: "cd {{ deploy_release.path }}/bedrock && bower install --config.interactive=false"
 
 - name: run grunt
   shell: "cd {{ deploy_release.path }}/bedrock && grunt"
