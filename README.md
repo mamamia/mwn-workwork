@@ -43,3 +43,8 @@ But don't just take my word for it! Check out the [install](https://raw.githubus
 
 ## Next steps
 Once finished, close your terminal window and head over to one of the site repositories. There, you can read up on how to initialise your first site!
+
+## Troubleshooting
+### Docker i/o timeout
+**Problem:** `ww start [site]` errors with `dial tcp: lookup index.docker.io on 192.168.178.1:53: read udp 192.168.178.1:53: i/o timeout`
+**Solution:** Run `boot2docker stop && boot2docker start && ww start [site]`
