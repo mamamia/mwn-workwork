@@ -1,0 +1,14 @@
+#!/bin/bash
+
+stop_docker() {
+  cd ${SITE_DIR}/docker
+
+  # clean stopped containers (if any)
+  docker ps -a | grep Exited | cut -d ' ' -f 1 | xargs docker rm
+
+  if [ $PLATFORM == "osx" ]; then
+    boot2docker stop 2>/dev/null
+  else
+    cd ${SITE_DIR}/docker && sudo docker-compose stop &
+  fi
+}

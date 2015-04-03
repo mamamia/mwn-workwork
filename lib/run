@@ -21,6 +21,14 @@ run_start() {
   display_status_secondary "PASS" "Completed all tasks!"
 }
 
+run_stop() {
+  display_status_primary "INFO" "Stopping ${SITE_FULL_NAME}"
+  check_sudo
+  kill_existing
+  stop_docker
+  display_status_secondary "PASS" "Completed all tasks!"
+}
+
 run_update() {
   display_status_primary "INFO" "Running update for ${SITE_FULL_NAME}"
   update_git
