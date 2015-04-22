@@ -67,8 +67,11 @@ setup_site() {
     SITE_NAME="debriefdaily"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
     SITE_PROD_URL="www.${SITE_NAME}.com"
-  # elif [ $1 = "mm" ]; then
-  #   # Etc
+  elif [ $1 = "mm" ]; then
+    SITE_FULL_NAME="Mamamia"
+    SITE_NAME="mamamia"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_PROD_URL="www.${SITE_NAME}.com.au"
   fi
 }
 
