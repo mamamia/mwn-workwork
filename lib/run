@@ -9,7 +9,7 @@ run_workstation() {
 run_init() {
   display_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
   run_ansible_playbook_init
-  display_status_secondary "PASS" "Completed init tasks, start the local development environment!"
+  display_status_secondary "PASS" "Completed init tasks! You may run ww start now."
 }
 
 run_start() {

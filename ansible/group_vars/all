@@ -1,8 +1,8 @@
 bin_dir:               "{{ ansible_env.HOME }}/workspace/mwn-workwork/bin"
 app_env:               dev
-wp_home:               http://www.debriefdaily.dev
-wp_site_url:           http://www.debriefdaily.dev/wp
-db_name:               wordpress
+wp_home:               "http://www.{{ site_name }}.dev"
+wp_site_url:           "http://www.{{ site_name }}.dev/wp"
+db_name:               "{{ site_name }}"
 db_user:               wordpress
 db_password:           wordpress
 db_host:               database
