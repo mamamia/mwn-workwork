@@ -1,0 +1,20 @@
+database:
+  # https://github.com/cofoundry/dockerfiles/tree/master/mysql
+  image: cofoundry/mysql
+  environment:
+    - MYSQL_USER=wordpress
+    - MYSQL_PASS=wordpress
+    - MYSQL_DB=wordpress
+  ports:
+    - "3306:3306"
+  privileged: true
+
+nginxproxy:
+  # https://github.com/jwilder/nginx-proxy
+  image: jwilder/nginx-proxy
+  ports:
+    - "80:80"
+  volumes:
+     - /var/run/docker.sock:/tmp/docker.sock
+     - ../config/nginxproxy.conf:/etc/nginx/nginx.conf # custom config, to turn off access.log stdout
+  restart: always

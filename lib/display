@@ -41,7 +41,7 @@ display_arguments() {
 }
 
 display_ww_usage() {
-  echo "Usage: ww [--workstation] [--version] [--help] <command> [args] [--local]"
+  echo "Usage: ww [--workstation] [--version] [--help] [--shutdown] <command> [args] [--local]"
   echo
 }
 

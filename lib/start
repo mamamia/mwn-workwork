@@ -22,12 +22,37 @@ grunt_watch() {
   cd ${SITE_DIR}/bedrock && grunt watch &
 }
 
-docker_compose() {
+
+# Run mwn-workwork proxy and database container, common for all sites
+docker_compose_common(){
+  # 1. Start boot2docker
   if [ $PLATFORM == "osx" ]; then
     boot2docker up 2>/dev/null
     eval $(boot2docker shellinit)
-    cd ${SITE_DIR}/docker && docker-compose up &
+  fi
+
+  # 2. Check if proxy container is running
+  if [[ "$(docker inspect -f {{.State.Running}} docker_nginxproxy_1)" == "true" ]]; then
+    echo "Proxy is running, no need to run workwork docker-compose."
   else
-    cd ${SITE_DIR}/docker && sudo docker-compose up &
+    docker_compose $WW_DIR
+
+    # wait for the database container
+    # sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}:3306' docker_database_1 | xargs wget --retry-connrefused --tries=5 -q --wait=3 --spider
+    # the following is not working on mac, also possible with nc -z database 3306
+    sleep 5
+    wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
+  fi
+  
+  # 3. Fire per-site container
+  docker_compose $SITE_DIR
+}
+
+# Run per-site container
+docker_compose() {
+  if [ $PLATFORM == "osx" ]; then
+    cd ${1}/docker && docker-compose up &
+  else
+    cd ${1}/docker && sudo docker-compose up &
   fi
 }

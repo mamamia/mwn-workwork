@@ -17,15 +17,21 @@ run_start() {
   check_sudo
   kill_existing
   grunt_watch
-  docker_compose
+  docker_compose_common
   display_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_stop() {
   display_status_primary "INFO" "Stopping ${SITE_FULL_NAME}"
+  stop_docker $1
+  display_status_secondary "PASS" "Container stopped"
+}
+
+run_shutdown() {
+  display_status_primary "INFO" "Shutting down"
   check_sudo
   kill_existing
-  stop_docker
+  shutdown_docker
   display_status_secondary "PASS" "Completed all tasks!"
 }
 

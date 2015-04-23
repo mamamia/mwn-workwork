@@ -57,6 +57,9 @@ case "$1" in
   --workstation)
     run_workstation
     ;;
+  --shutdown)
+    run_shutdown
+    ;;
   *)
     case "$2" in
       *)
