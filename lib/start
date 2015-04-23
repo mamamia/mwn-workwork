@@ -40,8 +40,12 @@ docker_compose_common(){
     # wait for the database container
     # sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}:3306' docker_database_1 | xargs wget --retry-connrefused --tries=5 -q --wait=3 --spider
     # the following is not working on mac, also possible with nc -z database 3306
-    sleep 5
-    wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
+    #wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
+    sleep 2
+    until [ "`docker inspect -f {{.State.Running}} docker_database_1`" == "true" ]; do
+      echo "...Waiting for container to start"
+      sleep 3;
+    done;
   fi
   
   # 3. Fire per-site container

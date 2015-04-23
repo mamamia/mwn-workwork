@@ -1,0 +1,2 @@
+CREATE DATABASE mamamia;
+CREATE DATABASE debriefdaily;

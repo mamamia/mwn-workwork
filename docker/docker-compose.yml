@@ -5,6 +5,8 @@ database:
     - MYSQL_USER=wordpress
     - MYSQL_PASS=wordpress
     - MYSQL_DB=wordpress
+  volumes:
+    - ../config/create_db.sql:/var/lib/mysql/setup/create_db.sql
   ports:
     - "3306:3306"
   privileged: true
