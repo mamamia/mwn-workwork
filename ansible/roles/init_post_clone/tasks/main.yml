@@ -1,4 +1,7 @@
 ---
+- name: composer self-update
+  shell: composer self-update
+
 - name: composer install
   composer:
     # command: install (only avaliable in Ansible 1.8)
