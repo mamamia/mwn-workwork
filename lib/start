@@ -45,6 +45,7 @@ docker_compose_common(){
     until [ "`docker inspect -f {{.State.Running}} docker_database_1`" == "true" ]; do
       echo "...Waiting for container to start"
       sleep 3;
+      wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
     done;
   fi
   

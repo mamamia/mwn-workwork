@@ -14,9 +14,9 @@ database:
 nginxproxy:
   # https://github.com/jwilder/nginx-proxy
   image: jwilder/nginx-proxy
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    #- ../config/nginxproxy.conf:/etc/nginx/nginx.conf # custom config, to turn off access.log stdout
   ports:
     - "80:80"
-  volumes:
-     - /var/run/docker.sock:/tmp/docker.sock
-     - ../config/nginxproxy.conf:/etc/nginx/nginx.conf # custom config, to turn off access.log stdout
   restart: always
