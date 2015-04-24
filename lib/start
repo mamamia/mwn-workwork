@@ -36,15 +36,15 @@ docker_compose_common(){
     echo "Proxy is running, no need to run workwork docker-compose."
   else
     docker_compose $WW_DIR
+    sleep 12
 
     # wait for the database container
     # sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}:3306' docker_database_1 | xargs wget --retry-connrefused --tries=5 -q --wait=3 --spider
     # the following is not working on mac, also possible with nc -z database 3306
     #wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
-    sleep 2
     until [ "`docker inspect -f {{.State.Running}} docker_database_1`" == "true" ]; do
       echo "...Waiting for container to start"
-      sleep 3;
+      sleep 2;
       wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
     done;
   fi

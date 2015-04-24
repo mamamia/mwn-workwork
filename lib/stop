@@ -1,16 +1,13 @@
 #!/bin/bash
 
 stop_docker() {
-  # remove only per-site container
+  # stop only per-site container
   docker stop docker_${1}web_1
 }
 
 shutdown_docker() {
-  # stop all currently running containers
-  docker stop $(docker ps -a -q)
-
-  # cleanup Exited containers (if any)
-  docker ps -a | grep Exited | cut -d ' ' -f 1 | xargs docker rm
+  # stop and remove all currently running containers
+  docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
 
   if [ $PLATFORM == "osx" ]; then
     boot2docker stop 2>/dev/null

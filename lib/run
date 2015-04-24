@@ -16,8 +16,8 @@ run_start() {
   display_status_primary "INFO" "Running start for ${SITE_FULL_NAME}"
   check_sudo
   kill_existing
-  grunt_watch
   docker_compose_common
+  grunt_watch
   display_status_secondary "PASS" "Completed all tasks!"
 }
 
@@ -32,7 +32,7 @@ run_shutdown() {
   check_sudo
   kill_existing
   shutdown_docker
-  display_status_secondary "PASS" "Completed all tasks!"
+  display_status_secondary "PASS" "See You Space Cowboy!"
 }
 
 run_update() {
