@@ -37,6 +37,7 @@ display_arguments() {
   echo "   iv         iVillage (coming soon)"
   echo "   tg         The Glow (coming soon)"
   echo "   rh         Random Harry (coming soon)"
+  echo "   tm         The Motherish (coming soon)"
   exit 1
 }
 

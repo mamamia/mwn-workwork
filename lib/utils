@@ -72,6 +72,11 @@ setup_site() {
     SITE_NAME="mamamia"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
     SITE_PROD_URL="www.${SITE_NAME}.com.au"
+  elif [ $1 = "tm" ]; then
+    SITE_FULL_NAME="The Motherish"
+    SITE_NAME="themotherish"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_PROD_URL="www.${SITE_NAME}.com"
   fi
 }
 
