@@ -32,8 +32,8 @@ docker_compose_common(){
   fi
 
   # 2. Check if proxy container is running
-  if [[ "$(docker inspect -f {{.State.Running}} docker_nginxproxy_1)" == "true" ]]; then
-    echo "Proxy is running, no need to run workwork docker-compose."
+  if [[ "$(docker inspect -f {{.State.Running}} docker_database_1)" == "true" ]]; then
+    echo "Database is running, no need to run workwork docker-compose."
   else
     docker_compose $WW_DIR
     sleep 12

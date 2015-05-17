@@ -21,7 +21,7 @@ http {
 
     access_log  off;
 
-    sendfile        on;
+    sendfile        off;
     #tcp_nopush     on;
 
     keepalive_timeout  65;
