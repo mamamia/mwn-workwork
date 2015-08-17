@@ -1,0 +1,219 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    overflow: hidden;
+    font: 400 14px/100% arial, sans-serif;
+}
+
+ 
+tr td {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    height: 20px;
+    width: auto;
+    -webkit-transition: 300ms background-color;
+    -moz-transition: 300ms background-color;
+}
+ 
+tr td:hover {
+    -webkit-transition: 0ms background-color;
+    -moz-transition: 0ms background-color;
+}
+ 
+tr td[type='number'] {
+    width: 30px;
+    font-size: 12px;
+    text-align: center;
+}
+ 
+tr td[type='item'] {
+    display: block;
+    font-size: 12px;
+    overflow: hidden;
+    padding-left: 5px;
+    line-height: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+ 
+tr td[type='close'] {
+    background: url('close-black.png') no-repeat center center;
+    cursor: pointer;
+    width: 30px;
+}
+ 
+tr td[type='close']:hover {
+    background: #C75050 url('close-white.png') no-repeat center center;
+}
+ 
+input {
+    border: 0;
+    margin: 0;
+    padding: 0 10px;
+    height: 25px;
+    outline: none;
+    font-size: 14px;
+    color: #8f9b92;
+}
+
+.section {
+    padding: 22px 20px 20px;
+    border-bottom: 1px solid #f5f5f5;
+}
+.section:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+
+/* ==================
+ * Enable/Disable section
+ * ================== */
+#information-span {
+    font: 600 14px/100% arial, sans-serif;
+    margin-top: 3px;
+    color: #8f9b92;
+    display: block;
+    float: left;
+}
+
+#start-stop-button {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    width: 43px;
+    height: 22px;
+    background: #e85037 url(settings-checkbox.png) 0 100% no-repeat;
+    border-radius: 3px;
+    margin-top: -1px;
+}
+
+#start-stop-button:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#start-stop-button[state='enable'] {
+    background: #4bcf69 url(settings-checkbox.png) 0 0 no-repeat;
+}
+
+#start-stop-button[state='enable']:before {
+    right: 1px;
+    left: auto;
+}
+
+
+/* ==================
+ * Website list section
+ * ================== */
+#website-list {
+    height: 250px;
+    overflow: auto;
+    display: block;
+    min-height: 250px;
+    max-height: 250px;
+    background-color: #f5f5f5;
+}
+ 
+#website-list-table {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: list-counter;
+}
+
+#website-list-table li {
+    position: relative;
+}
+
+#website-list-table li > span {
+    position: absolute;
+    display: block;
+    width: 28px;
+    height: 24px;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+    background: url('close-black.png') no-repeat center center;
+    z-index: 10;
+}
+
+#website-list-table li > span:hover {
+    background: #434343 url('close-white.png') no-repeat center center;
+}
+
+#website-list-table li a {
+    color: #8f9b92;
+    font: 400 14px/100% arial, sans-serif;
+    text-decoration: none;
+    display: block;
+    position: relative;
+    padding: 5px 10px 5px 35px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    outline: none;
+}
+
+#website-list-table li a:before {
+    content: counter(list-counter);
+    counter-increment: list-counter;
+    position: absolute;
+    left: 9px;
+    top: 5px;
+    font: normal 14px/1 Sans-Serif;
+    opacity: 0.7;
+}
+
+#website-list-table li a:hover {
+    background-color: #e4e4e4;
+    color: #000;
+}
+
+/* ==================
+ * Footer section
+ * ================== */
+#footer.section {
+    -webkit-border-radius: 0 0 2px 2px;
+    border-radius: 0 0 2px 2px;
+    text-align: center;
+    border-top: 0;
+    background-color: #434343;
+}
+
+#footer.section input {
+    width: 280px;
+}
+
+#footer.section input,
+#footer.section span {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#footer.section #input-field-add {
+    width: 47px;
+    height: 25px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #337ab7 url('add.png') no-repeat center center;
+    cursor: pointer;
+}
+
+#footer.section #input-field-add[state='disable'] {
+    background-color: #808080;
+}
+ 
+#footer.section #input-field-add:hover {
+    background-color: #286090;
+}
