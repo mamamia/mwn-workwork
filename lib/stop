@@ -1,0 +1,17 @@
+#!/bin/bash
+
+stop_docker() {
+  # stop only per-site container
+  docker stop docker_${1}web_1
+}
+
+shutdown_docker() {
+  # stop and remove all currently running containers
+  docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+
+  if [ $PLATFORM == "osx" ]; then
+    boot2docker stop 2>/dev/null
+  else
+    cd ${SITE_DIR}/docker && sudo docker-compose stop &
+  fi
+}

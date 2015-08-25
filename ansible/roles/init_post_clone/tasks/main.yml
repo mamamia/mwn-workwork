@@ -1,4 +1,7 @@
 ---
+- name: composer self-update
+  shell: composer self-update
+
 - name: composer install
   composer:
     # command: install (only avaliable in Ansible 1.8)
@@ -11,6 +14,9 @@
 
 - name: bower install
   shell: "cd {{ deploy_release.path }}/bedrock && bower install --config.interactive=false"
+
+- name: bower install codepool
+  shell: "cd {{ deploy_release.path }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
 - name: run grunt
   shell: "cd {{ deploy_release.path }}/bedrock && grunt"
@@ -25,4 +31,5 @@
   with_items:
    - "{{ bin_dir }}/etchosts update web {{ docker_ip }}"
    - "{{ bin_dir }}/etchosts update database {{ docker_ip }}"
+   - "{{ bin_dir }}/etchosts update {{ site_name }}.dev {{ docker_ip }}" # add www and non www
    - "{{ bin_dir }}/etchosts update www.{{ site_name }}.dev {{ docker_ip }}"

@@ -7,7 +7,7 @@
   apt: update_cache=yes
 
 - name: install docker-compose
-  shell: curl --silent -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
+  shell: curl --silent -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
   args:
     creates: /usr/local/bin/docker-compose
 

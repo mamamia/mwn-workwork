@@ -10,22 +10,29 @@ type_exists() {
 
 # Compares git hashes
 check_version() {
-  cd $WW_DIR && git fetch --quiet
-  # Version
-  VER_LOCAL=$(git rev-parse @{0})
-  VER_REMOTE=$(git rev-parse @{u})
-  VER_BASE=$(git merge-base @{0} @{u})
-  if [ $VER_LOCAL = $VER_REMOTE ]; then
-    :
-  elif [ $VER_LOCAL = $VER_BASE ]; then
-    display_status_primary "INFO" "Updating WorkWork..."
-    cd $WW_DIR && git pull --quiet origin master
-    # Start the command over with the updated files
-    exec "$0" "$1" "$2"
-  elif [ $VER_REMOTE = $VER_BASE ]; then
-    display_status_primary "WARN" "Please push your changes to the remote..."
+  cd $WW_DIR
+
+  # First test if we can fetch
+  if [[ "$(git fetch --dry-run 2>&1 | grep 'Could not resolve host' )" != "" ]]; then
+      echo "Internet isn't present, skip fetching"
   else
-    display_status_primary "ERROR" "Can't update WorkWork due to local changes..."
+      git fetch --quiet
+      # Compare versions
+      VER_LOCAL=$(git rev-parse @{0})
+      VER_REMOTE=$(git rev-parse @{u})
+      VER_BASE=$(git merge-base @{0} @{u})
+      if [ $VER_LOCAL = $VER_REMOTE ]; then
+        :
+      elif [ $VER_LOCAL = $VER_BASE ]; then
+        display_status_primary "INFO" "Updating WorkWork..."
+        cd $WW_DIR && git pull --quiet origin master
+        # Start the command over with the updated files
+        exec "$0" "$1" "$2"
+      elif [ $VER_REMOTE = $VER_BASE ]; then
+        display_status_primary "WARN" "Please push your changes to the remote..."
+      else
+        display_status_primary "ERROR" "Can't update WorkWork due to local changes..."
+      fi
   fi
 }
 
@@ -60,8 +67,16 @@ setup_site() {
     SITE_NAME="debriefdaily"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
     SITE_PROD_URL="www.${SITE_NAME}.com"
-  # elif [ $1 = "mm" ]; then
-  #   # Etc
+  elif [ $1 = "mm" ]; then
+    SITE_FULL_NAME="Mamamia"
+    SITE_NAME="mamamia"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_PROD_URL="www.${SITE_NAME}.com.au"
+  elif [ $1 = "tm" ]; then
+    SITE_FULL_NAME="The Motherish"
+    SITE_NAME="themotherish"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_PROD_URL="www.${SITE_NAME}.com"
   fi
 }
 

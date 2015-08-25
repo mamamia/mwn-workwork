@@ -37,11 +37,12 @@ display_arguments() {
   echo "   iv         iVillage (coming soon)"
   echo "   tg         The Glow (coming soon)"
   echo "   rh         Random Harry (coming soon)"
+  echo "   tm         The Motherish (coming soon)"
   exit 1
 }
 
 display_ww_usage() {
-  echo "Usage: ww [--workstation] [--version] [--help] <command> [args]"
+  echo "Usage: ww [--workstation] [--version] [--help] [--shutdown] <command> [args] [--local]"
   echo
 }
 
@@ -49,6 +50,7 @@ display_ww_commands() {
   echo "Commands:"
   echo "   init       Initialise local development environment"
   echo "   start      Start local development environment"
+  echo "   stop       Stop local development environment"
   echo "   update     Run git pull and composer update"
   echo "   updatedb   Overwrite local database with current production tables"
   echo
