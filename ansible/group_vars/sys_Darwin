@@ -3,8 +3,7 @@ osx_libraries:
   - node
   - brew-cask
   - mysql
-  - docker-compose
 osx_taps:
   - caskroom/cask
 osx_casks:
-  - boot2docker
+  - dockertoolbox
