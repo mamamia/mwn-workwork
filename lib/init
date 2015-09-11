@@ -1,7 +1,7 @@
 #!/bin/bash
 
 run_ansible_playbook_init() {
-  display_status_secondary "INFO" "[ Running ansible-playbook... ]"
+  print_status_secondary "INFO" "[ Running ansible-playbook... ]"
   ansible-playbook \
   --ask-sudo-pass \
   "${WW_DIR}/ansible/init.yml" \

@@ -43,16 +43,16 @@ case "$1" in
         run_$1 $2
         ;;
       $INVALID_ARGUMENTS)
-        display_status_primary "ERROR" "Invalid or missing argument"
-        display_ww_help
+        print_status_primary "ERROR" "Invalid or missing argument"
+        print_ww_help
         ;;
     esac
     ;;
   --help)
-    display_ww_help
+    print_ww_help
     ;;
   --version)
-    display_version
+    print_version
     ;;
   --workstation)
     run_workstation
@@ -63,8 +63,8 @@ case "$1" in
   *)
     case "$2" in
       *)
-        display_status_primary "ERROR" "Invalid command '$1'"
-        display_ww_help
+        print_status_primary "ERROR" "Invalid command '$1'"
+        print_ww_help
         ;;
       esac
     ;;

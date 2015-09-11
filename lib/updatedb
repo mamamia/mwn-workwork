@@ -11,7 +11,7 @@ update_db() {
   else
     # if no DB file, exit
     if [ ! -f ${SITE_DIR}/bedrock/db-sync/wordpress.sql ]; then
-      display_status_secondary "ERROR" "No wordpress.sql file found under ${SITE_DIR}/bedrock/db-sync/, upload file or remove --local"
+      print_status_secondary "ERROR" "No wordpress.sql file found under ${SITE_DIR}/bedrock/db-sync/, upload file or remove --local"
       exit
     fi
   fi

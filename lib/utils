@@ -24,14 +24,14 @@ check_version() {
       if [ $VER_LOCAL = $VER_REMOTE ]; then
         :
       elif [ $VER_LOCAL = $VER_BASE ]; then
-        display_status_primary "INFO" "Updating workwork..."
+        print_status_primary "INFO" "Updating workwork..."
         cd $WW_DIR && git pull --quiet origin master
         # Start the command over with the updated files
         exec "$0" "$1" "$2"
       elif [ $VER_REMOTE = $VER_BASE ]; then
-        display_status_primary "WARN" "Please push your changes to the remote..."
+        print_status_primary "WARN" "Please push your changes to the remote..."
       else
-        display_status_primary "ERROR" "Can't update workwork due to local changes..."
+        print_status_primary "ERROR" "Can't update workwork due to local changes..."
       fi
   fi
 }

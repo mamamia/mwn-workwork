@@ -1,49 +1,49 @@
 #!/bin/bash
 
 run_workstation() {
-  display_status_primary "INFO" "Updating workstation"
+  print_status_primary "INFO" "Updating workstation"
   run_ansible_playbook_workstation
-  display_status_secondary "PASS" "Completed all tasks!"
+  print_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_init() {
-  display_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
+  print_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
   run_ansible_playbook_init
-  display_status_secondary "PASS" "Completed init tasks! You may run ww start now."
+  print_status_secondary "PASS" "Completed init tasks! You may run ww start now."
 }
 
 run_start() {
-  display_status_primary "INFO" "Running start for ${SITE_FULL_NAME}"
+  print_status_primary "INFO" "Running start for ${SITE_FULL_NAME}"
   check_sudo
   kill_existing
   docker_compose_common
   grunt_watch
-  display_status_secondary "PASS" "Completed all tasks!"
+  print_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_stop() {
-  display_status_primary "INFO" "Stopping ${SITE_FULL_NAME}"
+  print_status_primary "INFO" "Stopping ${SITE_FULL_NAME}"
   stop_docker $1
-  display_status_secondary "PASS" "Container stopped"
+  print_status_secondary "PASS" "Container stopped"
 }
 
 run_shutdown() {
-  display_status_primary "INFO" "Shutting down"
+  print_status_primary "INFO" "Shutting down"
   check_sudo
   kill_existing
   shutdown_docker
-  display_status_secondary "PASS" "See You Space Cowboy!"
+  print_status_secondary "PASS" "See You Space Cowboy!"
 }
 
 run_update() {
-  display_status_primary "INFO" "Running update for ${SITE_FULL_NAME}"
+  print_status_primary "INFO" "Running update for ${SITE_FULL_NAME}"
   update_git
-  display_status_secondary "PASS" "Completed all tasks!"
+  print_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_updatedb() {
-  display_status_primary "INFO" "Running updatedb for ${SITE_FULL_NAME}"
+  print_status_primary "INFO" "Running updatedb for ${SITE_FULL_NAME}"
   check_sudo
   update_db
-  display_status_secondary "PASS" "Completed all tasks!"
+  print_status_secondary "PASS" "Completed all tasks!"
 }
