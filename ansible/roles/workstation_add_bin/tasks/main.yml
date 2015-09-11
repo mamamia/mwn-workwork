@@ -3,24 +3,24 @@
   action: detect_shell # This returns the varibles `detected_shell` and `shellrc_dir`
   changed_when: false
 
-- name: add WorkWork bin to PATH in .bashrc or .zshrc
+- name: add workwork bin to PATH in .bashrc or .zshrc
   lineinfile:
     dest: "{{ shellrc_dir }}"
-    regexp: "MWN WorkWork bin path"
-    line: "export PATH=$PATH:{{ bin_dir }} # MWN WorkWork bin path (added with workstation.yml)"
+    regexp: "workwork bin path"
+    line: "export PATH=$PATH:{{ bin_dir }} # workwork bin path (added with workstation.yml)"
     create: yes
     state: present
 
-- name: add WorkWork bin to PATH in .bash_profile
+- name: add workwork bin to PATH in .bash_profile
   lineinfile:
     dest: "{{ ansible_env.HOME }}/.bash_profile"
-    regexp: "MWN WorkWork bin path"
-    line: "export PATH=$PATH:{{ bin_dir }} # MWN WorkWork bin path (added with workstation.yml)"
+    regexp: "workwork bin path"
+    line: "export PATH=$PATH:{{ bin_dir }} # workwork bin path (added with workstation.yml)"
     create: yes
     state: present
   when: detected_shell == "bash"
 
-- name: add execute to files in WorkWork bin
+- name: add execute to files in workwork bin
   file:
     path: "{{ bin_dir }}"
     mode: 0755
@@ -29,8 +29,8 @@
 - name: add boot2docker shellinit .bashrc or .zshrc
   lineinfile:
     dest: "{{ shellrc_dir }}"
-    regexp: "MWN WorkWork boot2docker"
-    line: "if [ $(type -P boot2docker) ]; then eval $(boot2docker shellinit); fi # MWN WorkWork boot2docker (added with workstation.yml)"
+    regexp: "workwork boot2docker"
+    line: "if [ $(type -P boot2docker) ]; then eval $(boot2docker shellinit); fi # workwork boot2docker (added with workstation.yml)"
     create: yes
     state: present
   when: ansible_distribution == "MacOSX"
@@ -38,8 +38,8 @@
 - name: add boot2docker shellinit .bash_profile
   lineinfile:
     dest: "{{ ansible_env.HOME }}/.bash_profile"
-    regexp: "MWN WorkWork boot2docker"
-    line: "if [ $(type -P boot2docker) ]; then eval $(boot2docker shellinit); fi # MWN WorkWork boot2docker (added with workstation.yml)"
+    regexp: "workwork boot2docker"
+    line: "if [ $(type -P boot2docker) ]; then eval $(boot2docker shellinit); fi # workwork boot2docker (added with workstation.yml)"
     create: yes
     state: present
   when: ansible_distribution == "MacOSX" and detected_shell == "bash"

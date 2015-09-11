@@ -1,7 +1,7 @@
-# MWN WorkWork
-[WorkWork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools the same way.
+# workwork
+[workwork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools the same way.
 
-[WorkWork](http://www.myinstants.com/media/sounds/wc3-peon-says-work-work-only-.mp3) has been designed to be run right after a fresh OS install, so mileage may vary on established machines. If you come across any errors or bad code: fix, document, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/) :ok_hand:
+[workwork](http://www.myinstants.com/media/sounds/wc3-peon-says-work-work-only-.mp3) has been designed to be run right after a fresh OS install, so mileage may vary on established machines. If you come across any errors or bad code: fix, document, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/) :ok_hand:
 
 ## Requirements
 

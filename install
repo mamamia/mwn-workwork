@@ -29,7 +29,7 @@ check_platform() {
   elif [[ "$UNAME" == "Linux" ]]; then
     PLATFORM="linux"
   elif [[ "$UNAME" == "MINGW32_NT" ]]; then
-    echo "FATAL: WorkWork is not Windows compatible"
+    echo "FATAL: workwork is not Windows compatible"
     exit
   else
     echo "FATAL: Could not detect the platform"
@@ -40,7 +40,7 @@ check_platform() {
 # Credit: http://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script
 check_64bit() {
   if [[ "$UNAMEM" != "x86_64" ]]; then
-    echo "FATAL: WorkWork requires a 64bit platform"
+    echo "FATAL: workwork requires a 64bit platform"
     exit
   fi
 }
@@ -49,7 +49,7 @@ check_sudo() {
   if type_exists "sudo"; then
     echo "PASS: ${FUNCNAME}"
   else
-    echo "FATAL: WorkWork requires sudo"
+    echo "FATAL: workwork requires sudo"
     exit
   fi
 }
@@ -109,7 +109,7 @@ check_workwork() {
   if [ -d "${WW_DIR}" ]; then
     echo "PASS: ${FUNCNAME}"
   else
-    echo "INFO: Cloning WorkWork..."
+    echo "INFO: Cloning workwork..."
     git clone --quiet https://github.com/mamamia/mwn-workwork.git $WW_DIR
   fi
 }
