@@ -21,17 +21,6 @@ source ./lib/update
 source ./lib/updatedb
 source ./lib/run
 
-# if no --local supplied, check for git updates
-# set IS_LOCAL variable true/false
-case "$3" in
-  --local)
-    IS_LOCAL=1
-  ;;
-  *)
-    check_version
-  ;;
-esac
-
 check_shell
 check_platform
 
@@ -47,6 +36,9 @@ case "$1" in
         print_ww_help
         ;;
     esac
+    ;;
+  --update)
+    check_version
     ;;
   --help)
     print_ww_help
