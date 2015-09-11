@@ -25,7 +25,7 @@ check_shell
 check_platform
 
 case "$1" in
-  $VALID_WW_COMMANDS)
+  $VALID_COMMANDS)
     case "$2" in
       $VALID_ARGUMENTS)
         setup_site $2
@@ -33,7 +33,7 @@ case "$1" in
         ;;
       $INVALID_ARGUMENTS)
         print_status_primary "ERROR" "Invalid or missing argument"
-        print_ww_help
+        print_help
         ;;
     esac
     ;;
@@ -41,7 +41,7 @@ case "$1" in
     check_version
     ;;
   --help)
-    print_ww_help
+    print_help
     ;;
   --version)
     print_version
@@ -56,7 +56,7 @@ case "$1" in
     case "$2" in
       *)
         print_status_primary "ERROR" "Invalid command '$1'"
-        print_ww_help
+        print_help
         ;;
       esac
     ;;

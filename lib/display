@@ -41,12 +41,12 @@ print_arguments() {
   exit 1
 }
 
-print_ww_usage() {
+print_usage() {
   echo "Usage: ww [--workstation] [--version] [--help] [--shutdown] <command> [args] [--local]"
   echo
 }
 
-print_ww_commands() {
+print_commands() {
   echo "Commands:"
   echo "   init       Initialise local development environment"
   echo "   start      Start local development environment"
@@ -56,8 +56,8 @@ print_ww_commands() {
   echo
 }
 
-print_ww_help() {
-  print_ww_usage
-  print_ww_commands
+print_help() {
+  print_usage
+  print_commands
   print_arguments
 }
