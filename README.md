@@ -46,5 +46,5 @@ Once finished, close your terminal window and head over to one of the site repos
 
 ## Troubleshooting
 ### Docker i/o timeout
-**Problem:** `ww start [site]` errors with `dial tcp: lookup index.docker.io on 192.168.178.1:53: read udp 192.168.178.1:53: i/o timeout`
+**Problem:** `ww start [site]` errors with `dial tcp: lookup index.docker.io on 192.168.178.1:53: read udp 192.168.178.1:53: i/o timeout`  
 **Solution:** Run `boot2docker stop && boot2docker start && ww start [site]`
