@@ -22,7 +22,7 @@ check_version() {
       VER_REMOTE=$(git rev-parse @{u})
       VER_BASE=$(git merge-base @{0} @{u})
       if [ $VER_LOCAL = $VER_REMOTE ]; then
-        :
+        echo "WorkWork already up-to-date!"
       elif [ $VER_LOCAL = $VER_BASE ]; then
         print_status_primary "INFO" "Updating workwork..."
         cd $WW_DIR && git pull --quiet origin master
