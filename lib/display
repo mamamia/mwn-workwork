@@ -30,34 +30,45 @@ print_version() {
 }
 
 # Output shared arguments
-print_arguments() {
-  echo "Arguments:"
-  echo "   dd         Debrief Daily"
-  echo "   mm         Mamamia (coming soon)"
-  echo "   iv         iVillage (coming soon)"
-  echo "   tg         The Glow (coming soon)"
-  echo "   rh         Random Harry (coming soon)"
-  echo "   tm         The Motherish (coming soon)"
-  exit 1
+print_usage() {
+  echo "Usage: ww [argument]"
+  echo "   or: ww [command] [site]"
+  echo
 }
 
-print_usage() {
-  echo "Usage: ww [--workstation] [--version] [--help] [--shutdown] <command> [args] [--local]"
+print_arguments() {
+  echo "Arguments:"
+  echo "   --update     Run git pull for WorkWork"
+  echo "   --provision  Run ansible playbook that provisions workstation"
+  echo "   --version    Print git HEAD hash for WorkWork"
+  echo "   --help       Print this help message"
+  echo "   --shutdown   Stop and remove all docker containers"
   echo
 }
 
 print_commands() {
   echo "Commands:"
-  echo "   init       Initialise local development environment"
-  echo "   start      Start local development environment"
-  echo "   stop       Stop local development environment"
-  echo "   update     Run git pull and composer update"
-  echo "   updatedb   Overwrite local database with current production tables"
+  echo "   init         Initialise local development environment for [site]"
+  echo "   start        Start local development environment for [site]"
+  echo "   stop         Stop local development environment for [site]"
+  echo "   update       Run git pull and composer update for [site]"
+  echo "   updatedb     Overwrite local database with current production tables"
   echo
+}
+
+print_sites() {
+  echo "Sites:"
+  echo "   dd           Debrief Daily"
+  echo "   mm           Mamamia"
+  echo "   tg           The Glow"
+  echo "   tm           The Motherish"
 }
 
 print_help() {
   print_usage
-  print_commands
   print_arguments
+  print_commands
+  print_sites
+  echo
+  exit 1
 }

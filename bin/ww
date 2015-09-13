@@ -27,11 +27,11 @@ check_platform
 case "$1" in
   $VALID_COMMANDS)
     case "$2" in
-      $VALID_ARGUMENTS)
+      $VALID_SITES)
         setup_site $2
         run_$1 $2
         ;;
-      $INVALID_ARGUMENTS)
+      $INVALID_SITES)
         print_status_primary "ERROR" "Invalid or missing argument"
         print_help
         ;;

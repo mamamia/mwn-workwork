@@ -3,12 +3,9 @@
 # Commands
 VALID_COMMANDS="@(init|start|update|updatedb|stop)"
 
-# Arguments
-VALID_ARGUMENTS="@(dd|mm|iv|tg|rh|tm)"
-INVALID_ARGUMENTS="@(''|*)"
-
-# Locak flag
-IS_LOCAL=0
+# Sites
+VALID_SITES="@(dd|mm|tg|tm)"
+INVALID_SITES="@(''|*)"
 
 # Platform
 UNAME=`uname`
