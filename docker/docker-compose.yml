@@ -1,19 +1,29 @@
-database:
-  # https://github.com/cofoundry/dockerfiles/tree/master/mysql
-  image: cofoundry/mysql
-  environment:
-    - MYSQL_USER=wordpress
-    - MYSQL_PASS=wordpress
-    - MYSQL_DB=wordpress
+mysqldata:
+  image: mysql:5.6
+  container_name: mwn-mysql-data
   volumes:
-    - ~/workspace/mwn-workwork/config/create_db.sql:/var/lib/mysql/setup/create_db.sql
+    - /var/lib/mysql
+  command: /bin/true
+
+mysql:
+  # Repo: https://github.com/docker-library/mysql
+  # Docs: https://github.com/docker-library/docs/tree/master/mysql
+  image: mysql:5.6
+  container_name: mwn-mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_USER=wordpress
+    - MYSQL_PASSWORD=wordpress
+    - MYSQL_DATABASE=mamamia
+  volumes_from:
+    - mysqldata
   ports:
     - "3306:3306"
-  privileged: true
 
 nginxproxy:
   # https://github.com/jwilder/nginx-proxy
   image: jwilder/nginx-proxy
+  container_name: mwn-nginx-proxy
   volumes:
     - /var/run/docker.sock:/tmp/docker.sock
     - ~/workspace/mwn-workwork/config/nginxproxy:/etc/nginx/nginx.conf
