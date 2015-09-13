@@ -3,7 +3,7 @@
 update_db() {
   # Check user error status credit: http://stackoverflow.com/a/12137501
   mkdir -p ${SITE_DIR}/bedrock/db-sync/
-  
+
   # Download update or manual upload file
   if (($IS_LOCAL == 0)); then
     source ${SITE_DIR}/secret/mysql/readonly
@@ -15,11 +15,16 @@ update_db() {
       exit
     fi
   fi
-  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp db import ${SITE_DIR}/bedrock/db-sync/wordpress.sql
+
+  ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp db import ${SITE_DIR}/bedrock/db-sync/${SITE_NAME}.sql
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp search-replace --recurse-objects ${SITE_PROD_URL} www.${SITE_NAME}.dev
   CHECK_USER=$(${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user get dev)
+  # If a dev user doesn't exist, make one
   if [[ $? != 0 ]]; then
     ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev
+  # If the dev user does exist, make sure the password is reset locally
+  else
+    ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp user update dev --user_pass=dev
   fi
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp plugin activate --all
   ${SITE_DIR}/bedrock/vendor/wp-cli/wp-cli/bin/wp --path=${SITE_DIR}/bedrock/web/wp theme activate ${SITE_NAME}
