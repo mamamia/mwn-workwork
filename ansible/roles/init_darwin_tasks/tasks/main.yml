@@ -1,9 +1,19 @@
 ---
+
+- name: check for docker-machine dev box
+  shell: docker-machine status dev
+  ignore_errors: yes
+  register: docker_machine_status
+  changed_when: no
+
 - name: docker-machine create
   shell: "docker-machine create --driver virtualbox dev"
+  when: "'Host does not exist' in docker_machine_status.stderr"
 
 - name: docker-machine start
   shell: "docker-machine start dev"
+  changed_when: no
 
-- name: set environment variables that the Docker client will read which specify the TLS settings
+- name: set docker environment variables
   shell: "eval $(docker-machine env dev)"
+  changed_when: no

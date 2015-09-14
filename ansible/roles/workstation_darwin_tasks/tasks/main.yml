@@ -7,6 +7,7 @@
 - name: get last homebrew update
   shell: cd /usr/local/ && git log -1 --format="%ct" HEAD
   register: last_homebrew_update
+  changed_when: no
 
 - name: get time since last homebrew update
   set_fact: time_since_update="{{ run_time | int - last_homebrew_update.stdout | int }}"

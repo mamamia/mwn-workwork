@@ -56,6 +56,7 @@ docker_compose_common(){
 # Run per-site container
 docker_compose() {
   if [ $PLATFORM == "osx" ]; then
+    # & is better than -d, as logs are visible for debugging
     cd ${1}/docker && docker-compose up &
   else
     cd ${1}/docker && sudo docker-compose up &

@@ -12,9 +12,6 @@ mysql:
   container_name: mwn-mysql
   environment:
     - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_USER=wordpress
-    - MYSQL_PASSWORD=wordpress
-    - MYSQL_DATABASE=mamamia
   volumes_from:
     - mysqldata
   ports:
