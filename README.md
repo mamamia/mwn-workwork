@@ -1,35 +1,37 @@
-# workwork
-[workwork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools the same way.
+<img src="logo.png" alt="workwork" style="width: 50%;"/>
+
+[workwork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools, the same way.
 
 [workwork](http://www.myinstants.com/media/sounds/wc3-peon-says-work-work-only-.mp3) has been designed to be run right after a fresh OS install, so mileage may vary on established machines. If you come across any errors or bad code: fix, document, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/) :ok_hand:
 
 ## Requirements
-
-* 64-bit Unix operating system (only OS X and Debian have been tested thus far)
-* `sudo` and `curl`
+- 64-bit Unix operating system (known working: OS X 10.9+, Debian 8)
+- `sudo` and `curl`
 
 ## Installation
-Open your terminal and run `curl workwork.mamamia.com.au/install | sh`
+Open your terminal of choice, and run
+``` sh
+$ curl workwork.mamamia.com.au/install | sh
+```
 
-## What will this do?
-* Run install shell script
-  * Check your system against the requirements listed above
-  * Install
-    * [Xcode Command Line Tools](https://developer.apple.com/xcode/downloads/) (OS X only)
-    * [Homebrew](http://brew.sh/) (OS X only)
-  * Update package lists
-  * Install
-    * [Git](http://git-scm.com/downloads/)
-    * [Ansible](http://docs.ansible.com/intro_installation.html)
-  * Clone this repo into `~/workspace/mwn-workwork/`
-* Run Ansible playbook `workstation.yml`
+## FAQ
+### What does this actually do?
+1. Run install shell script (`install`)
+  - Ensure your system meets requirements
+  - Install (OS X only)
+    - [Xcode Command Line Tools](https://developer.apple.com/xcode/downloads/)
+    - [Homebrew](http://brew.sh/)
+  - Update package lists
+  - Install
+    - [Git](http://git-scm.com/downloads/)
+    - [Ansible](http://docs.ansible.com/intro_installation.html)
+  - Clone this repo into `~/workspace/mwn-workwork/`
+2. Run the Ansible playbook (`workstation.yml`)
   * Add the bin folder of this repo to the PATH via dotfiles
-  * Add `boot2docker shellinit` to dotfiles (OS X only)
-  * Install (not in this order)
-    * [Docker](https://docs.docker.com/installation/)
-      * [docker-compose](http://docs.docker.com/compose/install/)
-      * [boot2docker](http://boot2docker.io/) (OS X only)
-      * [VirtualBox](https://www.virtualbox.org/wiki/Downloads/) (OS X only)
+  * Add `eval $(docker-machine env dev)` to dotfiles (OS X only)
+  * Install
+    * [Docker](https://docs.docker.com/installation/) (Linux only)
+    * [Docker Toolbox](https://www.docker.com/toolbox/) (OS X only)
     * [MySQL](http://dev.mysql.com/downloads/installer/)
     * [PHP](http://php.net/downloads.php)
       * [Composer](https://getcomposer.org/download/)
@@ -39,12 +41,11 @@ Open your terminal and run `curl workwork.mamamia.com.au/install | sh`
     * [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
       * [Sass](http://sass-lang.com/install/)
 
-But don't just take my word for it! Check out the [install](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install) script and [workstation.yml](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/ansible/workstation.yml) to follow along :thumbsup:
+### I'm not sure piping a random script to shell is a [good idea](http://www.seancassidy.me/dont-pipe-to-your-shell.html)
+Hey, good one for pointing that out! Please check out the [install](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install) script and [workstation.yml](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/ansible/workstation.yml) prior to running to make sure there are no commands that might hurt your system. You can also download the repo and run the script locally if you are worried about getting disconnected from the internet while running the script.
 
 ## Next steps
-Once finished, close your terminal window and head over to one of the site repositories. There, you can read up on how to initialise your first site!
+Once finished, close your terminal window and head over to one of the site repositories.  
+There, you can read up on how to initialise your first site!
 
-## Troubleshooting
-### Docker i/o timeout
-**Problem:** `ww start [site]` errors with `dial tcp: lookup index.docker.io on 192.168.178.1:53: read udp 192.168.178.1:53: i/o timeout`  
-**Solution:** Run `boot2docker stop && boot2docker start && ww start [site]`
+:thumbsup:
