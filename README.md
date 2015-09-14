@@ -11,7 +11,7 @@
 ## Installation
 Open your terminal of choice, and run
 ``` sh
-$ curl workwork.mamamia.com.au/install | sh
+$ curl workwork.mamamianetwork.com/install | sh
 ```
 
 ## FAQ
