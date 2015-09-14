@@ -17,8 +17,14 @@
     mode: 0755
     state: file
 
-- name: install Sass
+- name: install sass
   sudo: yes
   shell: gem install sass
   args:
     creates: /usr/bin/sass # This /usr/local/bin/sass on Debian
+
+- name: install mysql-python # for adding db with Ansible
+  sudo: yes
+  pip:
+    name: MySQL-python
+    state: present

@@ -1,4 +1,42 @@
 ---
+- name: get docker IP
+  action: docker_ip # This returns the varible `docker_ip`
+  changed_when: false
+
+- name: add database
+  mysql_db:
+    name: "{{ site_name }}"
+    state: present
+    login_host: "{{ docker_ip }}"
+    login_user: root
+    login_password: root
+
+- name: add database user
+  mysql_user:
+    name: "{{ site_name }}"
+    password: "{{ site_name }}"
+    host: "%"
+    priv: "{{ site_name }}.*:ALL"
+    state: present
+    login_host: "{{ docker_ip }}"
+    login_user: root
+    login_password: root
+
+- name: check for database dump
+  stat:
+    path: "{{ deploy_release.path }}/bedrock/db-sync/{{ site_name }}.sql"
+  register: database_dump_file
+
+- name: import database dump
+  mysql_db:
+    name: "{{ site_name }}"
+    state: import
+    target: "{{ database_dump_file.stat.path }}"
+    login_host: "{{ docker_ip }}"
+    login_user: "{{ site_name }}"
+    login_password: "{{ site_name }}"
+  when: database_dump_file.stat.exists
+
 - name: composer self-update
   shell: composer self-update
 
@@ -12,18 +50,14 @@
   npm:
     path: "{{ deploy_release.path }}/bedrock"
 
-- name: bower install
-  shell: "cd {{ deploy_release.path }}/bedrock && bower install --config.interactive=false"
+# - name: bower install
+#   shell: "cd {{ deploy_release.path }}/bedrock && bower install --config.interactive=false"
 
 - name: bower install codepool
   shell: "cd {{ deploy_release.path }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
 - name: run grunt
   shell: "cd {{ deploy_release.path }}/bedrock && grunt"
-
-- name: get docker IP
-  action: docker_ip # This returns the varible `docker_ip`
-  changed_when: false
 
 - name: update /etc/hosts
   sudo: yes
