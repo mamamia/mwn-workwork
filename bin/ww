@@ -46,7 +46,7 @@ case "$1" in
   --version)
     print_version
     ;;
-  --workstation)
+  --provision)
     run_workstation
     ;;
   --shutdown)
