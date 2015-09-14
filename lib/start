@@ -25,10 +25,10 @@ grunt_watch() {
 
 # Run mwn-workwork proxy and database container, common for all sites
 docker_compose_common(){
-  # 1. Start boot2docker
+  # 1. Start docker-machine
   if [ $PLATFORM == "osx" ]; then
-    boot2docker up 2>/dev/null
-    eval $(boot2docker shellinit)
+    docker-machine start dev 2>/dev/null
+    eval $(docker-machine env dev)
   fi
 
   # 2. Check if proxy container is running

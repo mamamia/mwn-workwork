@@ -26,20 +26,20 @@
     mode: 0755
     recurse: yes
 
-- name: add boot2docker shellinit .bashrc or .zshrc
+- name: add docker-machine shellinit .bashrc or .zshrc
   lineinfile:
     dest: "{{ shellrc_dir }}"
-    regexp: "workwork boot2docker"
-    line: "if [ $(type -P boot2docker) ]; then eval $(boot2docker shellinit); fi # workwork boot2docker (added with workstation.yml)"
+    regexp: "workwork docker-machine"
+    line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env dev); fi # workwork docker-machine (added with workstation.yml)"
     create: yes
     state: present
   when: ansible_distribution == "MacOSX"
 
-- name: add boot2docker shellinit .bash_profile
+- name: add docker-machine shellinit .bash_profile
   lineinfile:
     dest: "{{ ansible_env.HOME }}/.bash_profile"
-    regexp: "workwork boot2docker"
-    line: "if [ $(type -P boot2docker) ]; then eval $(boot2docker shellinit); fi # workwork boot2docker (added with workstation.yml)"
+    regexp: "workwork docker-machine"
+    line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env dev); fi # workwork docker-machine (added with workstation.yml)"
     create: yes
     state: present
   when: ansible_distribution == "MacOSX" and detected_shell == "bash"

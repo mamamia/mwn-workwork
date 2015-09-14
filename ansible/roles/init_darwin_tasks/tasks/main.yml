@@ -1,9 +1,9 @@
 ---
-- name: boot2docker init
-  shell: "boot2docker init"
+- name: docker-machine create
+  shell: "docker-machine create --driver virtualbox dev"
 
-- name: boot2docker up
-  shell: "boot2docker up"
+- name: docker-machine start
+  shell: "docker-machine start dev"
 
-- name: boot2docker shellinit
-  shell: "eval $(boot2docker shellinit)"
+- name: set environment variables that the Docker client will read which specify the TLS settings
+  shell: "eval $(docker-machine env dev)"

@@ -10,7 +10,7 @@ shutdown_docker() {
   docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
 
   if [ $PLATFORM == "osx" ]; then
-    boot2docker stop 2>/dev/null
+    docker-machine stop dev 2>/dev/null
   else
     cd ${SITE_DIR}/docker && sudo docker-compose stop &
   fi
