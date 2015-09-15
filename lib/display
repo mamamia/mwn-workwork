@@ -52,7 +52,6 @@ print_commands() {
   echo "   start        Start local development environment for [site]"
   echo "   stop         Stop local development environment for [site]"
   echo "   update       Run git pull and composer update for [site]"
-  echo "   updatedb     Overwrite local database with current production tables"
   echo
 }
 

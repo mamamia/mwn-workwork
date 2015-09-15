@@ -24,7 +24,7 @@ grunt_watch() {
 
 
 # Run mwn-workwork proxy and database container, common for all sites
-docker_compose_common(){
+docker_compose_common() {
   # 1. Start docker-machine
   if [ $PLATFORM == "osx" ]; then
     docker-machine start dev 2>/dev/null
@@ -48,7 +48,9 @@ docker_compose_common(){
       wget http://database:3306 --retry-connrefused --tries=5 -q --wait=2 --spider
     done;
   fi
+}
 
+docker_compose_site() {
   # 3. Fire per-site container
   docker_compose $SITE_DIR
 }

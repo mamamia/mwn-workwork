@@ -22,21 +22,6 @@
     login_user: root
     login_password: root
 
-- name: check for database dump
-  stat:
-    path: "{{ deploy_release.path }}/bedrock/db-sync/{{ site_name }}.sql"
-  register: database_dump_file
-
-- name: import database dump
-  mysql_db:
-    name: "{{ site_name }}"
-    state: import
-    target: "{{ database_dump_file.stat.path }}"
-    login_host: "{{ docker_ip }}"
-    login_user: "{{ site_name }}"
-    login_password: "{{ site_name }}"
-  when: database_dump_file.stat.exists
-
 - name: composer self-update
   shell: composer self-update
 
@@ -65,5 +50,46 @@
   with_items:
    - "{{ bin_dir }}/etchosts update web {{ docker_ip }}"
    - "{{ bin_dir }}/etchosts update database {{ docker_ip }}"
-   - "{{ bin_dir }}/etchosts update {{ site_name }}.dev {{ docker_ip }}" # add www and non www
-   - "{{ bin_dir }}/etchosts update www.{{ site_name }}.dev {{ docker_ip }}"
+   - "{{ bin_dir }}/etchosts update dev.{{ site_url }} {{ docker_ip }}"
+
+- name: check for database dump
+  stat:
+    path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql"
+  register: database_dump_file
+
+- name: import database dump
+  mysql_db:
+    name: "{{ site_name }}"
+    state: import
+    target: "{{ database_dump_file.stat.path }}"
+    login_host: "{{ docker_ip }}"
+    login_user: "{{ site_name }}"
+    login_password: "{{ site_name }}"
+  when: database_dump_file.stat.exists
+
+- name: rename database dump
+  command: "mv {{ database_dump_file.stat.path }} {{ database_dump_file.stat.path }}.imported-{{ ansible_date_time.date }}"
+  when: database_dump_file.stat.exists
+
+- name: database find replace
+  shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} --path={{ deploy_release.path }}/bedrock/web/wp"
+  when: database_dump_file.stat.exists
+
+- name: check for dev user
+  shell: "wp user get dev --path={{ deploy_release.path }}/bedrock/web/wp"
+  ignore_errors: yes
+  register: database_dev_user
+
+- name: create dev user
+  shell: "wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev --path={{ deploy_release.path }}/bedrock/web/wp"
+  when: database_dev_user.rc != 0
+
+- name: reset dev user password
+  shell: "wp user update dev --user_pass=dev --path={{ deploy_release.path }}/bedrock/web/wp"
+  when: database_dev_user.rc == 0
+
+- name: activate plugins
+  shell: "wp plugin activate --all --path={{ deploy_release.path }}/bedrock/web/wp"
+
+- name: activate theme
+  shell: "wp theme activate {{ site_name }} --path={{ deploy_release.path }}/bedrock/web/wp"

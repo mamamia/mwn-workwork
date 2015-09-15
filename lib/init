@@ -7,5 +7,6 @@ run_ansible_playbook_init() {
   "${WW_DIR}/ansible/init.yml" \
   -i "${WW_DIR}/ansible/inventory/hosts" \
   -e "site_dir=${SITE_DIR}" \
+  -e "site_url=${SITE_URL}" \
   -e "site_name=${SITE_NAME}"
 }

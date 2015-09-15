@@ -3,7 +3,7 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-# Enables pattern lists like @(init|start|updatedb)
+# Enables pattern lists like @(init|start|stop)
 # Credit: http://stackoverflow.com/a/13254908
 shopt -s extglob
 
@@ -18,7 +18,6 @@ source ./lib/init
 source ./lib/start
 source ./lib/stop
 source ./lib/update
-source ./lib/updatedb
 source ./lib/run
 
 check_shell

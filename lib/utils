@@ -66,17 +66,22 @@ setup_site() {
     SITE_FULL_NAME="Debrief Daily"
     SITE_NAME="debriefdaily"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_PROD_URL="www.${SITE_NAME}.com"
+    SITE_URL="${SITE_NAME}.com"
   elif [ $1 = "mm" ]; then
     SITE_FULL_NAME="Mamamia"
     SITE_NAME="mamamia"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_PROD_URL="www.${SITE_NAME}.com.au"
+    SITE_URL="${SITE_NAME}.com.au"
   elif [ $1 = "tm" ]; then
     SITE_FULL_NAME="The Motherish"
     SITE_NAME="themotherish"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_PROD_URL="www.${SITE_NAME}.com"
+    SITE_URL="${SITE_NAME}.com"
+  elif [ $1 = "tg" ]; then
+    SITE_FULL_NAME="The Glow"
+    SITE_NAME="theglow"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_URL="${SITE_NAME}.com.au"
   fi
 }
 

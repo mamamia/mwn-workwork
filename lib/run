@@ -8,6 +8,7 @@ run_workstation() {
 
 run_init() {
   print_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
+  docker_compose_common
   run_ansible_playbook_init
   print_status_secondary "PASS" "Completed init tasks! You may run ww start now."
 }
@@ -17,6 +18,7 @@ run_start() {
   check_sudo
   kill_existing
   docker_compose_common
+  docker_compose_site
   grunt_watch
 
   print_status_secondary "PASS" "Completed all tasks!"
@@ -39,12 +41,5 @@ run_shutdown() {
 run_update() {
   print_status_primary "INFO" "Running update for ${SITE_FULL_NAME}"
   update_git
-  print_status_secondary "PASS" "Completed all tasks!"
-}
-
-run_updatedb() {
-  print_status_primary "INFO" "Running updatedb for ${SITE_FULL_NAME}"
-  check_sudo
-  update_db
   print_status_secondary "PASS" "Completed all tasks!"
 }

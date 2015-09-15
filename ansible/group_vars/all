@@ -1,10 +1,11 @@
 bin_dir:               "{{ ansible_env.HOME }}/workspace/mwn-workwork/bin"
+ww_dir:                "{{ ansible_env.HOME }}/workspace/mwn-workwork"
 app_env:               dev
-wp_home:               "http://www.{{ site_name }}.dev"
-wp_site_url:           "http://www.{{ site_name }}.dev/wp"
+wp_home:               "http://dev.{{ site_url }}"
+wp_site_url:           "http://dev.{{ site_url }}/wp"
 db_name:               "{{ site_name }}"
-db_user:               wordpress
-db_password:           wordpress
+db_user:               root
+db_password:           root
 db_host:               database
 dsq_key:               false
 dsq_forum:             false
