@@ -1,4 +1,4 @@
-<img src="logo.png" alt="workwork" style="width: 50%;"/>
+<img src="logo.png" alt="workwork" width="35%" />
 
 [workwork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools, the same way.
 
@@ -11,7 +11,7 @@
 ## Installation
 Open your terminal of choice, and run
 ``` sh
-$ curl workwork.mamamia.com.au/install | sh
+$ curl workwork.mamamianetwork.com/install | sh
 ```
 
 ## FAQ
