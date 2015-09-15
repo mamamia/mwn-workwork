@@ -17,6 +17,18 @@
     mode: 0755
     state: file
 
+- name: install wp-cli
+  shell: curl --output /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  args:
+    creates: /usr/local/bin/wp
+
+- name: make wp-cli executable
+  sudo: yes
+  file:
+    path: /usr/local/bin/wp
+    mode: 0755
+    state: file
+
 - name: install sass
   sudo: yes
   shell: gem install sass
