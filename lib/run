@@ -2,7 +2,7 @@
 
 run_workstation() {
   print_status_primary "INFO" "Updating workstation"
-  run_ansible_playbook_workstation
+  run_ansible_playbook_workstation $1
   print_status_secondary "PASS" "Completed all tasks!"
 }
 

@@ -46,7 +46,7 @@ case "$1" in
     print_version
     ;;
   --provision)
-    run_workstation
+    run_workstation $2
     ;;
   --shutdown)
     run_shutdown

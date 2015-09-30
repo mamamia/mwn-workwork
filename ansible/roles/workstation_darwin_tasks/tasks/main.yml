@@ -34,6 +34,7 @@
     name: "{{ item }}"
     state: present
   with_items: osx_casks
+  when: skip_casks is not defined # set true via command line if required
 
 - name: install npm packages
   npm: global=yes name={{ item }}
