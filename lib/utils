@@ -43,24 +43,6 @@ check_sudo() {
   while true; do sudo -n true; sleep 40; kill -0 "$$" || exit; done 2>/dev/null &
 }
 
-# Ensure at least one command is supplied
-check_command() {
-  if [ $1 -lt 1 ]; then
-    $0 "--help"
-  fi
-}
-
-install_app() {
-  if [ $PLATFORM == "osx" ]; then
-    brew update
-    brew install $1
-  elif [ $PLATFORM == "linux" ]; then
-    # Assumes Ubuntu/Debian for now
-    sudo apt-get update
-    sudo apt-get install $1 < /dev/null
-  fi
-}
-
 setup_site() {
   if [ $1 = "dd" ]; then
     SITE_FULL_NAME="Debrief Daily"
