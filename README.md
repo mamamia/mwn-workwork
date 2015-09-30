@@ -57,3 +57,9 @@ There may be issues when installing workwork for the first time over a slow conn
 ``` sh
 $ ww --provision --extra-vars="skip_casks=true"
 ```
+
+### Sudo errors
+Sometimes `sudo` escalation will time out when installing workwork before Ansible has a chance to run the task that required `sudo` access. If this happens, just run the provision script again.
+``` sh
+$ ww --provision
+```
