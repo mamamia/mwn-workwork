@@ -1,1 +1,5 @@
 db-sync
+
+# OS caching files
+.DS_Store
+Thumbs.db
