@@ -17,5 +17,5 @@
   gather_facts: false
   roles:
     - init_clone
-    - init_post_clone
     - init_define_env
+    - init_post_clone
