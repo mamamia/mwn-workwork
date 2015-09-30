@@ -11,3 +11,4 @@
     version: master
     accept_hostkey: yes
     dest: "{{ deploy_release.path }}"
+    update: no
