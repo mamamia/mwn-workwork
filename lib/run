@@ -8,8 +8,8 @@ run_workstation() {
 
 run_init() {
   print_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
-  docker_compose_common
   run_ansible_playbook_init
+  docker_compose_common
   print_status_secondary "PASS" "Completed init tasks! You may run ww start now."
 }
 
