@@ -10,6 +10,7 @@ run_init() {
   print_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
   run_ansible_playbook_init
   docker_compose_common
+  run_ansible_playbook_database
   print_status_secondary "PASS" "Completed init tasks! You may run ww start now."
 }
 
@@ -20,7 +21,6 @@ run_start() {
   docker_compose_common
   docker_compose_site
   grunt_watch
-
   print_status_secondary "PASS" "Completed all tasks!"
 }
 

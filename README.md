@@ -63,3 +63,6 @@ Sometimes `sudo` escalation will time out when installing workwork before Ansibl
 ``` sh
 $ ww --provision
 ```
+
+### Script jumps ahead before docker containers have finished downloading
+Docker containers are currently started with bash commands instead of Ansible, so running `ww init [site]` on a new machine may yield unpredictable results. If you come across any errors, just run the init script again after the docker containers have finished downloading.

@@ -1,0 +1,45 @@
+---
+- hosts: workstation
+  connection: local
+  tasks:
+    - name: check for database dump
+      stat:
+        path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql"
+      register: database_dump_file
+
+    - name: import database dump
+      mysql_db:
+        name: "{{ site_name }}"
+        state: import
+        target: "{{ database_dump_file.stat.path }}"
+        login_host: "{{ docker_ip }}"
+        login_user: "{{ site_name }}"
+        login_password: "{{ site_name }}"
+      when: database_dump_file.stat.exists
+
+    - name: rename database dump
+      command: "mv {{ database_dump_file.stat.path }} {{ database_dump_file.stat.path }}.imported-{{ ansible_date_time.date }}"
+      when: database_dump_file.stat.exists
+
+    - name: database find replace
+      shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} --path={{ site_dir }}/bedrock/web/wp"
+      when: database_dump_file.stat.exists
+
+    - name: check for dev user
+      shell: "wp user get dev --path={{ site_dir }}/bedrock/web/wp"
+      ignore_errors: yes
+      register: database_dev_user
+
+    - name: create dev user
+      shell: "wp user create dev dev@mwnstack.com --role=administrator --user_pass=dev --path={{ site_dir }}/bedrock/web/wp"
+      when: database_dev_user.rc != 0
+
+    - name: reset dev user password
+      shell: "wp user update dev --user_pass=dev --path={{ site_dir }}/bedrock/web/wp"
+      when: database_dev_user.rc == 0
+
+    - name: activate plugins
+      shell: "wp plugin activate --all --path={{ site_dir }}/bedrock/web/wp"
+
+    - name: activate theme
+      shell: "wp theme activate {{ site_name }} --path={{ site_dir }}/bedrock/web/wp"
