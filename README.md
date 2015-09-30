@@ -49,3 +49,17 @@ Once finished, close your terminal window and head over to one of the site repos
 There, you can read up on how to initialise your first site!
 
 :thumbsup:
+
+## Known issues
+
+### Provision fails when installing homebrew casks
+There may be issues when installing workwork for the first time over a slow connection on new machines running OS X. If the `install homebrew casks` task fails, install [Docker Toolbox](https://www.docker.com/toolbox) manually, then run:
+``` sh
+$ ww --provision --extra-vars="skip_casks=true"
+```
+
+### Sudo errors
+Sometimes `sudo` escalation will time out when installing workwork before Ansible has a chance to run the task that required `sudo` access. If this happens, just run the provision script again.
+``` sh
+$ ww --provision
+```

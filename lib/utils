@@ -26,8 +26,6 @@ check_version() {
       elif [ $VER_LOCAL = $VER_BASE ]; then
         print_status_primary "INFO" "Updating workwork..."
         cd $WW_DIR && git pull --quiet origin master
-        # Start the command over with the updated files
-        exec "$0" "$1" "$2"
       elif [ $VER_REMOTE = $VER_BASE ]; then
         print_status_primary "WARN" "Please push your changes to the remote..."
       else
@@ -41,24 +39,6 @@ check_version() {
 check_sudo() {
   sudo -v -p 'Enter your sudo password:'
   while true; do sudo -n true; sleep 40; kill -0 "$$" || exit; done 2>/dev/null &
-}
-
-# Ensure at least one command is supplied
-check_command() {
-  if [ $1 -lt 1 ]; then
-    $0 "--help"
-  fi
-}
-
-install_app() {
-  if [ $PLATFORM == "osx" ]; then
-    brew update
-    brew install $1
-  elif [ $PLATFORM == "linux" ]; then
-    # Assumes Ubuntu/Debian for now
-    sudo apt-get update
-    sudo apt-get install $1 < /dev/null
-  fi
 }
 
 setup_site() {

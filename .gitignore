@@ -1,4 +1,5 @@
-db-sync
+db-sync/*
+!db-sync/.gitkeep
 
 # OS caching files
 .DS_Store

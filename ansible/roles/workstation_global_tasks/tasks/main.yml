@@ -35,6 +35,11 @@
   args:
     creates: /usr/bin/sass # This /usr/local/bin/sass on Debian
 
+- name: install pip
+  easy_install:
+    name: pip
+    state: latest
+
 - name: install mysql-python # for adding db with Ansible
   sudo: yes
   pip:
