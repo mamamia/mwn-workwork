@@ -4,7 +4,7 @@
   tasks:
     - name: check for database dump
       stat:
-        path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql"
+        path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql.gz"
       register: database_dump_file
 
     - name: get docker IP
