@@ -70,10 +70,12 @@ update_package_lists() {
   if [ $PLATFORM == "osx" ]; then
     brew update
   elif [ $PLATFORM == "linux" ]; then
-    # Assumes Debian for now
-    sudo sh -c "echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports.list" # For Ansible
-    sudo sh -c "echo 'deb http://get.docker.io/ubuntu docker main' > /etc/apt/sources.list.d/docker.list" # For Docker
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9 # For Docker
+    # Docker (Assumes Debian 8 for now)
+    sudo sh -c "echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list"
+    # Ansible
+    sudo apt-get install software-properties-common
+    sudo apt-add-repository ppa:ansible/ansible
+    # Update
     sudo apt-get update -y
   fi
 }
@@ -99,8 +101,8 @@ check_ansible() {
     if [ $PLATFORM == "osx" ]; then
       brew install ansible
     elif [ $PLATFORM == "linux" ]; then
-      # Assumes Debian for now
-      sudo apt-get -t wheezy-backports install -y ansible
+      # Assumes Debian 8 for now
+      sudo apt-get -t jessie-backports install -y ansible
     fi
   fi
 }
