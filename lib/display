@@ -42,7 +42,7 @@ print_arguments() {
   echo "   --provision  Run ansible playbook that provisions workstation"
   echo "   --version    Print git HEAD hash for WorkWork"
   echo "   --help       Print this help message"
-  echo "   --shutdown   Stop and remove all docker containers"
+  echo "   --destroy    Stop and remove all docker containers"
   echo
 }
 

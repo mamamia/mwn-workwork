@@ -30,12 +30,12 @@ run_stop() {
   print_status_secondary "PASS" "Container stopped."
 }
 
-run_shutdown() {
-  print_status_primary "INFO" "Shutting down"
+run_destroy() {
+  print_status_primary "INFO" "Shutting down and removing docker containers"
   check_sudo
   kill_existing
-  shutdown_docker
-  print_status_secondary "PASS" "See You Space Cowboy!"
+  kill_docker_containers
+  print_status_secondary "PASS" "See you Space Cowboy!"
 }
 
 run_update() {

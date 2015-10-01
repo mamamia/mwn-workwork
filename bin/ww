@@ -48,8 +48,8 @@ case "$1" in
   --provision)
     run_workstation $2
     ;;
-  --shutdown)
-    run_shutdown
+  --destroy)
+    run_destroy
     ;;
   *)
     case "$2" in
