@@ -51,7 +51,6 @@ print_commands() {
   echo "   init         Initialise local development environment for [site]"
   echo "   start        Start local development environment for [site]"
   echo "   stop         Stop local development environment for [site]"
-  echo "   update       Run git pull and composer update for [site]"
   echo
 }
 

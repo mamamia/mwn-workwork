@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Commands
-VALID_COMMANDS="@(init|start|stop|update)"
+VALID_COMMANDS="@(init|start|stop)"
 
 # Sites
 VALID_SITES="@(dd|mm|tg|tm)"
