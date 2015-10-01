@@ -1,6 +1,9 @@
 ---
 - hosts: workstation
   connection: local
+  tasks:
+    - debug: var=ansible_version.full
+
   roles:
     - define_system
     - workstation_add_bin
