@@ -7,6 +7,10 @@
         path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql"
       register: database_dump_file
 
+    - name: get docker IP
+      action: docker_ip # This returns the varible `docker_ip`
+      changed_when: false
+
     - name: import database dump
       mysql_db:
         name: "{{ site_name }}"
