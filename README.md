@@ -28,7 +28,7 @@ $ curl workwork.mamamianetwork.com/install | sh
   - Clone this repo into `~/workspace/mwn-workwork/`
 2. Run the Ansible playbook (`workstation.yml`)
   * Add the bin folder of this repo to the PATH via dotfiles
-  * Add `eval $(docker-machine env dev)` to dotfiles (OS X only)
+  * Add `eval $(docker-machine env default)` to dotfiles (OS X only)
   * Install
     * [Docker](https://docs.docker.com/installation/) (Linux only)
     * [Docker Toolbox](https://www.docker.com/toolbox/) (OS X only)

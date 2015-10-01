@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ $(docker-machine ip dev) ]; then
-    DOCKER_IP=$(docker-machine ip dev)
+if [ $(docker-machine ip default) ]; then
+    DOCKER_IP=$(docker-machine ip default)
   else
     DOCKER_IP=127.0.0.1
   fi

@@ -2,16 +2,17 @@
 
 stop_docker() {
   # stop only per-site container
-  docker stop docker_${1}web_1
+  docker stop mwn-${SITE_NAME}
 }
 
-shutdown_docker() {
+kill_docker_containers() {
   # stop and remove all currently running containers
-  docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+  docker stop $(docker ps -aq)
+  docker rm $(docker ps -aq)
 
   if [ $PLATFORM == "osx" ]; then
-    docker-machine stop dev 2>/dev/null
+    docker-machine stop default 2>/dev/null
   else
-    cd ${SITE_DIR}/docker && sudo docker-compose stop &
+    sudo docker-machine stop default 2>/dev/null
   fi
 }

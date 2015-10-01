@@ -30,7 +30,7 @@
   lineinfile:
     dest: "{{ shellrc_dir }}"
     regexp: "workwork docker-machine"
-    line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env dev); fi # workwork docker-machine (added with workstation.yml)"
+    line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env default); fi # workwork docker-machine (added with workstation.yml)"
     create: yes
     state: present
   when: ansible_distribution == "MacOSX"
@@ -39,7 +39,7 @@
   lineinfile:
     dest: "{{ ansible_env.HOME }}/.bash_profile"
     regexp: "workwork docker-machine"
-    line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env dev); fi # workwork docker-machine (added with workstation.yml)"
+    line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env default); fi # workwork docker-machine (added with workstation.yml)"
     create: yes
     state: present
   when: ansible_distribution == "MacOSX" and detected_shell == "bash"

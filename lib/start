@@ -27,8 +27,8 @@ grunt_watch() {
 docker_compose_common() {
   # 1. Start docker-machine
   if [ $PLATFORM == "osx" ]; then
-    docker-machine start dev 2>/dev/null
-    eval $(docker-machine env dev)
+    docker-machine start default 2>/dev/null
+    eval $(docker-machine env default)
   fi
 
   # 2. Check if proxy container is running

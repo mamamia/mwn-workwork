@@ -1,19 +1,19 @@
 ---
 
-- name: check for docker-machine dev box
-  shell: docker-machine status dev
+- name: check for docker-machine default box
+  shell: docker-machine status default
   ignore_errors: yes
   register: docker_machine_status
   changed_when: no
 
 - name: docker-machine create
-  shell: "docker-machine create --driver virtualbox dev"
+  shell: "docker-machine create --driver virtualbox default"
   when: "'Host does not exist' in docker_machine_status.stderr"
 
 - name: docker-machine start
-  shell: "docker-machine start dev"
+  shell: "docker-machine start default"
   changed_when: no
 
 - name: set docker environment variables
-  shell: "eval $(docker-machine env dev)"
+  shell: "eval $(docker-machine env default)"
   changed_when: no
