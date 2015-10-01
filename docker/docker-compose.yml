@@ -1,9 +1,14 @@
-mysqldata:
-  image: mysql:5.6
-  container_name: mwn-mysql-data
+nginxproxy:
+  # Repo: https://github.com/jwilder/nginx-proxy
+  # Docs: https://github.com/jwilder/nginx-proxy/blob/master/README.md
+  image: jwilder/nginx-proxy
+  container_name: mwn-nginx-proxy
   volumes:
-    - /var/lib/mysql
-  command: /bin/true
+    - /var/run/docker.sock:/tmp/docker.sock
+    - ~/workspace/mwn-workwork/config/nginxproxy:/etc/nginx/nginx.conf
+  ports:
+    - "80:80"
+  restart: always
 
 mysql:
   # Repo: https://github.com/docker-library/mysql
@@ -17,13 +22,9 @@ mysql:
   ports:
     - "3306:3306"
 
-nginxproxy:
-  # https://github.com/jwilder/nginx-proxy
-  image: jwilder/nginx-proxy
-  container_name: mwn-nginx-proxy
+mysqldata:
+  image: mysql:5.6
+  container_name: mwn-mysql-data
   volumes:
-    - /var/run/docker.sock:/tmp/docker.sock
-    - ~/workspace/mwn-workwork/config/nginxproxy:/etc/nginx/nginx.conf
-  ports:
-    - "80:80"
-  restart: always
+    - /var/lib/mysql
+  command: /bin/true
