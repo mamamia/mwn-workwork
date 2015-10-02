@@ -30,10 +30,9 @@
     state: file
 
 - name: install sass
-  sudo: yes
-  shell: gem install sass
-  args:
-    creates: /usr/bin/sass # This /usr/local/bin/sass on Debian
+  gem:
+    name: sass
+    state: present
 
 - name: install pip
   sudo: yes
