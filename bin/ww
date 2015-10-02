@@ -13,8 +13,6 @@ cd $WW_DIR
 source ./lib/vars
 source ./lib/utils
 source ./lib/display
-source ./lib/workstation
-source ./lib/init
 source ./lib/start
 source ./lib/stop
 source ./lib/update
@@ -49,7 +47,10 @@ case "$1" in
     run_workstation $2
     ;;
   --destroy)
-    run_destroy
+    run_destroy_all
+    ;;
+  --destroy-running)
+    run_destroy_running
     ;;
   *)
     case "$2" in

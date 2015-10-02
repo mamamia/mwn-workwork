@@ -8,6 +8,22 @@ type_exists() {
   return 1
 }
 
+run_ansible_playbook() {
+  if [ -n "$SITE_DIR" ]; then VAR_SITE_DIR="-e site_dir=${SITE_DIR}"; fi
+  if [ -n "$SITE_URL" ]; then VAR_SITE_URL="-e site_url=${SITE_URL}"; fi
+  if [ -n "$SITE_NAME" ]; then VAR_SITE_NAME="-e site_name=${SITE_NAME}"; fi
+  if [ -n "$3" ]; then VAR_EXTRAS="$3"; fi
+  print_status_secondary "INFO" "[ Running ansible-playbook... ]"
+  ansible-playbook \
+  "${1}/ansible/${2}" \
+  --ask-sudo-pass \
+  --inventory-file="${1}/ansible/inventory/hosts" \
+  ${VAR_SITE_DIR} \
+  ${VAR_SITE_URL} \
+  ${VAR_SITE_NAME} \
+  ${VAR_EXTRAS}
+}
+
 # Compares git hashes
 check_version() {
   cd $WW_DIR

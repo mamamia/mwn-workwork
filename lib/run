@@ -2,15 +2,16 @@
 
 run_workstation() {
   print_status_primary "INFO" "Updating workstation"
-  run_ansible_playbook_workstation $1
+  run_ansible_playbook "${WW_DIR}" "workstation.yml" ${1}
   print_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_init() {
   print_status_primary "INFO" "Running init for ${SITE_FULL_NAME}"
-  run_ansible_playbook_init
-  docker_compose_common
-  run_ansible_playbook_database
+  run_ansible_playbook "${WW_DIR}" "init.yml"
+  run_ansible_playbook "${WW_DIR}" "start.yml"
+  run_ansible_playbook "${SITE_DIR}" "start.yml"
+  run_ansible_playbook "${WW_DIR}" "init-postclone.yml"
   print_status_secondary "PASS" "Completed init tasks! You may run ww start now."
 }
 
@@ -18,8 +19,8 @@ run_start() {
   print_status_primary "INFO" "Running start for ${SITE_FULL_NAME}"
   check_sudo
   kill_existing
-  docker_compose_common
-  docker_compose_site
+  run_ansible_playbook "${WW_DIR}" "start.yml"
+  run_ansible_playbook "${SITE_DIR}" "start.yml"
   grunt_watch
   print_status_secondary "PASS" "Completed all tasks!"
 }
@@ -30,11 +31,19 @@ run_stop() {
   print_status_secondary "PASS" "Container stopped."
 }
 
-run_destroy() {
+run_destroy_all() {
   print_status_primary "INFO" "Shutting down and removing docker containers"
   check_sudo
   kill_existing
-  kill_docker_containers
+  kill_docker_containers "$(docker ps -aq)"
+  print_status_secondary "PASS" "See you Space Cowboy!"
+}
+
+run_destroy_running() {
+  print_status_primary "INFO" "Shutting down and removing docker containers"
+  check_sudo
+  kill_existing
+  kill_docker_containers "$(docker ps -q)"
   print_status_secondary "PASS" "See you Space Cowboy!"
 }
 

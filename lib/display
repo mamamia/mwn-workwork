@@ -38,28 +38,29 @@ print_usage() {
 
 print_arguments() {
   echo "Arguments:"
-  echo "   --update     Run git pull for WorkWork"
-  echo "   --provision  Run ansible playbook that provisions workstation"
-  echo "   --version    Print git HEAD hash for WorkWork"
-  echo "   --help       Print this help message"
-  echo "   --destroy    Stop and remove all docker containers"
+  echo "   --update           Run git pull for WorkWork"
+  echo "   --provision        Run ansible playbook that provisions workstation"
+  echo "   --version          Print git HEAD hash for WorkWork"
+  echo "   --help             Print this help message"
+  echo "   --destroy          Stop and remove all docker containers"
+  echo "   --destroy-running  Stop and remove all docker containers that are started"
   echo
 }
 
 print_commands() {
   echo "Commands:"
-  echo "   init         Initialise local development environment for [site]"
-  echo "   start        Start local development environment for [site]"
-  echo "   stop         Stop local development environment for [site]"
+  echo "   init               Initialise local development environment for [site]"
+  echo "   start              Start local development environment for [site]"
+  echo "   stop               Stop local development environment for [site]"
   echo
 }
 
 print_sites() {
   echo "Sites:"
-  echo "   dd           Debrief Daily"
-  echo "   mm           Mamamia"
-  echo "   tg           The Glow"
-  echo "   tm           The Motherish"
+  echo "   dd                 Debrief Daily"
+  echo "   mm                 Mamamia"
+  echo "   tg                 The Glow"
+  echo "   tm                 The Motherish"
 }
 
 print_help() {
