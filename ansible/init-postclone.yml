@@ -1,7 +1,60 @@
 ---
 - hosts: workstation
   connection: local
+  roles:
+    - define_system
+
   tasks:
+    - name: get docker IP
+      action: docker_ip # This returns the varible `docker_ip`
+      changed_when: false
+
+    - name: composer self-update
+      shell: composer self-update
+
+    - name: composer install
+      composer:
+        # command: install (only avaliable in Ansible 1.8)
+        no_dev: yes
+        working_dir: "{{ deploy_release.path }}/bedrock"
+
+    - name: npm install
+      npm:
+        path: "{{ deploy_release.path }}/bedrock"
+
+    - name: bower install codepool
+      shell: "cd {{ deploy_release.path }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
+
+    - name: run grunt
+      shell: "cd {{ deploy_release.path }}/bedrock && grunt"
+
+    - name: update /etc/hosts
+      sudo: yes
+      shell: "{{ item }}"
+      with_items:
+       - "{{ bin_dir }}/etchosts update web {{ docker_ip }}"
+       - "{{ bin_dir }}/etchosts update database {{ docker_ip }}"
+       - "{{ bin_dir }}/etchosts update dev.{{ site_url }} {{ docker_ip }}"
+
+    - name: add database
+      mysql_db:
+        name: "{{ site_name }}"
+        state: present
+        login_host: "{{ docker_ip }}"
+        login_user: root
+        login_password: root
+
+    - name: add database user
+      mysql_user:
+        name: "{{ site_name }}"
+        password: "{{ site_name }}"
+        host: "%"
+        priv: "{{ site_name }}.*:ALL"
+        state: present
+        login_host: "{{ docker_ip }}"
+        login_user: root
+        login_password: root
+
     - name: check for database dump
       stat:
         path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql.gz"

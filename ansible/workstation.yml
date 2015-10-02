@@ -1,10 +1,8 @@
 ---
 - hosts: workstation
   connection: local
-
   roles:
     - define_system
-    - workstation_add_bin
 
 # OS X
 - hosts: sys_Darwin
@@ -23,6 +21,95 @@
 # Global
 - hosts: workstation
   connection: local
-  gather_facts: false
-  roles:
-    - workstation_global_tasks
+  tasks:
+    - name: detect shell
+      action: detect_shell # This returns the varibles `detected_shell` and `shellrc_dir`
+      changed_when: false
+
+    - name: add workwork bin to PATH in .bashrc or .zshrc
+      lineinfile:
+        dest: "{{ shellrc_dir }}"
+        regexp: "workwork bin path"
+        line: "export PATH=$PATH:{{ bin_dir }} # workwork bin path (added with workstation.yml)"
+        create: yes
+        state: present
+
+    - name: add workwork bin to PATH in .bash_profile
+      lineinfile:
+        dest: "{{ ansible_env.HOME }}/.bash_profile"
+        regexp: "workwork bin path"
+        line: "export PATH=$PATH:{{ bin_dir }} # workwork bin path (added with workstation.yml)"
+        create: yes
+        state: present
+      when: detected_shell == "bash"
+
+    - name: add execute to files in workwork bin
+      file:
+        path: "{{ bin_dir }}"
+        mode: 0755
+        recurse: yes
+
+    - name: add docker-machine shellinit .bashrc or .zshrc
+      lineinfile:
+        dest: "{{ shellrc_dir }}"
+        regexp: "workwork docker-machine"
+        line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env default); fi # workwork docker-machine (added with workstation.yml)"
+        create: yes
+        state: present
+      when: ansible_distribution == "MacOSX"
+
+    - name: add docker-machine shellinit .bash_profile
+      lineinfile:
+        dest: "{{ ansible_env.HOME }}/.bash_profile"
+        regexp: "workwork docker-machine"
+        line: "if [ $(type -P docker-machine) ]; then eval $(docker-machine env default); fi # workwork docker-machine (added with workstation.yml)"
+        create: yes
+        state: present
+      when: ansible_distribution == "MacOSX" and detected_shell == "bash"
+
+    - name: install composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp
+      args:
+        creates: /usr/local/bin/composer
+
+    - name: rename composer.phar to composer
+      sudo: yes
+      shell: mv /tmp/composer.phar /usr/local/bin/composer
+      args:
+        creates: /usr/local/bin/composer
+
+    - name: make composer executable
+      sudo: yes
+      file:
+        path: /usr/local/bin/composer
+        mode: 0755
+        state: file
+
+    - name: install wp-cli
+      shell: curl --output /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+      args:
+        creates: /usr/local/bin/wp
+
+    - name: make wp-cli executable
+      sudo: yes
+      file:
+        path: /usr/local/bin/wp
+        mode: 0755
+        state: file
+
+    - name: install sass
+      gem:
+        name: sass
+        state: present
+
+    - name: install pip
+      sudo: yes
+      easy_install:
+        name: pip
+        # state: latest <-- ansible v2 only
+
+    - name: install mysql-python # for adding db with Ansible
+      sudo: yes
+      pip:
+        name: MySQL-python
+        state: present
