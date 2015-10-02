@@ -16,17 +16,17 @@
       composer:
         # command: install (only avaliable in Ansible 1.8)
         no_dev: yes
-        working_dir: "{{ deploy_release.path }}/bedrock"
+        working_dir: "{{ site_dir }}/bedrock"
 
     - name: npm install
       npm:
-        path: "{{ deploy_release.path }}/bedrock"
+        path: "{{ site_dir }}/bedrock"
 
     - name: bower install codepool
-      shell: "cd {{ deploy_release.path }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
+      shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
     - name: run grunt
-      shell: "cd {{ deploy_release.path }}/bedrock && grunt"
+      shell: "cd {{ site_dir }}/bedrock && grunt"
 
     - name: update /etc/hosts
       sudo: yes
