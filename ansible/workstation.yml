@@ -113,3 +113,9 @@
       pip:
         name: MySQL-python
         state: present
+
+    - name: install docker-py # for running docker with ansible
+      sudo: yes
+      pip:
+        name: docker-py
+        version: 1.2.3

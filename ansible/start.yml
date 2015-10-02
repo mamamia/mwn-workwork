@@ -1,0 +1,46 @@
+---
+- hosts: workstation
+  connection: local
+  tasks:
+
+    - name: start docker-machine
+      shell: docker-machine start default 2>/dev/null; eval $(docker-machine env default)
+      when: ansible_os_family == 'Darwin'
+
+    # Repo: https://github.com/jwilder/nginx-proxy
+    # Docs: https://github.com/jwilder/nginx-proxy/blob/master/README.md
+    - name: start mwn-proxy
+      # sudo: yes
+      docker:
+        image: jwilder/nginx-proxy
+        name: mwn-nginx-proxy
+        volumes:
+          - /var/run/docker.sock:/tmp/docker.sock # FYI, this exists in the boot2docker vm on OSX
+          - "{{ ansible_env.HOME }}/workspace/mwn-workwork/config/nginxproxy:/etc/nginx/nginx.conf"
+        ports:
+          - "80:80"
+        restart_policy: always
+        use_tls: encrypt # bumming out with cert error without this -- might be a 10.11 issue?
+
+    # Repo: https://github.com/docker-library/mysql
+    # Docs: https://github.com/docker-library/docs/tree/master/mysql
+    - name: start mwn-mysql-data (once)
+      docker:
+        image: mysql:5.6
+        name: mwn-mysql-data
+        volumes:
+          - /var/lib/mysql
+        command: /bin/true
+        use_tls: encrypt # bumming out with cert error without this -- might be a 10.11 issue?
+
+    - name: start mwn-mysql
+      docker:
+        image: mysql:5.6
+        name: mwn-mysql
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        volumes_from:
+          - mwn-mysql-data
+        ports:
+          - "3306:3306"
+        use_tls: encrypt # bumming out with cert error without this -- might be a 10.11 issue?
