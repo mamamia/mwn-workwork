@@ -10,7 +10,6 @@
     # Repo: https://github.com/jwilder/nginx-proxy
     # Docs: https://github.com/jwilder/nginx-proxy/blob/master/README.md
     - name: start mwn-proxy
-      # sudo: yes
       docker:
         image: jwilder/nginx-proxy
         name: mwn-nginx-proxy
@@ -29,8 +28,8 @@
         image: mysql:5.6
         name: mwn-mysql-data
         volumes:
-          - /var/lib/mysql
-        command: /bin/true
+          - /mnt/sda1/var/lib/mysql
+        state: present
         use_tls: encrypt # bumming out with cert error without this -- might be a 10.11 issue?
 
     - name: start mwn-mysql
@@ -41,6 +40,8 @@
           MYSQL_ROOT_PASSWORD: root
         volumes_from:
           - mwn-mysql-data
+        volumes:
+          - /mnt/sda1/var/lib/mysql:/var/lib/mysql
         ports:
           - "3306:3306"
         use_tls: encrypt # bumming out with cert error without this -- might be a 10.11 issue?
