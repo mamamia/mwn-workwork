@@ -73,13 +73,13 @@
         creates: /usr/local/bin/composer
 
     - name: rename composer.phar to composer
-      sudo: yes
+      become: yes
       shell: mv /tmp/composer.phar /usr/local/bin/composer
       args:
         creates: /usr/local/bin/composer
 
     - name: make composer executable
-      sudo: yes
+      become: yes
       file:
         path: /usr/local/bin/composer
         mode: 0755
@@ -91,7 +91,7 @@
         creates: /usr/local/bin/wp
 
     - name: make wp-cli executable
-      sudo: yes
+      become: yes
       file:
         path: /usr/local/bin/wp
         mode: 0755
@@ -103,19 +103,19 @@
         state: present
 
     - name: install pip
-      sudo: yes
+      become: yes
       easy_install:
         name: pip
         # state: latest <-- ansible v2 only
 
     - name: install mysql-python # for adding db with Ansible
-      sudo: yes
+      become: yes
       pip:
         name: MySQL-python
         state: present
 
     - name: install docker-py # for running docker with ansible
-      sudo: yes
+      become: yes
       pip:
         name: docker-py
         version: 1.2.3

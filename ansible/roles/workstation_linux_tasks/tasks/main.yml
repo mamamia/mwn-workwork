@@ -3,7 +3,7 @@
   shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
 
 - name: update apt
-  sudo: yes
+  become: yes
   apt: update_cache=yes
 
 - name: install docker-compose
@@ -12,31 +12,31 @@
     creates: /usr/local/bin/docker-compose
 
 - name: move docker-compose
-  sudo: yes
+  become: yes
   shell: mv /tmp/docker-compose /usr/local/bin/docker-compose
   args:
     creates: /usr/local/bin/docker-compose
 
 - name: add execute to docker-compose
-  sudo: yes
+  become: yes
   file:
     path: /usr/local/bin/docker-compose
     mode: 0755
 
 # Debian only
 - name: install Debian specific libraries
-  sudo: yes
+  become: yes
   apt: name={{ item }} state=latest
   with_items: debian_libraries
   when: ansible_distribution == 'Debian'
 
 - name: install libraries with apt
-  sudo: yes
+  become: yes
   apt: name={{ item }} state=latest
   with_items: linux_libraries
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: install npm packages
-  sudo: yes
+  become: yes
   npm: global=yes name={{ item }}
   with_items: npm_packages

@@ -16,7 +16,7 @@ run_ansible_playbook() {
   print_status_secondary "INFO" "[ Running ansible-playbook... ]"
   ansible-playbook \
   "${1}/ansible/${2}" \
-  --ask-sudo-pass \
+  --ask-become-pass \
   --inventory-file="${1}/ansible/inventory/hosts" \
   ${VAR_SITE_DIR} \
   ${VAR_SITE_URL} \
