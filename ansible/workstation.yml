@@ -98,6 +98,7 @@
         state: file
 
     - name: install sass
+      become: yes
       gem:
         name: sass
         state: present
