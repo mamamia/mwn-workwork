@@ -30,6 +30,30 @@
         dest: "{{ deploy_release.path }}"
         update: no
 
+    # TEMP
+    - name: git clone beanstalk (temp)
+      git:
+        repo: "git@mamamia.git.beanstalkapp.com:/mamamia/mamamia.git"
+        version: master
+        accept_hostkey: yes
+        dest: "{{ deploy_release.path }}/bedrock"
+        update: no
+        version: prod-merge
+      when: site_name == "mamamia"
+    # /TEMP
+
+    # TEMP
+    - name: git clone beanstalk (temp)
+      git:
+        repo: "git@mamamia.git.beanstalkapp.com:/mamamia/the-glow.git"
+        version: master
+        accept_hostkey: yes
+        dest: "{{ deploy_release.path }}/bedrock"
+        update: no
+        version: prod
+      when: site_name == "theglow"
+    # /TEMP
+
     - name: setup env
       template:
         src: templates/env.j2
