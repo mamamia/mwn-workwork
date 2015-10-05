@@ -101,6 +101,7 @@
       gem:
         name: sass
         state: present
+        user_install: no
 
     - name: install pip
       become: yes
