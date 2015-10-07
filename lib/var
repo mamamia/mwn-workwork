@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Commands
+VAR_VALID_COMMANDS="@(init|start|watch|stop|rm)"
+VAR_VALID_ARGUMENTS="@(update|install|version|help)"
+
+# Sites
+VAR_VALID_SITES="@(dd|mm|tg|tm)"
+VAR_INVALID_SITES="@(''|*)"
+
+var_setup_site() {
+  if [ $1 = "dd" ]; then
+    SITE_FULL_NAME="Debrief Daily"
+    SITE_NAME="debriefdaily"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_URL="${SITE_NAME}.com"
+  elif [ $1 = "mm" ]; then
+    SITE_FULL_NAME="Mamamia"
+    SITE_NAME="mamamia"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_URL="${SITE_NAME}.com.au"
+  elif [ $1 = "tm" ]; then
+    SITE_FULL_NAME="The Motherish"
+    SITE_NAME="themotherish"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_URL="${SITE_NAME}.com"
+  elif [ $1 = "tg" ]; then
+    SITE_FULL_NAME="The Glow"
+    SITE_NAME="theglow"
+    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
+    SITE_URL="${SITE_NAME}.com.au"
+  fi
+}
+
+# Platform
+VAR_UNAME=`uname`
+VAR_PLATFORM="unknown"
+
+# Set colours
+VAR_COLOUR_ESC="\033["
+VAR_COLOUR_ERROR="${VAR_COLOUR_ESC}31m"
+VAR_COLOUR_PASS="${VAR_COLOUR_ESC}32m"
+VAR_COLOUR_WARN="${VAR_COLOUR_ESC}33m"
+VAR_COLOUR_INFO="${VAR_COLOUR_ESC}34m"
+VAR_COLOUR_RESET="${VAR_COLOUR_ESC}0m"
+
+# Set symbols
+VAR_SYMBOL_ERROR="x"
+VAR_SYMBOL_PASS="✓"
+VAR_SYMBOL_WARN="!"
+VAR_SYMBOL_INFO="*"

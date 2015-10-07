@@ -1,0 +1,84 @@
+#!/bin/bash
+
+util_ansible_playbook() {
+  if [[ -n "$1" && -n "$2" ]]; then VAR_ANSIBLE_PATH="${1}/ansible/${2}"; fi
+  if [ -n "$3" ];              then VAR_EXTRAS="$3"; fi
+  if [ -n "$SITE_DIR" ];       then VAR_SITE_DIR="-e site_dir=${SITE_DIR}"; fi
+  if [ -n "$SITE_URL" ];       then VAR_SITE_URL="-e site_url=${SITE_URL}"; fi
+  if [ -n "$SITE_NAME" ];      then VAR_SITE_NAME="-e site_name=${SITE_NAME}"; fi
+  print_status_secondary "INFO" "[ Running ${VAR_ANSIBLE_PATH} ]"
+  ansible-playbook \
+  ${VAR_ANSIBLE_PATH} \
+  --inventory-file="${1}/ansible/inventory/hosts" \
+  ${VAR_SITE_DIR} \
+  ${VAR_SITE_URL} \
+  ${VAR_SITE_NAME} \
+  ${VAR_EXTRAS}
+  print_status_secondary "PASS" "Finished running ${VAR_ANSIBLE_PATH}"
+}
+
+# Compares git hashes
+util_update_workwork() {
+  util_git_fetch
+  VER_LOCAL=$(git rev-parse @{0})
+  VER_REMOTE=$(git rev-parse @{u})
+  VER_BASE=$(git merge-base @{0} @{u})
+  if ! git diff-index --quiet HEAD --; then
+    print_status_secondary "ERROR" "Can't update workwork due to local changes..."
+  elif [ $VER_REMOTE = $VER_BASE ]; then
+    print_status_secondary "WARN" "Please push your changes to the remote..."
+  elif [ $VER_LOCAL = $VER_BASE ]; then
+    print_status_secondary "INFO" "Updating workwork..."
+    git pull --quiet origin master
+    print_status_secondary "PASS" "workwork up-to-date!"
+  elif [ $VER_LOCAL = $VER_REMOTE ]; then
+    print_status_secondary "PASS" "workwork already up-to-date!"
+  fi
+}
+
+util_git_fetch() {
+  # Check if git fetch is available
+  if [[ "$(git fetch --dry-run 2>&1 | grep 'Could not resolve host' )" != "" ]]; then
+    echo "Internet isn't present, skip fetching"
+  else
+    git fetch --quiet
+  fi
+}
+
+# Run commands in the background
+# Credit: http://stackoverflow.com/a/15578203
+util_grunt_watch() {
+  cd ${SITE_DIR}/bedrock && grunt watch &
+}
+
+# Detect shell
+# http://stackoverflow.com/questions/9910966/how-to-tell-if-its-using-zsh-or-bash
+util_check_shell() {
+  if [ -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
+    DETECTED_SHELL="zsh"
+    PROFILE="${HOME}/.zshrc"
+  elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
+    DETECTED_SHELL="bash"
+    PROFILE="${HOME}/.bashrc"
+  else
+    echo "FATAL: Could not detect the shell!"
+    exit
+  fi
+}
+
+# Detect the platform via uname
+# http://stackoverflow.com/a/17072017
+# https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
+util_check_platform() {
+  if [[ "$VAR_UNAME" == 'Darwin' ]]; then
+    VAR_PLATFORM="osx"
+  elif [[ "$VAR_UNAME" == 'Linux' ]]; then
+    VAR_PLATFORM="linux"
+  elif [[ "$VAR_UNAME" == 'MINGW32_NT' ]]; then
+    echo "FATAL: This script is not Windows compatible!"
+    exit
+  else
+    echo "FATAL: Could not detect the platform!"
+    exit
+  fi
+}

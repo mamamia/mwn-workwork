@@ -10,54 +10,39 @@ shopt -s extglob
 # Load in functions
 WW_DIR="${HOME}/workspace/mwn-workwork"
 cd $WW_DIR
-source ./lib/vars
-source ./lib/utils
-source ./lib/display
-source ./lib/start
-source ./lib/stop
-source ./lib/update
+source ./lib/var
+source ./lib/util
+source ./lib/print
 source ./lib/run
 
-check_shell
-check_platform
+util_check_shell
+util_check_platform
 
 case "$1" in
-  $VALID_COMMANDS)
-    case "$2" in
-      $VALID_SITES)
-        setup_site $2
-        run_$1 $2
-        ;;
-      $INVALID_SITES)
-        print_status_primary "ERROR" "Invalid or missing argument"
-        print_help
-        ;;
-    esac
+  # When $1 is a valid command...
+  $VAR_VALID_COMMANDS)
+  case "$2" in
+    $VAR_VALID_SITES)
+    var_setup_site $2
+    run_command_$1 $2
     ;;
-  --update)
-    check_version
-    ;;
-  --help)
+    $VAR_INVALID_SITES)
+    print_status_primary "ERROR" "Invalid or missing site"
     print_help
     ;;
-  --version)
-    print_version
-    ;;
-  --provision)
-    run_workstation $2
-    ;;
-  --destroy)
-    run_destroy_all
-    ;;
-  --destroy-running)
-    run_destroy_running
-    ;;
+  esac
+  ;;
+  # When $1 is a valid argument...
+  "--"$VAR_VALID_ARGUMENTS)
+  run_argument_${1#"--"}
+  ;;
+  # When $1 is anything else...
   *)
-    case "$2" in
-      *)
-        print_status_primary "ERROR" "Invalid command '$1'"
-        print_help
-        ;;
-      esac
+  case "$2" in
+    *)
+    print_status_primary "ERROR" "Invalid command or argument: ${1-[null]}"
+    print_help
     ;;
+  esac
+  ;;
 esac

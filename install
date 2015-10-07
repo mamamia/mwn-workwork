@@ -18,17 +18,17 @@ echo
 # Variables
 WW_DIR="${HOME}/workspace/mwn-workwork"
 BIN_DIR="${WW_DIR}/bin"
-UNAME=`uname`
-UNAMEM=`uname -m`
-PLATFORM="unknown"
+VAR_UNAME=`uname`
+VAR_UNAMEM=`uname -m`
+VAR_PLATFORM="unknown"
 
 # Credit: http://stackoverflow.com/a/17072017
 check_platform() {
-  if [[ "$UNAME" == "Darwin" ]]; then
-    PLATFORM="osx"
-  elif [[ "$UNAME" == "Linux" ]]; then
-    PLATFORM="linux"
-  elif [[ "$UNAME" == "MINGW32_NT" ]]; then
+  if [[ "$VAR_UNAME" == "Darwin" ]]; then
+    VAR_PLATFORM="osx"
+  elif [[ "$VAR_UNAME" == "Linux" ]]; then
+    VAR_PLATFORM="linux"
+  elif [[ "$VAR_UNAME" == "MINGW32_NT" ]]; then
     echo "FATAL: workwork is not Windows compatible"
     exit
   else
@@ -39,7 +39,7 @@ check_platform() {
 
 # Credit: http://stackoverflow.com/questions/106387/is-it-possible-to-detect-32-bit-vs-64-bit-in-a-bash-script
 check_64bit() {
-  if [[ "$UNAMEM" != "x86_64" ]]; then
+  if [[ "$VAR_UNAMEM" != "x86_64" ]]; then
     echo "FATAL: workwork requires a 64bit platform"
     exit
   fi
@@ -55,7 +55,7 @@ check_sudo() {
 }
 
 check_homebrew() {
-  if [ $PLATFORM == "osx" ]; then
+  if [ $VAR_PLATFORM == "osx" ]; then
     if type_exists "brew"; then
       echo "PASS: ${FUNCNAME}"
     else
@@ -67,9 +67,9 @@ check_homebrew() {
 
 update_package_lists() {
   echo "INFO: Updating package lists..."
-  if [ $PLATFORM == "osx" ]; then
+  if [ $VAR_PLATFORM == "osx" ]; then
     brew update
-  elif [ $PLATFORM == "linux" ]; then
+  elif [ $VAR_PLATFORM == "linux" ]; then
     # Docker (Assumes Debian 8 for now)
     sudo sh -c "echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list"
     # Ansible
@@ -85,9 +85,9 @@ check_git() {
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Installing git..."
-    if [ $PLATFORM == "osx" ]; then
+    if [ $VAR_PLATFORM == "osx" ]; then
       brew install git
-    elif [ $PLATFORM == "linux" ]; then
+    elif [ $VAR_PLATFORM == "linux" ]; then
       sudo apt-get -y git-core
     fi
   fi
@@ -98,9 +98,9 @@ check_ansible() {
     echo "PASS: ${FUNCNAME}"
   else
     echo "INFO: Installing ansible..."
-    if [ $PLATFORM == "osx" ]; then
+    if [ $VAR_PLATFORM == "osx" ]; then
       brew install ansible
-    elif [ $PLATFORM == "linux" ]; then
+    elif [ $VAR_PLATFORM == "linux" ]; then
       # Assumes Debian 8 for now
       sudo apt-get -t jessie-backports install -y ansible
     fi

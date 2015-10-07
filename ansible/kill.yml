@@ -1,0 +1,15 @@
+---
+- hosts: workstation
+  connection: local
+  tasks:
+    - name: check for running processes
+      shell: "pgrep {{ item }}"
+      with_items: kill_process
+      register: kill_process_pid
+      failed_when: kill_process_pid.stderr != ''
+      changed_when: kill_process_pid.rc == 0
+
+    # Credit: http://stackoverflow.com/questions/30715865/what-is-a-map-in-terms-of-ansible-variables
+    - name: kill running processes
+      shell: "kill {{ item }}"
+      with_items: "{{ kill_process_pid.results | selectattr('changed') | map(attribute='stdout') | list }}"

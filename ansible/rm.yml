@@ -1,0 +1,11 @@
+---
+- hosts: workstation
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "removing docker container"
+      docker:
+        image: mamamia/nginx-phpfpm
+        name: "mwn-{{ site_name }}"
+        state: absent
+        use_tls: encrypt

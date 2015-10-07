@@ -1,0 +1,11 @@
+---
+- hosts: workstation
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "stopping docker container"
+      docker:
+        image: mamamia/nginx-phpfpm
+        name: "mwn-{{ site_name }}"
+        state: stopped
+        use_tls: encrypt

@@ -23,3 +23,8 @@ npm_packages:
   - grunt-cli
   - grunt
   - bower
+kill_process:
+  - apache2
+  - nginx
+  - mysql
+  - grunt

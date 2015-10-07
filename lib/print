@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# Output fancy titles
+print_status_primary() {
+  STATUS=$1
+  MESSAGE=$2
+  PRIMARY_COLOUR="VAR_COLOUR"_"${STATUS}"
+  echo -e "${!PRIMARY_COLOUR}"
+  echo "${MESSAGE}"
+  echo "--------------------------------------------------------"
+  echo -e "${VAR_COLOUR_RESET}"
+}
+
+# Output status messages
+print_status_secondary() {
+  STATUS=$1
+  MESSAGE=$2
+  SECONDARY_COLOUR="VAR_COLOUR"_"${STATUS}"
+  SECONDARY_SYMBOL="VAR_SYMBOL"_"${STATUS}"
+  echo -e "${!SECONDARY_COLOUR}${!SECONDARY_SYMBOL}${VAR_COLOUR_RESET} ${MESSAGE}"
+  if [ $STATUS == "ERROR" ]; then
+    exit 1
+  fi
+}
+
+# Output shared version
+print_version() {
+  echo "Local version: $(git rev-parse --short HEAD)"
+  echo "Remote version: $(git rev-parse --short master)"
+  echo
+  echo "Local changes:"
+  git diff-index --name-status HEAD
+  echo
+}
+
+# Output shared arguments
+print_usage() {
+  echo "Usage: ww [argument]"
+  echo "   or: ww [command] [site]"
+  echo
+}
+
+print_arguments() {
+  echo "Arguments:"
+  echo "   --update   Get the latest updates for workwork via git"
+  echo "   --install  Run the install.yml ansible playbook"
+  echo "   --version  Print local and remote git HEAD hash for workwork"
+  echo "   --help     Print this help message"
+  echo
+}
+
+print_commands() {
+  echo "Commands:"
+  echo "   init       Initialise local development environment for [site]"
+  echo "   start      Start local development environment for [site]"
+  echo "   watch      Start grunt watch for [site]"
+  echo "   stop       Stop local development environment for [site]"
+  echo "   rm         Stop and remove local development environment for [site]"
+  echo
+}
+
+print_sites() {
+  echo "Sites:"
+  echo "   dd         Debrief Daily"
+  echo "   mm         Mamamia"
+  echo "   tg         The Glow"
+  echo "   tm         The Motherish"
+  # echo "   all        [all of the above]"
+}
+
+print_help() {
+  print_usage
+  print_arguments
+  print_commands
+  print_sites
+  echo
+  exit 1
+}
