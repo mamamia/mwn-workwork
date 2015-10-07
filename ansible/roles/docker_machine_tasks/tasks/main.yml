@@ -1,0 +1,17 @@
+---
+- name: docker-machine status
+  shell: docker-machine status default
+  ignore_errors: yes
+  register: docker_machine_status
+  changed_when: no
+
+- name: docker-machine create
+  shell: docker-machine create --driver virtualbox default
+  when: "'Host does not exist' in docker_machine_status.stderr"
+
+- name: docker-machine start
+  shell: docker-machine start default
+  when: "'Running' not in docker_machine_status.stdout"
+
+- name: docker evnironment check
+  action: docker_eval

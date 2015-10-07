@@ -130,3 +130,10 @@
       pip:
         name: docker-py
         version: 1.2.3
+
+# OS X
+- hosts: sys_Darwin
+  connection: local
+  gather_facts: false
+  roles:
+    - docker_machine_tasks

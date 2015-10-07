@@ -4,13 +4,6 @@
   roles:
     - define_system
 
-# OS X
-- hosts: sys_Darwin
-  connection: local
-  gather_facts: false
-  roles:
-    - init_darwin_tasks
-
 # Global
 - hosts: workstation
   connection: local

@@ -1,12 +1,19 @@
 ---
 - hosts: workstation
   connection: local
+  roles:
+    - define_system
+
+# OS X
+- hosts: sys_Darwin
+  connection: local
+  gather_facts: false
+  roles:
+    - docker_machine_tasks
+
+- hosts: workstation
+  connection: local
   tasks:
-
-    - name: start docker-machine
-      shell: docker-machine start default 2>/dev/null; eval $(docker-machine env default)
-      when: ansible_os_family == 'Darwin'
-
     # Repo: https://github.com/jwilder/nginx-proxy
     # Docs: https://github.com/jwilder/nginx-proxy/blob/master/README.md
     - name: start mwn-proxy

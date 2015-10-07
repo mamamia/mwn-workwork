@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+if [ -n "$DOCKER_HOST" ]; then
+cat << EOF
+{
+  "changed": false
+}
+EOF
+else
+cat << EOF
+{
+  "failed": true,
+  "msg": "Docker environment variables not found.\nPlease open a new terminal window and try again.\n\nIf issues persist, try running \`ww --provision\` again."
+}
+EOF
+fi
