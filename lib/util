@@ -25,14 +25,14 @@ util_update_workwork() {
   VER_BASE=$(git merge-base @{0} @{u})
   if ! git diff-index --quiet HEAD --; then
     print_status_secondary "ERROR" "Can't update workwork due to local changes..."
-  elif [ $VER_REMOTE = $VER_BASE ]; then
-    print_status_secondary "WARN" "Please push your changes to the remote..."
   elif [ $VER_LOCAL = $VER_BASE ]; then
     print_status_secondary "INFO" "Updating workwork..."
     git pull --quiet origin master
     print_status_secondary "PASS" "workwork up-to-date!"
   elif [ $VER_LOCAL = $VER_REMOTE ]; then
     print_status_secondary "PASS" "workwork already up-to-date!"
+  elif [ $VER_REMOTE = $VER_BASE ]; then
+    print_status_secondary "WARN" "Please push your changes to the remote..."
   fi
 }
 
