@@ -29,7 +29,7 @@
       shell: "cd {{ site_dir }}/bedrock && grunt"
 
     - name: update /etc/hosts
-      sudo: yes
+      become: yes
       shell: "{{ item }}"
       with_items:
        - "{{ bin_dir }}/etchosts update web {{ docker_ip }}"
