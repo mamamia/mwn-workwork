@@ -17,7 +17,6 @@ run_init() {
 
 run_start() {
   print_status_primary "INFO" "Running start for ${SITE_FULL_NAME}"
-  check_sudo
   kill_existing
   run_ansible_playbook "${WW_DIR}" "start.yml"
   run_ansible_playbook "${SITE_DIR}" "start.yml"
@@ -33,7 +32,6 @@ run_stop() {
 
 run_destroy_all() {
   print_status_primary "INFO" "Shutting down and removing docker containers"
-  check_sudo
   kill_existing
   kill_docker_containers "$(docker ps -aq)"
   print_status_secondary "PASS" "See you Space Cowboy!"
@@ -41,7 +39,6 @@ run_destroy_all() {
 
 run_destroy_running() {
   print_status_primary "INFO" "Shutting down and removing docker containers"
-  check_sudo
   kill_existing
   kill_docker_containers "$(docker ps -q)"
   print_status_secondary "PASS" "See you Space Cowboy!"

@@ -6,13 +6,13 @@ update_git() {
     "${SITE_DIR}/bedrock/web/app/mwn-codepool"
   )
   for REPO_DIR in "${git_repos[@]}"; do
-    save_cursor; print_status_secondary "INFO" "[ Checking out master in ${REPO_DIR}... ]"
+    print_status_secondary "INFO" "[ Checking out master in ${REPO_DIR}... ]"
     cd $REPO_DIR && git checkout master || print_status_secondary "ERROR" "Please fix issues listed above in ${REPO_DIR}"
-    replace_line; print_status_secondary "PASS" "On master branch in ${REPO_DIR}"
+    print_status_secondary "PASS" "On master branch in ${REPO_DIR}"
     echo
-    save_cursor; print_status_secondary "INFO" "[ Running git pull in ${REPO_DIR}... ]"
+    print_status_secondary "INFO" "[ Running git pull in ${REPO_DIR}... ]"
     cd $REPO_DIR && git pull origin master || print_status_secondary "ERROR" "Please fix issues listed above in ${REPO_DIR}"
-    replace_line; print_status_secondary "PASS" "Git pull successful in ${REPO_DIR}"
+    print_status_secondary "PASS" "Git pull successful in ${REPO_DIR}"
     echo
   done
 }

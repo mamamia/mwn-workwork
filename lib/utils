@@ -16,7 +16,6 @@ run_ansible_playbook() {
   print_status_secondary "INFO" "[ Running ansible-playbook... ]"
   ansible-playbook \
   "${1}/ansible/${2}" \
-  --ask-become-pass \
   --inventory-file="${1}/ansible/inventory/hosts" \
   ${VAR_SITE_DIR} \
   ${VAR_SITE_URL} \
@@ -48,13 +47,6 @@ check_version() {
         print_status_primary "ERROR" "Can't update workwork due to local changes..."
       fi
   fi
-}
-
-# Grabs sudo and tries to keep it alive
-# Credit: https://gist.github.com/cowboy/3118588
-check_sudo() {
-  sudo -v -p 'Enter your sudo password:'
-  while true; do sudo -n true; sleep 40; kill -0 "$$" || exit; done 2>/dev/null &
 }
 
 setup_site() {
@@ -111,15 +103,4 @@ check_platform() {
     echo "FATAL: Could not detect the platform!"
     exit
   fi
-}
-
-# Save cursor
-save_cursor() {
-  tput sc
-}
-
-# Restore cursor and erase to end of line
-replace_line() {
-  tput rc
-  tput el
 }
