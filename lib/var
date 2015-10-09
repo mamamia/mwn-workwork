@@ -4,8 +4,11 @@
 VAR_VALID_COMMANDS="@(init|start|watch|stop|rm)"
 VAR_VALID_ARGUMENTS="@(update|install|version|help)"
 
-# Sites
-VAR_VALID_SITES="@(dd|mm|tg|tm)"
+VAR_VALID_SITES_STRING="dd mm tg tm"
+VAR_VALID_SITES_ARRAY=($VAR_VALID_SITES_STRING)
+# Convert array to custom string
+# Credit: http://stackoverflow.com/a/9429887
+VAR_VALID_SITES=$(IFS="|"; echo "@(${VAR_VALID_SITES_ARRAY[*]})")
 VAR_INVALID_SITES="@(''|*)"
 
 var_setup_site() {

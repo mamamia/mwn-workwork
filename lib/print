@@ -50,13 +50,17 @@ print_arguments() {
 }
 
 print_commands() {
-  echo "Commands:"
+  echo "Commands (local):"
   echo "   init       Initialise local development environment for [site]"
   echo "   start      Start local development environment for [site]"
   echo "   watch      Start grunt watch for [site]"
+  # echo "   status     Print service status of [site]"
   echo "   stop       Stop local development environment for [site]"
   echo "   rm         Stop and remove local development environment for [site]"
   echo
+  # echo "Commands (remote):"
+  # echo "   deploy     Deploy [site] to valid [hash]"
+  # echo
 }
 
 print_sites() {
@@ -65,7 +69,7 @@ print_sites() {
   echo "   mm         Mamamia"
   echo "   tg         The Glow"
   echo "   tm         The Motherish"
-  # echo "   all        [all of the above]"
+  echo "   all        [all of the above]"
 }
 
 print_help() {
