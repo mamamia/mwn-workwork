@@ -25,6 +25,14 @@
     - name: bower install codepool
       shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
+    - name: bower install (temp)
+      shell: "cd {{ site_dir }}/bedrock && bower install --config.interactive=false"
+      ignore_errors: yes
+
+    - name: bower install theme (temp)
+      shell: "cd {{ site_dir }}/bedrock/web/app/themes/{{ site_name }} && bower install --config.interactive=false"
+      ignore_errors: yes
+
     - name: run grunt
       shell: "cd {{ site_dir }}/bedrock && grunt"
 
