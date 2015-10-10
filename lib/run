@@ -45,7 +45,7 @@ run_argument_update() {
 
 run_argument_install() {
   print_status_primary "INFO" "Install workwork"
-  util_ansible_playbook "${WW_DIR}" "workstation.yml" "${1}"
+  util_ansible_playbook "${WW_DIR}" "install.yml" "${1}"
   print_status_secondary "PASS" "Completed all tasks!"
 }
 
