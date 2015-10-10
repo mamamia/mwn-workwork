@@ -49,6 +49,7 @@
           - mwn-mysql-data
         volumes:
           - /mnt/sda1/var/lib/mysql:/var/lib/mysql
+          - "{{ ansible_env.HOME }}/workspace/mwn-workwork/config/mysql:/etc/mysql/conf.d"
         ports:
           - "3306:3306"
         use_tls: encrypt # bumming out with cert error without this -- might be a 10.11 issue?
