@@ -42,7 +42,7 @@ $ curl workwork.mamamianetwork.com/install | sh
       * [Sass](http://sass-lang.com/install/)
 
 ### I'm not sure piping a random script to shell is a [good idea](http://www.seancassidy.me/dont-pipe-to-your-shell.html)
-Hey, good one for pointing that out! Please check out the [install](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install) script and [workstation.yml](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/ansible/workstation.yml) prior to running to make sure there are no commands that might hurt your system. You can also download the repo and run the script locally if you are worried about getting disconnected from the internet while running the script.
+Hey, good one for pointing that out! Please check out the [install](install) bash script and [ansible/install.yml](ansible/install.yml) prior to running to make sure there are no commands that might hurt your system. You can also download the repo and run the script locally if you are worried about getting disconnected from the internet while running the script.
 
 ## Next steps
 Once finished, close your terminal window and head over to one of the site repositories.  
