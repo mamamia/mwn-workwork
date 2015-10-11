@@ -57,12 +57,3 @@ There may be issues when installing workwork for the first time over a slow conn
 ``` sh
 $ ww --install --extra-vars="skip_casks=true"
 ```
-
-### Sudo errors
-Sometimes `sudo` escalation will time out when installing workwork before Ansible has a chance to run the task that required `sudo` access. If this happens, just run the provision script again.
-``` sh
-$ ww --install
-```
-
-### Script jumps ahead before docker containers have finished downloading
-Docker containers are currently started with bash commands instead of Ansible, so running `ww init [site]` on a new machine may yield unpredictable results. If you come across any errors, just run the init script again after the docker containers have finished downloading.
