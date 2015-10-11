@@ -117,12 +117,12 @@ check_workwork() {
 }
 
 run_playbook_workstation() {
-  echo "INFO: Starting ansible provision..."
+  echo "INFO: Starting ansible install playbook..."
   echo
   echo "If the script does not finish due to errors,"
-  echo "run \`ww --provision\` to start it again."
+  echo "run \`ww --install\` to start it again."
   echo
-  ansible-playbook --ask-sudo-pass "${WW_DIR}/ansible/workstation.yml" -i "${WW_DIR}/ansible/inventory/hosts"
+  ansible-playbook --ask-sudo-pass "${WW_DIR}/ansible/install.yml" -i "${WW_DIR}/ansible/inventory/hosts"
 }
 
 byebye() {

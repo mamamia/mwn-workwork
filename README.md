@@ -26,7 +26,7 @@ $ curl workwork.mamamianetwork.com/install | sh
     - [Git](http://git-scm.com/downloads/)
     - [Ansible](http://docs.ansible.com/intro_installation.html)
   - Clone this repo into `~/workspace/mwn-workwork/`
-2. Run the Ansible playbook (`workstation.yml`)
+2. Run the Ansible playbook (`install.yml`)
   * Add the bin folder of this repo to the PATH via dotfiles
   * Add `eval $(docker-machine env default)` to dotfiles (OS X only)
   * Install
@@ -42,7 +42,7 @@ $ curl workwork.mamamianetwork.com/install | sh
       * [Sass](http://sass-lang.com/install/)
 
 ### I'm not sure piping a random script to shell is a [good idea](http://www.seancassidy.me/dont-pipe-to-your-shell.html)
-Hey, good one for pointing that out! Please check out the [install](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/install) script and [workstation.yml](https://raw.githubusercontent.com/mamamia/mwn-workwork/master/ansible/workstation.yml) prior to running to make sure there are no commands that might hurt your system. You can also download the repo and run the script locally if you are worried about getting disconnected from the internet while running the script.
+Hey, good one for pointing that out! Please check out the [install](install) bash script and [ansible/install.yml](ansible/install.yml) prior to running to make sure there are no commands that might hurt your system. You can also download the repo and run the script locally if you are worried about getting disconnected from the internet while running the script.
 
 ## Next steps
 Once finished, close your terminal window and head over to one of the site repositories.  
@@ -55,14 +55,5 @@ There, you can read up on how to initialise your first site!
 ### Provision fails when installing homebrew casks
 There may be issues when installing workwork for the first time over a slow connection on new machines running OS X. If the `install homebrew casks` task fails, install [Docker Toolbox](https://www.docker.com/toolbox) manually, then run:
 ``` sh
-$ ww --provision --extra-vars="skip_casks=true"
+$ ww --install --extra-vars="skip_casks=true"
 ```
-
-### Sudo errors
-Sometimes `sudo` escalation will time out when installing workwork before Ansible has a chance to run the task that required `sudo` access. If this happens, just run the provision script again.
-``` sh
-$ ww --provision
-```
-
-### Script jumps ahead before docker containers have finished downloading
-Docker containers are currently started with bash commands instead of Ansible, so running `ww init [site]` on a new machine may yield unpredictable results. If you come across any errors, just run the init script again after the docker containers have finished downloading.
