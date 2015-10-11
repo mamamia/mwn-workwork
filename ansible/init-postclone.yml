@@ -108,3 +108,10 @@
 
     - name: activate theme
       shell: "wp theme activate {{ site_name }} --path={{ site_dir }}/bedrock/web/wp"
+      when: site_name != "theglow"
+
+    # TEMP
+    - name: activate glow theme (temp)
+      shell: "wp theme activate glow --path={{ site_dir }}/bedrock/web/wp"
+      when: site_name == "theglow"
+    # /TEMP
