@@ -10,7 +10,7 @@ else
 cat << EOF
 {
   "failed": true,
-  "msg": "Docker environment variables not found.\nPlease open a new terminal window and try again.\n\nIf issues persist, try running \`ww --provision\` again."
+  "msg": "Docker environment variables not found.\nPlease open a new terminal window and try again.\n\nIf issues persist, try running \`ww --install\` again."
 }
 EOF
 fi

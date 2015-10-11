@@ -26,7 +26,7 @@ $ curl workwork.mamamianetwork.com/install | sh
     - [Git](http://git-scm.com/downloads/)
     - [Ansible](http://docs.ansible.com/intro_installation.html)
   - Clone this repo into `~/workspace/mwn-workwork/`
-2. Run the Ansible playbook (`workstation.yml`)
+2. Run the Ansible playbook (`install.yml`)
   * Add the bin folder of this repo to the PATH via dotfiles
   * Add `eval $(docker-machine env default)` to dotfiles (OS X only)
   * Install
@@ -55,13 +55,13 @@ There, you can read up on how to initialise your first site!
 ### Provision fails when installing homebrew casks
 There may be issues when installing workwork for the first time over a slow connection on new machines running OS X. If the `install homebrew casks` task fails, install [Docker Toolbox](https://www.docker.com/toolbox) manually, then run:
 ``` sh
-$ ww --provision --extra-vars="skip_casks=true"
+$ ww --install --extra-vars="skip_casks=true"
 ```
 
 ### Sudo errors
 Sometimes `sudo` escalation will time out when installing workwork before Ansible has a chance to run the task that required `sudo` access. If this happens, just run the provision script again.
 ``` sh
-$ ww --provision
+$ ww --install
 ```
 
 ### Script jumps ahead before docker containers have finished downloading
