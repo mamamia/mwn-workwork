@@ -41,7 +41,7 @@ case "$1" in
   ;;
   # When $1 is a valid argument...
   "--"$VAR_VALID_ARGUMENTS)
-  run_argument_${1#"--"}
+  run_argument_${1#"--"} $2
   ;;
   # When $1 is anything else...
   *)
