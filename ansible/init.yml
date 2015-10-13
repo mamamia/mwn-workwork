@@ -31,7 +31,7 @@
         accept_hostkey: yes
         dest: "{{ deploy_release.path }}/bedrock"
         update: no
-        version: prod-merge
+        version: prod
       when: site_name == "mamamia"
     # /TEMP
 
