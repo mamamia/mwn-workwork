@@ -1,6 +1,6 @@
 ---
 - name: add nodesource repo
-  shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
+  shell: curl -sL https://deb.nodesource.com/setup | sudo -E bash -
 
 - name: update apt
   become: yes
