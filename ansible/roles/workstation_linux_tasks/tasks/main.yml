@@ -22,15 +22,15 @@
   become: yes
   shell: echo deb https://apt.dockerproject.org/repo debian-jessie main > /etc/apt/sources.list.d/docker.list
 
+- name: update apt
+  become: yes
+  apt: update_cache=yes
+
 - name: install libraries with apt (Debian Jessie)
   become: yes
   apt: name={{ item }} state=latest
   with_items: debian_libraries
   when: ansible_distribution == 'Debian'
-
-- name: update apt
-  become: yes
-  apt: update_cache=yes
 
 - name: install libraries with apt
   become: yes
