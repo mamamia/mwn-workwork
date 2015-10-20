@@ -65,11 +65,26 @@ check_homebrew() {
   fi
 }
 
+is_debian() {
+    if grep -Pq "${1}" /etc/*-release; then
+        return 0
+    fi
+
+    return 1
+}
+
 update_package_lists() {
   echo "INFO: Updating package lists..."
   if [ $VAR_PLATFORM == "osx" ]; then
     brew update
   elif [ $VAR_PLATFORM == "linux" ]; then
+
+    if is_debian "jessie"; then
+      # Docker (Assumes Debian 8 for now)
+      sudo sh -c "echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list"
+    fi
+
+    # Update
     sudo apt-get update -y
   fi
 }
