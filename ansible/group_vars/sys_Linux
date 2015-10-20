@@ -3,6 +3,7 @@ linux_libraries:
   - ruby-full
   - nodejs
 debian_libraries:
+  - libmysqlclient-dev
   - mysql-server
   - php5
   - php5-curl
