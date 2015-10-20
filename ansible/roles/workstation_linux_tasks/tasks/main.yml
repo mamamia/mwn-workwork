@@ -6,24 +6,6 @@
   become: yes
   apt: update_cache=yes
 
-- name: install docker-compose
-  shell: curl --silent -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
-  args:
-    creates: /usr/local/bin/docker-compose
-
-- name: move docker-compose
-  become: yes
-  shell: mv /tmp/docker-compose /usr/local/bin/docker-compose
-  args:
-    creates: /usr/local/bin/docker-compose
-
-- name: add execute to docker-compose
-  become: yes
-  file:
-    path: /usr/local/bin/docker-compose
-    mode: 0755
-
-# Debian only
 - name: install Debian specific libraries
   become: yes
   apt: name={{ item }} state=latest
