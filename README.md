@@ -57,3 +57,14 @@ There may be issues when installing workwork for the first time over a slow conn
 ``` sh
 $ ww --install --extra-vars="skip_casks=true"
 ```
+
+### Initial requirements missing on some linux distributions
+Debian does not ship with `sudo` or `curl`, so you're likely to get the error `curl: command not found` when trying to install workwork on a fresh OS install. You will need to run the following:
+``` sh
+$ su
+$ apt-get install -y sudo curl
+$ adduser $(logname) sudo
+$ exit
+$ su - $USER
+```
+This will install the base requirements, add the logged in user to the sudo group, and reload the user group assignments without having to log out.
