@@ -9,16 +9,13 @@
     state: absent
     purge: yes
   with_items:
-    - lxc-docker*
-    - purge docker.io*
+    - lxc-docker
+    - purge docker.io
   when: ansible_distribution == 'Debian'
 
 - name: add docker gpg key (Debian Jessie)
   become: yes
-  apt_key:
-    url: hkp://pgp.mit.edu:80
-    id: 58118E89F3A912897C070ADBF76221572C52609D
-    state: present
+  shell: apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
   when: ansible_distribution == 'Debian'
 
 - name: add docker repository (Debian Jessie)
