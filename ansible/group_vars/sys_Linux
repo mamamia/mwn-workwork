@@ -7,4 +7,4 @@ debian_libraries:
   - php5
   - php5-curl
   - php5-mysql
-  - lxc-docker
+  - docker-engine
