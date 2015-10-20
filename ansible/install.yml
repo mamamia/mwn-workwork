@@ -95,6 +95,7 @@
         state: file
 
     - name: install wp-cli
+      become: yes
       shell: curl --output /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
       args:
         creates: /usr/local/bin/wp
