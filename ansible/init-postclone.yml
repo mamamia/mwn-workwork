@@ -11,6 +11,7 @@
 
     - name: composer self-update
       shell: composer self-update
+      become: yes
 
     - name: composer install
       composer:
