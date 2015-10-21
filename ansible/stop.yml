@@ -8,4 +8,4 @@
         image: mamamia/nginx-phpfpm
         name: "mwn-{{ site_name }}"
         state: stopped
-        use_tls: encrypt
+        use_tls: "{{ docker_tls }}"

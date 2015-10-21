@@ -7,3 +7,4 @@ osx_taps:
   - caskroom/cask
 osx_casks:
   - dockertoolbox
+docker_tls: encrypt

@@ -9,3 +9,4 @@ debian_libraries:
   - php5-curl
   - php5-mysql
   - docker-engine
+docker_tls: "no"
