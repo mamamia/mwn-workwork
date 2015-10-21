@@ -88,7 +88,7 @@
       when: database_dump_file.stat.exists
 
     - name: database find replace
-      shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} --path={{ site_dir }}/bedrock/web/wp"
+      shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} wp_options --path={{ site_dir }}/bedrock/web/wp"
       when: database_dump_file.stat.exists
 
     - name: check for dev user
