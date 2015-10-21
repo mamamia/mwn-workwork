@@ -1,6 +1,6 @@
 bin_dir:               "{{ ansible_env.HOME }}/workspace/mwn-workwork/bin"
 ww_dir:                "{{ ansible_env.HOME }}/workspace/mwn-workwork"
-app_env:               development
+app_env:               dev
 wp_home:               "http://dev.{{ site_url }}"
 wp_site_url:           "http://dev.{{ site_url }}/wp"
 db_name:               "{{ site_name }}"
