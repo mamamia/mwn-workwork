@@ -24,7 +24,4 @@ npm_packages:
   - grunt
   - bower
 kill_process:
-  - apache2
-  - nginx
-  - mysql
   - grunt
