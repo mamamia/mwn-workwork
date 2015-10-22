@@ -27,6 +27,15 @@
         state: absent
       when: detected_shell == "bash"
 
+    - name: remove legacy changes to sudoers file
+      become: yes
+      lineinfile:
+        dest: /etc/sudoers
+        state: absent
+        regexp: '%ADMIN ALL=\(ALL\) NOPASSWD:ALL'
+        validate: "visudo -cf %s"
+      changed_when: false
+
     # Ensure ww is immediately accessable
     - name: ensure ww is executable
       file:
@@ -85,6 +94,7 @@
     - name: add workwork group to current user (OS X)
       become: yes
       shell: "dseditgroup -o edit -a {{ ansible_user_id }} -t user workwork"
+      changed_when: false
       when: ansible_system == "Darwin"
 
     - name: add workwork group to current user (Linux)
