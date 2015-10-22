@@ -1,7 +1,10 @@
 ---
 - hosts: workstation
   connection: local
-  gather_facts: false
+
+  roles:
+    - define_system
+
   tasks:
     - name: "stopping docker container"
       docker:

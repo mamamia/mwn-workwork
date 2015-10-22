@@ -25,4 +25,3 @@ npm_packages:
   - bower
 kill_process:
   - grunt
-docker_tls: encrypt

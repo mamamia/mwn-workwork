@@ -1,6 +1,7 @@
 ---
 - hosts: workstation
   connection: local
+  
   tasks:
     - name: check for running processes
       shell: "pgrep {{ item }}"

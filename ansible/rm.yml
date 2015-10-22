@@ -1,7 +1,10 @@
 ---
 - hosts: workstation
   connection: local
-  gather_facts: false
+
+  roles:
+    - define_system
+
   tasks:
     - name: "removing docker container"
       docker:
