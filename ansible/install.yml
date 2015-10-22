@@ -14,13 +14,13 @@
       action: detect_shell
       changed_when: false
 
-    # Ensure ww is immediately accessable
+    # Ensure ww is immediately accessible
     - name: ensure ww is executable
       file:
         path: "{{ bin_dir }}/ww"
         mode: 0755
 
-    - name: ensure ww is accessable
+    - name: ensure ww is accessible
       file:
         src: "{{ bin_dir }}/ww"
         dest: /usr/local/bin/ww
