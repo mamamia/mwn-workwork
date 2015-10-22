@@ -2,31 +2,21 @@
 - name: add nodesource repo
   shell: curl -sL https://deb.nodesource.com/setup | sudo -E bash -
 
-- name: remove older docker repositories (Debian Jessie)
-  become: yes
-  apt:
-    name: "{{ item }}"
-    state: absent
-    purge: yes
-  with_items:
-    - lxc-docker
-    - purge docker.io
-  when: ansible_distribution == 'Debian'
-
-- name: add docker gpg key (Debian Jessie)
+- name: add docker gpg key (Debian)
   become: yes
   shell: apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
   when: ansible_distribution == 'Debian'
 
-- name: add docker repository (Debian Jessie)
+- name: add docker repository (Debian)
   become: yes
-  shell: echo deb https://apt.dockerproject.org/repo debian-jessie main > /etc/apt/sources.list.d/docker.list
+  shell: echo deb https://apt.dockerproject.org/repo debian-stretch main > /etc/apt/sources.list.d/docker.list
+  when: ansible_distribution == 'Debian'
 
 - name: update apt
   become: yes
   apt: update_cache=yes
 
-- name: install libraries with apt (Debian Jessie)
+- name: install libraries with apt (Debian)
   become: yes
   apt: name={{ item }} state=latest
   with_items: debian_libraries
