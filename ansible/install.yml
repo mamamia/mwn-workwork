@@ -4,6 +4,41 @@
   roles:
     - define_system
 
+# Global
+- hosts: workstation
+  connection: local
+  tasks:
+    # Create facts `detected_shell` and `shellrc_dir`
+    - name: detect shell
+      action: detect_shell
+      changed_when: false
+
+    # Clean up legacy stuff
+    - name: remove legacy changes to $PATH in .bashrc or .zshrc
+      lineinfile:
+        dest: "{{ shellrc_dir }}"
+        regexp: "workspace/mwn-workwork/bin"
+        state: absent
+
+    - name: remove legacy changes to $PATH in .bash_profile
+      lineinfile:
+        dest: "{{ ansible_env.HOME }}/.bash_profile"
+        regexp: "workspace/mwn-workwork/bin"
+        state: absent
+      when: detected_shell == "bash"
+
+    # Ensure ww is immediately accessable
+    - name: ensure ww is executable
+      file:
+        path: "{{ bin_dir }}/ww"
+        mode: 0755
+
+    - name: ensure ww is accessable
+      file:
+        src: "{{ bin_dir }}/ww"
+        dest: /usr/local/bin/ww
+        state: link
+
 # OS X
 - hosts: sys_Darwin
   connection: local
@@ -22,41 +57,40 @@
 - hosts: workstation
   connection: local
   tasks:
-    - name: disable sudo password for admin users
+    - name: ensure workwork group exists
+      become: yes
+      group:
+        name: workwork
+        state: present
+
+    - name: disable sudo password for workwork group
       become: yes
       lineinfile:
         dest: /etc/sudoers
         state: present
-        regexp: '^%ADMIN ALL\='
-        line: '%ADMIN ALL=(ALL) NOPASSWD:ALL'
-        validate: 'visudo -cf %s'
+        regexp: "Disable password prompt for workwork group"
+        line: "%workwork ALL=(ALL) NOPASSWD:ALL # Disable password prompt for workwork group"
+        validate: "visudo -cf %s"
 
-    - name: detect shell
-      action: detect_shell # This returns the varibles `detected_shell` and `shellrc_dir`
-      changed_when: false
+    # This task broke OSX, and removed other important groups, such as admin!
+    # Bug reported here: https://github.com/ansible/ansible-modules-core/issues/2322
+    # Bash alternatives written below instead
+    # - name: add workwork group to current user
+    #   become: yes
+    #   user:
+    #     name: "{{ ansible_user_id }}"
+    #     groups: workwork
+    #     append: yes
 
-    - name: add workwork bin to PATH in .bashrc or .zshrc
-      lineinfile:
-        dest: "{{ shellrc_dir }}"
-        regexp: "workwork bin path"
-        line: "export PATH=$PATH:{{ bin_dir }} # workwork bin path (added with workstation.yml)"
-        create: yes
-        state: present
+    - name: add workwork group to current user (OS X)
+      become: yes
+      shell: "dseditgroup -o edit -a {{ ansible_user_id }} -t user workwork"
+      when: ansible_system == "Darwin"
 
-    - name: add workwork bin to PATH in .bash_profile
-      lineinfile:
-        dest: "{{ ansible_env.HOME }}/.bash_profile"
-        regexp: "workwork bin path"
-        line: "export PATH=$PATH:{{ bin_dir }} # workwork bin path (added with workstation.yml)"
-        create: yes
-        state: present
-      when: detected_shell == "bash"
-
-    - name: add execute to files in workwork bin
-      file:
-        path: "{{ bin_dir }}"
-        mode: 0755
-        recurse: yes
+    - name: add workwork group to current user (Linux)
+      become: yes
+      shell: "usermod -a -G workwork {{ ansible_user_id }}"
+      when: ansible_system == "Linux"
 
     - name: add docker-machine shellinit .bashrc or .zshrc
       lineinfile:
