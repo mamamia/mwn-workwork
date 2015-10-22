@@ -65,26 +65,11 @@ check_homebrew() {
   fi
 }
 
-is_debian() {
-    if grep -Pq "${1}" /etc/*-release; then
-        return 0
-    fi
-
-    return 1
-}
-
 update_package_lists() {
   echo "INFO: Updating package lists..."
   if [ $VAR_PLATFORM == "osx" ]; then
     brew update
   elif [ $VAR_PLATFORM == "linux" ]; then
-
-    if is_debian "jessie"; then
-      # Docker (Assumes Debian 8 for now)
-      sudo sh -c "echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list"
-    fi
-
-    # Update
     sudo apt-get update -y
   fi
 }
@@ -110,10 +95,7 @@ check_ansible() {
     if [ $VAR_PLATFORM == "osx" ]; then
       brew install ansible
     elif [ $VAR_PLATFORM == "linux" ]; then
-      # Get latest version of Ansible (Jessie package is 1.7.2)
-      # Credit: https://gist.github.com/alfredocambera/56e1f6cb40bf3a47e0cc
-      sudo apt-get -y install python-pip libxml2-dev python-dev sshpass
-      sudo pip install markupsafe jinja2 ansible
+      sudo apt-get -y install ansible
     fi
   fi
 }
