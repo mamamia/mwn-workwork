@@ -49,6 +49,12 @@ run_argument_install() {
   print_status_secondary "PASS" "Completed all tasks!"
 }
 
+run_argument_clean() {
+  print_status_primary "INFO" "Remove legacy changes to system"
+  util_ansible_playbook "${WW_DIR}" "clean.yml" "--ask-become-pass"
+  print_status_secondary "PASS" "Completed all tasks!"
+}
+
 run_argument_version() {
   util_git_fetch
   print_version

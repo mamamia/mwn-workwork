@@ -44,6 +44,7 @@ print_arguments() {
   echo "Arguments:"
   echo "   --update   Get the latest updates for workwork via git"
   echo "   --install  Run the install.yml ansible playbook"
+  echo "   --clean    Run the clean.yml ansible playbook "
   echo "   --version  Print local and remote git HEAD hash for workwork"
   echo "   --help     Print this help message"
   echo

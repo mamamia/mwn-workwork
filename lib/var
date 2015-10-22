@@ -2,7 +2,7 @@
 
 # Commands
 VAR_VALID_COMMANDS="@(init|start|watch|stop|rm)"
-VAR_VALID_ARGUMENTS="@(update|install|version|help)"
+VAR_VALID_ARGUMENTS="@(update|install|clean|version|help)"
 
 VAR_VALID_SITES_STRING="dd mm tg tm"
 VAR_VALID_SITES_ARRAY=($VAR_VALID_SITES_STRING)
