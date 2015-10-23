@@ -1,7 +1,7 @@
 ---
 - hosts: workstation
   connection: local
-  
+
   roles:
     - define_system
 
@@ -40,11 +40,15 @@
 
     - name: update /etc/hosts
       become: yes
-      shell: "{{ item }}"
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ docker_ip }} {{item}}"
+        state: present
       with_items:
-       - "{{ bin_dir }}/etchosts update web {{ docker_ip }}"
-       - "{{ bin_dir }}/etchosts update database {{ docker_ip }}"
-       - "{{ bin_dir }}/etchosts update dev.{{ site_url }} {{ docker_ip }}"
+        - web
+        - database
+        - dev.{{ site_url }}
 
     - name: add database
       mysql_db:
