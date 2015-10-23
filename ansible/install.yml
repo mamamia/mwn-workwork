@@ -21,6 +21,7 @@
         mode: 0755
 
     - name: ensure ww is accessible
+      become: yes
       file:
         src: "{{ bin_dir }}/ww"
         dest: /usr/local/bin/ww
