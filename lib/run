@@ -6,7 +6,7 @@ run_command_init() {
   util_ansible_playbook "${WW_DIR}" "start.yml"
   util_ansible_playbook "${SITE_DIR}" "start.yml"
   util_ansible_playbook "${WW_DIR}" "init-postclone.yml"
-  print_status_secondary "PASS" "Completed all tasks! You may run ww start [site] now."
+  print_status_secondary "PASS" "Completed all tasks!"
 }
 
 run_command_start() {
@@ -41,7 +41,6 @@ run_argument_update() {
   print_status_primary "INFO" "Update workwork"
   util_update_workwork
 }
-
 
 run_argument_install() {
   print_status_primary "INFO" "Install workwork"

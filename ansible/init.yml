@@ -1,7 +1,7 @@
 ---
 - hosts: workstation
   connection: local
-  
+
   roles:
     - define_system
 
@@ -23,6 +23,16 @@
         accept_hostkey: yes
         dest: "{{ deploy_release.path }}"
         update: no
+      when: site_name != "mm"
+
+    - name: git clone (temp)
+      git:
+        repo: "git@github.com:mamamia/site-{{ site_name }}"
+        version: master
+        accept_hostkey: yes
+        dest: "{{ deploy_release.path }}"
+        update: no
+      when: site_name == "mm"
 
     # TEMP
     - name: git clone beanstalk (temp)

@@ -27,6 +27,10 @@
     - name: bower install codepool
       shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
+    - name: bower install core (temp)
+      shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool/mwn-core && bower install --config.interactive=false"
+      ignore_errors: yes
+
     - name: bower install (temp)
       shell: "cd {{ site_dir }}/bedrock && bower install --config.interactive=false"
       ignore_errors: yes
@@ -114,10 +118,16 @@
 
     - name: activate theme
       shell: "wp theme activate {{ site_name }} --path={{ site_dir }}/bedrock/web/wp"
-      when: site_name != "theglow"
+      ignore_errors: yes
 
     # TEMP
     - name: activate glow theme (temp)
       shell: "wp theme activate glow --path={{ site_dir }}/bedrock/web/wp"
       when: site_name == "theglow"
+    # /TEMP
+
+    # TEMP
+    - name: activate roots-mm theme (temp)
+      shell: "wp theme activate roots-mm --path={{ site_dir }}/bedrock/web/wp"
+      when: site_name == "mm"
     # /TEMP

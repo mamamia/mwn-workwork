@@ -4,7 +4,7 @@
 VAR_VALID_COMMANDS="@(init|start|watch|stop|rm)"
 VAR_VALID_ARGUMENTS="@(update|install|clean|version|help)"
 
-VAR_VALID_SITES_STRING="dd mm tg tm"
+VAR_VALID_SITES_STRING="dd mm tg tm mm-new"
 VAR_VALID_SITES_ARRAY=($VAR_VALID_SITES_STRING)
 # Convert array to custom string
 # Credit: http://stackoverflow.com/a/9429887
@@ -32,6 +32,11 @@ var_setup_site() {
     SITE_NAME="theglow"
     SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
     SITE_URL="${SITE_NAME}.com.au"
+  elif [ $1 = "mm-new" ]; then
+    SITE_FULL_NAME="Mamamia"
+    SITE_NAME="mm"
+    SITE_DIR="${HOME}/workspace/site-mm"
+    SITE_URL="mamamia.com.au"
   fi
 }
 

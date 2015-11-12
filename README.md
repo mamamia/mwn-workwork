@@ -50,7 +50,7 @@ Hey, good one for pointing that out! Clicking on each of the headline links in t
   - [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
     - [Sass](http://sass-lang.com/install/)
 - Make a workwork group, and add the group to the current user
-- Disable sudo password for workwork group (to reduce playbook friction)
+- Disable sudo password for workwork group (to reduce Ansible playbook friction)
 - Add `docker-machine shellinit` to `.bashrc` or `.zshrc` and `.bash_profile` (OS X only)
 - Create and start default `docker-machine` (OS X only)
 
