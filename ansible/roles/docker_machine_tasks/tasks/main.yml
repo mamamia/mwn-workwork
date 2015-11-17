@@ -6,12 +6,12 @@
   changed_when: no
 
 - name: docker-machine create
-  shell: docker-machine create --driver virtualbox default
-  when: "'Host does not exist' in docker_machine_status.stderr"
+  shell: docker-machine create --driver virtualbox --virtualbox-memory 2048 default
+  when: "'does not exist' in docker_machine_status.stderr"
 
 - name: docker-machine start
   shell: docker-machine start default
-  when: "'Running' not in docker_machine_status.stdout"
+  when: "'running' in docker_machine_status.stderr"
 
 - name: docker evnironment check
   action: docker_eval
