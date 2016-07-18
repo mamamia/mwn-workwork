@@ -7,6 +7,8 @@ db_name:               "{{ site_name }}"
 db_user:               root
 db_password:           root
 db_host:               database
+dbred_host:            dbred
+dbred_port:            6379
 dsq_key:               false
 dsq_forum:             false
 aws_access_key_id:     false
