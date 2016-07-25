@@ -24,6 +24,11 @@
       npm:
         path: "{{ site_dir }}/bedrock"
 
+    - name: npm install (temp)
+      npm:
+        path: "{{ site_dir }}/bedrock/web/app/themes/roots-mm"
+      ignore_errors: yes
+
     - name: bower install codepool
       shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
@@ -37,6 +42,14 @@
 
     - name: bower install theme (temp)
       shell: "cd {{ site_dir }}/bedrock/web/app/themes/{{ site_name }} && bower install --config.interactive=false"
+      ignore_errors: yes
+
+    - name: bower install theme (temp)
+      shell: "cd {{ site_dir }}/bedrock/web/app/themes/roots-mm && bower install --config.interactive=false"
+      ignore_errors: yes
+
+    - name: bower install theme (temp)
+      shell: "cd {{ site_dir }}/bedrock/web/app/themes/roots-mm/mwn-core && bower install --config.interactive=false"
       ignore_errors: yes
 
     - name: run grunt

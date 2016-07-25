@@ -153,7 +153,7 @@
       become: yes
       pip:
         name: docker-py
-        version: 1.2.3
+        version: 1.6.0
 
 # OS X
 - hosts: sys_Darwin
