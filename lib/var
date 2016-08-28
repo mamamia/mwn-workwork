@@ -4,7 +4,7 @@
 VAR_VALID_COMMANDS="@(init|start|watch|stop|rm)"
 VAR_VALID_ARGUMENTS="@(update|install|clean|version|help)"
 
-VAR_VALID_SITES_STRING="dd mm tg tm mm-new"
+VAR_VALID_SITES_STRING="mm mm-new"
 VAR_VALID_SITES_ARRAY=($VAR_VALID_SITES_STRING)
 # Convert array to custom string
 # Credit: http://stackoverflow.com/a/9429887
@@ -12,27 +12,7 @@ VAR_VALID_SITES=$(IFS="|"; echo "@(${VAR_VALID_SITES_ARRAY[*]})")
 VAR_INVALID_SITES="@(''|*)"
 
 var_setup_site() {
-  if [ $1 = "dd" ]; then
-    SITE_FULL_NAME="Debrief Daily"
-    SITE_NAME="debriefdaily"
-    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_URL="${SITE_NAME}.com"
-  elif [ $1 = "mm" ]; then
-    SITE_FULL_NAME="Mamamia"
-    SITE_NAME="mamamia"
-    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_URL="${SITE_NAME}.com.au"
-  elif [ $1 = "tm" ]; then
-    SITE_FULL_NAME="The Motherish"
-    SITE_NAME="themotherish"
-    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_URL="${SITE_NAME}.com"
-  elif [ $1 = "tg" ]; then
-    SITE_FULL_NAME="The Glow"
-    SITE_NAME="theglow"
-    SITE_DIR="${HOME}/workspace/mwn-${SITE_NAME}"
-    SITE_URL="${SITE_NAME}.com.au"
-  elif [ $1 = "mm-new" ]; then
+  if [ $1 == "mm" ] || [ $1 == "mm-new" ]; then
     SITE_FULL_NAME="Mamamia"
     SITE_NAME="mm"
     SITE_DIR="${HOME}/workspace/site-mm"

@@ -9,7 +9,7 @@ shopt -s extglob
 
 # Load in functions
 WW_DIR="${HOME}/workspace/mwn-workwork"
-cd $WW_DIR
+cd ${WW_DIR}
 source ./lib/var
 source ./lib/util
 source ./lib/print
@@ -20,20 +20,20 @@ util_check_platform
 
 case "$1" in
   # When $1 is a valid command...
-  $VAR_VALID_COMMANDS)
+  ${VAR_VALID_COMMANDS})
   case "$2" in
     "all")
     for EACH_SITE in "${VAR_VALID_SITES_ARRAY[@]}"
     do
-      var_setup_site $EACH_SITE
-      run_command_$1 $EACH_SITE
+      var_setup_site ${EACH_SITE}
+      run_command_$1 ${EACH_SITE}
     done
     ;;
-    $VAR_VALID_SITES)
+    ${VAR_VALID_SITES})
     var_setup_site $2
     run_command_$1 $2
     ;;
-    $VAR_INVALID_SITES)
+    ${VAR_INVALID_SITES})
     print_status_primary "ERROR" "Invalid or missing site"
     print_help
     ;;
