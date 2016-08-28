@@ -18,45 +18,23 @@
 
     - name: git clone
       git:
-        repo: "git@github.com:mamamia/mwn-{{ site_name }}"
+        repo: "git@github.com:mamamia/{{ site_name }}"
         version: master
         accept_hostkey: yes
         dest: "{{ deploy_release.path }}"
         update: no
       when: site_name != "mm"
 
+    - debug: msg="{{ site_name }}"
+
     - name: git clone (temp)
       git:
-        repo: "git@github.com:mamamia/site-{{ site_name }}"
+        repo: "git@github.com:mamamia/{{ site_name }}"
         version: master
         accept_hostkey: yes
         dest: "{{ deploy_release.path }}"
         update: no
       when: site_name == "mm"
-
-    # TEMP
-    - name: git clone beanstalk (temp)
-      git:
-        repo: "git@mamamia.git.beanstalkapp.com:/mamamia/mamamia.git"
-        version: master
-        accept_hostkey: yes
-        dest: "{{ deploy_release.path }}/bedrock"
-        update: no
-        version: prod
-      when: site_name == "mamamia"
-    # /TEMP
-
-    # TEMP
-    - name: git clone beanstalk (temp)
-      git:
-        repo: "git@mamamia.git.beanstalkapp.com:/mamamia/the-glow.git"
-        version: master
-        accept_hostkey: yes
-        dest: "{{ deploy_release.path }}/bedrock"
-        update: no
-        version: prod
-      when: site_name == "theglow"
-    # /TEMP
 
     - name: setup env
       template:
