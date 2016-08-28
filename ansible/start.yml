@@ -1,19 +1,6 @@
 ---
 - hosts: workstation
   connection: local
-
-  roles:
-    - define_system
-
-# OS X
-- hosts: sys_Darwin
-  connection: local
-  gather_facts: false
-  roles:
-    - docker_machine_tasks
-
-- hosts: workstation
-  connection: local
   tasks:
     # Repo: https://github.com/jwilder/nginx-proxy
     # Docs: https://github.com/jwilder/nginx-proxy/blob/master/README.md
