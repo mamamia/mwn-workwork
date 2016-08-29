@@ -92,12 +92,7 @@
       args:
         creates: /usr/local/bin/composer
 
-    - name: make composer executable
-      become: yes
-      file:
-        path: /usr/local/bin/composer
-        mode: 0755
-        state: file
+
 
     - name: install wp-cli
       become: yes
@@ -105,12 +100,7 @@
       args:
         creates: /usr/local/bin/wp
 
-    - name: make wp-cli executable
-      become: yes
-      file:
-        path: /usr/local/bin/wp
-        mode: 0755
-        state: file
+
 
     - name: install sass
       become: yes
@@ -136,3 +126,18 @@
       pip:
         name: docker-py
         version: 1.6.0
+
+
+    - name: make wp-cli executable
+          become: yes
+          file:
+            path: /usr/local/bin/wp
+            mode: 0755
+            state: file
+
+    - name: make composer executable
+      become: yes
+      file:
+        path: /usr/local/bin/composer
+        mode: 0755
+        state: file
