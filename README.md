@@ -6,6 +6,7 @@
 
 ## Requirements
 - Supported 64-bit Unix operating system
+  - Docker
   - OS X 10.11
   - Debian 9
 - `sudo` and `curl`
@@ -19,6 +20,10 @@ If the Ansible playbook ends early, you can safely kick it off again with
 ``` sh
 $ ww --install
 ```
+
+Make sure to have `/mnt/sda1/var/lib/mysql` in your system
+
+``` mkdir -p /mnt/sda1/var/lib/mysql ```
 
 ## FAQ
 ### I'm not sure piping a random script to shell is a [good idea](http://www.seancassidy.me/dont-pipe-to-your-shell.html)
