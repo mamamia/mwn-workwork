@@ -11,16 +11,16 @@
       changed_when: false
 
     - name: update /etc/hosts
-        become: yes
-        lineinfile:
-          dest: /etc/hosts
-          regexp: '.*{{ item }}$'
-          line: "{{ docker_ip }} {{item}}"
-          state: present
-        with_items:
-          - web
-          - database
-          - dev.{{ site_url }}
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ docker_ip }} {{item}}"
+        state: present
+      with_items:
+        - web
+        - database
+        - dev.{{ site_url }}
 
       - name: add database
         mysql_db:
