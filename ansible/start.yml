@@ -15,7 +15,8 @@
         image: mysql:5.6
         name: mwn-mysql-data
         volumes:
-          - /mnt/sda1/var/lib/mysql
+          #- /mnt/sda1/var/lib/mysql
+          - /Volume/var/lib/mysql
         state: present
         use_tls: "{{ docker_tls }}"
 
@@ -28,7 +29,7 @@
         volumes_from:
           - mwn-mysql-data
         volumes:
-          - /mnt/sda1/var/lib/mysql:/var/lib/mysql
+          - /Volume/var/lib/mysql:/var/lib/mysql
           - "{{ ansible_env.HOME }}/workspace/mwn-workwork/config/mysql:/etc/mysql/conf.d"
         ports:
           - "3306:3306"
