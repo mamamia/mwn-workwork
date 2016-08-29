@@ -10,6 +10,60 @@
       action: docker_ip # This returns the varible `docker_ip`
       changed_when: false
 
+    - name: update /etc/hosts
+        become: yes
+        lineinfile:
+          dest: /etc/hosts
+          regexp: '.*{{ item }}$'
+          line: "{{ docker_ip }} {{item}}"
+          state: present
+        with_items:
+          - web
+          - database
+          - dev.{{ site_url }}
+
+      - name: add database
+        mysql_db:
+          name: "{{ site_name }}"
+          state: present
+          login_host: "{{ docker_ip }}"
+          login_user: root
+          login_password: root
+
+      - name: add database user
+        mysql_user:
+          name: "{{ site_name }}"
+          password: "{{ site_name }}"
+          host: "%"
+          priv: "{{ site_name }}.*:ALL"
+          state: present
+          login_host: "{{ docker_ip }}"
+          login_user: root
+          login_password: root
+
+      - name: check for database dump
+        stat:
+          path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql.gz"
+        register: database_dump_file
+
+      - name: get docker IP
+        action: docker_ip # This returns the varible `docker_ip`
+        changed_when: false
+
+      - name: import database dump
+        mysql_db:
+          name: "{{ site_name }}"
+          state: import
+          target: "{{ database_dump_file.stat.path }}"
+          login_host: "{{ docker_ip }}"
+          login_user: "{{ site_name }}"
+          login_password: "{{ site_name }}"
+        when: database_dump_file.stat.exists
+
+      - name: rename database dump
+        command: "mv {{ database_dump_file.stat.path }} {{ database_dump_file.stat.path }}.imported-{{ ansible_date_time.date }}"
+        when: database_dump_file.stat.exists
+
     - name: composer self-update
       shell: composer self-update
       become: yes
@@ -55,59 +109,6 @@
     - name: run grunt
       shell: "cd {{ site_dir }}/bedrock && grunt"
 
-    - name: update /etc/hosts
-      become: yes
-      lineinfile:
-        dest: /etc/hosts
-        regexp: '.*{{ item }}$'
-        line: "{{ docker_ip }} {{item}}"
-        state: present
-      with_items:
-        - web
-        - database
-        - dev.{{ site_url }}
-
-    - name: add database
-      mysql_db:
-        name: "{{ site_name }}"
-        state: present
-        login_host: "{{ docker_ip }}"
-        login_user: root
-        login_password: root
-
-    - name: add database user
-      mysql_user:
-        name: "{{ site_name }}"
-        password: "{{ site_name }}"
-        host: "%"
-        priv: "{{ site_name }}.*:ALL"
-        state: present
-        login_host: "{{ docker_ip }}"
-        login_user: root
-        login_password: root
-
-    - name: check for database dump
-      stat:
-        path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql.gz"
-      register: database_dump_file
-
-    - name: get docker IP
-      action: docker_ip # This returns the varible `docker_ip`
-      changed_when: false
-
-    - name: import database dump
-      mysql_db:
-        name: "{{ site_name }}"
-        state: import
-        target: "{{ database_dump_file.stat.path }}"
-        login_host: "{{ docker_ip }}"
-        login_user: "{{ site_name }}"
-        login_password: "{{ site_name }}"
-      when: database_dump_file.stat.exists
-
-    - name: rename database dump
-      command: "mv {{ database_dump_file.stat.path }} {{ database_dump_file.stat.path }}.imported-{{ ansible_date_time.date }}"
-      when: database_dump_file.stat.exists
 
     - name: database find replace
       shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} wp_options --path={{ site_dir }}/bedrock/web/wp"
