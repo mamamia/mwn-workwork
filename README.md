@@ -1,4 +1,4 @@
-<img src="logo.png" alt="workwork" width="35%" />
+# <img src="http://cdn.mamamia.com.au/files/logos/workwork.svg" alt="workwork" width="40px" height="40px" valign="middle" /> workwork
 
 [workwork](https://soundcloud.com/subpop/clipping-work-work-feat-cocc) is a bunch of shell and Ansible provisioning scripts that ensure all MWN developers are using the same tools, the same way.
 
