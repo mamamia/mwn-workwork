@@ -129,11 +129,11 @@
 
 
     - name: make wp-cli executable
-          become: yes
-          file:
-            path: /usr/local/bin/wp
-            mode: 0755
-            state: file
+      become: yes
+      file:
+        path: /usr/local/bin/wp
+        mode: 0755
+        state: file
 
     - name: make composer executable
       become: yes
