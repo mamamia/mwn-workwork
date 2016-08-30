@@ -5,7 +5,7 @@
   tasks:
     - name: check for running processes
       shell: "pgrep {{ item }}"
-      with_items: kill_process
+      with_items: "{{ kill_process }}"
       register: kill_process_pid
       failed_when: kill_process_pid.stderr != ''
       changed_when: kill_process_pid.rc == 0
