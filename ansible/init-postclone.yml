@@ -50,20 +50,6 @@
       action: docker_ip # This returns the varible `docker_ip`
       changed_when: false
 
-    - name: import database dump
-      mysql_db:
-        name: "{{ site_name }}"
-        state: import
-        target: "{{ database_dump_file.stat.path }}"
-        login_host: "{{ docker_ip }}"
-        login_user: "{{ site_name }}"
-        login_password: "{{ site_name }}"
-      when: database_dump_file.stat.exists
-
-    - name: rename database dump
-      command: "mv {{ database_dump_file.stat.path }} {{ database_dump_file.stat.path }}.imported-{{ ansible_date_time.date }}"
-      when: database_dump_file.stat.exists
-
     - name: composer self-update
       shell: composer self-update
       become: yes
@@ -108,6 +94,20 @@
 
     - name: run grunt
       shell: "cd {{ site_dir }}/bedrock && grunt"
+
+    - name: import database dump
+      mysql_db:
+        name: "{{ site_name }}"
+        state: import
+        target: "{{ database_dump_file.stat.path }}"
+        login_host: "{{ docker_ip }}"
+        login_user: "{{ site_name }}"
+        login_password: "{{ site_name }}"
+      when: database_dump_file.stat.exists
+
+    - name: rename database dump
+      command: "mv {{ database_dump_file.stat.path }} {{ database_dump_file.stat.path }}.imported-{{ ansible_date_time.date }}"
+      when: database_dump_file.stat.exists
 
     - name: database find replace
       shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} wp_options --path={{ site_dir }}/bedrock/web/wp"
