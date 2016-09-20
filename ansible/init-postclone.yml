@@ -72,6 +72,18 @@
     - name: bower install codepool
       shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
+    - name: copy prepare commit message for codepool
+      copy:
+        src: "{{ ww_dir }}/config/prepare-commit-msg"
+        dest: "{{ site_dir }}/bedrock/web/app/mwn-codepool/.git/hooks"
+        mode: 0755
+
+    - name: copy prepare commit message 
+      copy:
+        src: "{{ ww_dir }}/config/prepare-commit-msg"
+        dest: "{{ site_dir }}/.git/hooks"
+        mode: 0755
+
     - name: bower install core (temp)
       shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool/mwn-core && bower install --config.interactive=false"
       ignore_errors: yes
@@ -132,12 +144,6 @@
     - name: activate theme
       shell: "wp theme activate {{ site_name }} --path={{ site_dir }}/bedrock/web/wp"
       ignore_errors: yes
-
-    # TEMP
-    - name: activate glow theme (temp)
-      shell: "wp theme activate glow --path={{ site_dir }}/bedrock/web/wp"
-      when: site_name == "theglow"
-    # /TEMP
 
     # TEMP
     - name: activate roots-mm theme (temp)
