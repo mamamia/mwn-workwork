@@ -66,11 +66,8 @@ print_commands() {
 
 print_sites() {
   echo "Sites:"
-  echo "   dd         Debrief Daily"
   echo "   mm         Mamamia"
-  echo "   mm-new     Mamamia v2"
-  echo "   tg         The Glow"
-  echo "   tm         The Motherish"
+  echo "   mm-new     Mamamia Twig"
   echo "   all        [all of the above]"
 }
 

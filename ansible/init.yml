@@ -23,18 +23,8 @@
         accept_hostkey: yes
         dest: "{{ deploy_release.path }}"
         update: no
-      when: site_name != "mm"
 
     - debug: msg="{{ site_name }}"
-
-    - name: git clone (temp)
-      git:
-        repo: "git@github.com:mamamia/{{ site_name }}"
-        version: master
-        accept_hostkey: yes
-        dest: "{{ deploy_release.path }}"
-        update: no
-      when: site_name == "mm"
 
     - name: setup env
       template:

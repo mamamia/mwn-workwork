@@ -20,11 +20,11 @@
       with_items:
         - web
         - database
-        - dev.{{ site_url }}
+        - "{{ site_subdomain }}.{{ site_url }}"
 
     - name: add database
       mysql_db:
-        name: "{{ site_name }}"
+        name: "{{ site_dbname }}"
         state: present
         login_host: "{{ docker_ip }}"
         login_user: root
@@ -35,7 +35,7 @@
         name: "{{ site_name }}"
         password: "{{ site_name }}"
         host: "%"
-        priv: "{{ site_name }}.*:ALL"
+        priv: "{{ site_dbname }}.*:ALL"
         state: present
         login_host: "{{ docker_ip }}"
         login_user: root
@@ -63,46 +63,31 @@
     - name: npm install
       npm:
         path: "{{ site_dir }}/bedrock"
+      when: site_name != "mm-new"
 
     - name: npm install (temp)
       npm:
         path: "{{ site_dir }}/bedrock/web/app/themes/roots-mm"
       ignore_errors: yes
+      when: site_name != "mm-new"
 
-    - name: bower install codepool
-      shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
-
-    - name: copy prepare commit message for codepool
-      copy:
-        src: "{{ ww_dir }}/config/prepare-commit-msg"
-        dest: "{{ site_dir }}/bedrock/web/app/mwn-codepool/.git/hooks"
-        mode: 0755
-
-    - name: copy prepare commit message 
+    - name: copy prepare commit message
       copy:
         src: "{{ ww_dir }}/config/prepare-commit-msg"
         dest: "{{ site_dir }}/.git/hooks"
         mode: 0755
 
-    - name: bower install core (temp)
-      shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool/mwn-core && bower install --config.interactive=false"
-      ignore_errors: yes
+    - name: bower install codepool
+      shell: "cd {{ site_dir }}/bedrock/web/app/mwn-codepool && bower install --config.interactive=false"
 
-    - name: bower install (temp)
-      shell: "cd {{ site_dir }}/bedrock && bower install --config.interactive=false"
-      ignore_errors: yes
-
-    - name: bower install theme (temp)
-      shell: "cd {{ site_dir }}/bedrock/web/app/themes/{{ site_name }} && bower install --config.interactive=false"
-      ignore_errors: yes
-
-    - name: bower install theme (temp)
+    - name: bower install theme
       shell: "cd {{ site_dir }}/bedrock/web/app/themes/roots-mm && bower install --config.interactive=false"
       ignore_errors: yes
 
-    - name: bower install theme (temp)
+    - name: bower install mwn-core
       shell: "cd {{ site_dir }}/bedrock/web/app/themes/roots-mm/mwn-core && bower install --config.interactive=false"
       ignore_errors: yes
+      when: site_name != "mm-new"
 
     - name: run grunt
       shell: "cd {{ site_dir }}/bedrock && grunt"
@@ -148,5 +133,4 @@
     # TEMP
     - name: activate roots-mm theme (temp)
       shell: "wp theme activate roots-mm --path={{ site_dir }}/bedrock/web/wp"
-      when: site_name == "mm"
     # /TEMP
