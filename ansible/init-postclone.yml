@@ -129,6 +129,7 @@
     - name: activate theme
       shell: "wp theme activate {{ site_name }} --path={{ site_dir }}/bedrock/web/wp"
       ignore_errors: yes
+      when: site_name != "mamamia-new"
 
     # TEMP
     - name: activate roots-mm theme (temp)
