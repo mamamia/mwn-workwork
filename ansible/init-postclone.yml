@@ -6,8 +6,9 @@
     - define_system
 
   tasks:
+    # This returns the varible `docker_ip`
     - name: get docker IP
-      action: docker_ip # This returns the varible `docker_ip`
+      action: docker_ip
       changed_when: false
 
     - name: update /etc/hosts
@@ -63,13 +64,12 @@
     - name: npm install
       npm:
         path: "{{ site_dir }}/bedrock"
-      when: site_name != "mm-new"
 
-    - name: npm install (temp)
+    - name: npm install (theme-level)
       npm:
         path: "{{ site_dir }}/bedrock/web/app/themes/roots-mm"
       ignore_errors: yes
-      when: site_name != "mm-new"
+      when: site_name != "mamamia-new"
 
     - name: copy prepare commit message
       copy:
@@ -87,7 +87,7 @@
     - name: bower install mwn-core
       shell: "cd {{ site_dir }}/bedrock/web/app/themes/roots-mm/mwn-core && bower install --config.interactive=false"
       ignore_errors: yes
-      when: site_name != "mm-new"
+      when: site_name != "mamamia-new"
 
     - name: run grunt
       shell: "cd {{ site_dir }}/bedrock && grunt"

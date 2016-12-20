@@ -24,7 +24,7 @@
         dest: "{{ deploy_release.path }}"
         update: no
 
-    - debug: msg="{{ site_name }}"
+    - debug: msg="Git repo git@github.com:mamamia/{{ site_name }}"
 
     - name: setup env
       template:

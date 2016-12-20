@@ -14,7 +14,7 @@ VAR_INVALID_SITES="@(''|*)"
 var_setup_site() {
   if [ $1 == "mm" ]; then
     SITE_FULL_NAME="Mamamia"
-    SITE_NAME="mamamia"
+    SITE_NAME="mamamia" # git repo
     SITE_DIR="${HOME}/workspace/site-mm"
     SITE_URL="mamamia.com.au"
     SITE_SUBDOMAIN="dev"
@@ -23,7 +23,7 @@ var_setup_site() {
 
   if [ $1 == "mm-new" ]; then
       SITE_FULL_NAME="Mamamia"
-      SITE_NAME="mamamia-new"
+      SITE_NAME="mamamia-new" # git repo
       SITE_DIR="${HOME}/workspace/site-mm-new"
       SITE_URL="mamamia.com.au"
       SITE_SUBDOMAIN="devnew"

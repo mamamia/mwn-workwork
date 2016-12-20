@@ -7,7 +7,7 @@ util_ansible_playbook() {
   if [ -n "$SITE_URL" ];       then VAR_SITE_URL="-e site_url=${SITE_URL}"; fi
   if [ -n "$SITE_NAME" ];      then VAR_SITE_NAME="-e site_name=${SITE_NAME}"; fi
   if [ -n "$SITE_SUBDOMAIN" ]; then VAR_SITE_SUBDOMAIN="-e site_subdomain=${SITE_SUBDOMAIN}"; fi
-  if [ -n "$SITE_DBNAME" ]; then VAR_SITE_DBNAME="-e site_dbname=${SITE_DBNAME}"; fi
+  if [ -n "$SITE_DBNAME" ];    then VAR_SITE_DBNAME="-e site_dbname=${SITE_DBNAME}"; fi
   print_status_secondary "INFO" "[ Running ${VAR_ANSIBLE_PATH} ]"
   ansible-playbook \
   ${VAR_ANSIBLE_PATH} \
@@ -16,6 +16,7 @@ util_ansible_playbook() {
   ${VAR_SITE_URL} \
   ${VAR_SITE_NAME} \
   ${VAR_SITE_SUBDOMAIN} \
+  ${VAR_SITE_DBNAME} \
   ${VAR_EXTRAS}
   print_status_secondary "PASS" "Finished running ${VAR_ANSIBLE_PATH}"
 }
