@@ -27,7 +27,7 @@ var_setup_site() {
       SITE_DIR="${HOME}/workspace/site-mm-new"
       SITE_URL="mamamia.com.au"
       SITE_SUBDOMAIN="devnew"
-      SITE_DBNAME="mm"
+      SITE_DBNAME="mm_new"
   fi
 }
 

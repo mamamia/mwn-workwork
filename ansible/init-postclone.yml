@@ -43,7 +43,7 @@
 
     - name: check for database dump
       stat:
-        path: "{{ ww_dir }}/db-sync/{{ site_name }}.sql.gz"
+        path: "{{ ww_dir }}/db-sync/{{ site_dbname }}.sql.gz"
       register: database_dump_file
 
     - name: get docker IP
@@ -94,7 +94,7 @@
 
     - name: import database dump
       mysql_db:
-        name: "{{ site_name }}"
+        name: "{{ site_dbname }}"
         state: import
         target: "{{ database_dump_file.stat.path }}"
         login_host: "{{ docker_ip }}"
@@ -107,7 +107,7 @@
       when: database_dump_file.stat.exists
 
     - name: database find replace
-      shell: "wp search-replace --recurse-objects www.{{ site_url }} dev.{{ site_url }} wp_options --path={{ site_dir }}/bedrock/web/wp"
+      shell: "wp search-replace --recurse-objects www.{{ site_url }} {{ site_subdomain }}.{{ site_url }} wp_options --path={{ site_dir }}/bedrock/web/wp"
       when: database_dump_file.stat.exists
 
     - name: check for dev user
