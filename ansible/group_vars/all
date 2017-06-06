@@ -23,7 +23,6 @@ logged_in_salt:        false
 nonce_salt:            false
 npm_packages:
   - grunt-cli
-  - grunt
   - bower
 kill_process:
   - grunt
