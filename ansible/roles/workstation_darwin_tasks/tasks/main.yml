@@ -5,7 +5,7 @@
    time_allowed_between_updates: "{{ 60 * 60 * 24 }}" # 24 hr
 
 - name: get last homebrew update
-  shell: cd /usr/local/ && git log -1 --format="%ct" HEAD
+  shell: cd /usr/local/Homebrew && git log -1 --format="%ct" HEAD
   register: last_homebrew_update
   changed_when: no
 
