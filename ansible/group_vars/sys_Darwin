@@ -5,5 +5,5 @@ osx_libraries:
 osx_taps:
   - caskroom/cask
 osx_casks:
-  - dockertoolbox
+  - docker-toolbox
 docker_tls: encrypt
