@@ -21,21 +21,21 @@
   homebrew_tap:
     name: "{{ item }}"
     state: present
-  with_items: {{ osx_taps }}
+  with_items: "{{ osx_taps }}"
 
 - name: install homebrew formulae
   homebrew:
     name: "{{ item }}"
     state: present
-  with_items: {{ osx_libraries }}
+  with_items: "{{ osx_libraries }}"
 
 - name: install homebrew casks
   homebrew_cask:
     name: "{{ item }}"
     state: present
-  with_items: {{ osx_casks }}
+  with_items: "{{ osx_casks }}"
   when: skip_casks is not defined # set true via command line if required
 
 - name: install npm packages
   npm: global=yes name={{ item }}
-  with_items: {{ npm_packages }}
+  with_items: "{{ npm_packages }}"
