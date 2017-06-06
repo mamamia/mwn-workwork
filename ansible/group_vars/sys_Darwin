@@ -1,7 +1,6 @@
 osx_libraries:
   - git
   - node
-  - caskroom/cask/brew-cask
   - mysql
 osx_taps:
   - caskroom/cask
